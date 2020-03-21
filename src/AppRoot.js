@@ -7,6 +7,8 @@ import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import {AuthState} from './context'
 import Navigation from './navigation';
 
+console.disableYellowBox = true
+
 const AppRoot = props => {
   const [loadingState, setLoadingState] = useState(false);
 
