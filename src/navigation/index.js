@@ -1,12 +1,36 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
+import {LandingScreen} from '../screens'
+
+import { AuthContext } from "../context/auth/AuthState";
+const Stack = createStackNavigator();
 const Navigation = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignContent: "center"}}>
-      <Text style={{textAlign: 'center'}}>Hello, ma nigga</Text>
-    </View>
-  )
-}
+    <AuthContext.Consumer>
+      {authContext => {
+        {
+          authContext.loading
+            ?
+            (<LandingScreen />)
+            :
+        (<NavigationContainer>
+          <Stack.Navigator>
+            {
+              authContext.isAuthenticated
+              ?
+            (<Stack.Screen />)
+              :
+              (<Stack.Screen />)
+            }
+          </Stack.Navigator>
+        </NavigationContainer>)
+            
+        }
+      }}
+    </AuthContext.Consumer>
+  );
+};
 
-export default Navigation
+export default Navigation;
