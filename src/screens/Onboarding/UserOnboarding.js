@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 
 const UserOnboarding = () => {
   return (
-    <View>
-      <Text></Text>
+    <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+      <Text>jychgchsdfvsdfghblkj</Text>
     </View>
   )
 }

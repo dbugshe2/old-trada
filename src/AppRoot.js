@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import {AuthState} from './context'
 import Navigation from './navigation';
+import {UserOnboarding} from './screens'
 
 console.disableYellowBox = true
 
@@ -24,10 +25,9 @@ const AppRoot = props => {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AuthState>
             <Navigation />
-        </AuthState>
-      </View>
+       </View>
+      // <UserOnboarding />
     )
   }
 };
@@ -59,6 +59,6 @@ export default AppRoot;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'red'
   }
 })
