@@ -78,6 +78,17 @@ export const STYLES = {
   title2: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fiften },
   titleList: { fontSize: SIZES.list, letterHeight: LINEHEIGHT.twenty_4 },
   subtitle: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fiften },
+  // experimenting with some font styles
+  title: {},
+  backTitle: {},
+  cardTitle: {},
+  cardSubHeading: {},
+  cardBody: {},
+  cardFooter: {},
+  listKey: {},
+  listValue: {},
+  listItem: {},
+  body: {},
 };
 
 

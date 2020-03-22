@@ -15,6 +15,7 @@ export const AuthContext = createContext();
 const AuthState = props => {
   const initialState = {
     isAuthenticated: null,
+    // loading: true,
     user: null,
     error: null,
     userId: null,
