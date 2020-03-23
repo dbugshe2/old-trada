@@ -5,7 +5,7 @@ import AddCashViaUssd from "./Home/AddCashViaUssd";
 import BuyInput from "./Home/BuyInput";
 import PhotoUpload from "./Home/PhotoUpload";
 import TransferCash from "./Home/TransferCash";
-import SellInput from "./Home/SellInput";
+import SellOutput from "./Home/SellOutput";
 import TransferDetails from "./Home/TransferDetails";
 import TransferOptions from "./Home/TransferOptions";
 import TransferToTmoni from "./Home/TransferToTmoni";
@@ -16,7 +16,7 @@ import EnterPhysical from "./Auth/EnterPhysical";
 import Login from "./Auth/Login";
 import MobileVerification from "./Auth/MobileVerification";
 import Registration from "./Auth/Registration";
-import RequestPasswordReset from "./Auth/RequestPasswordReset";
+import ForgotPassword from "./Auth/ForgotPassword";
 import SetPassword from "./Auth/SetPassword";
 import VerifyPasswordReset from "./Auth/VerifyPasswordReset";
 import VerifyPhoneNumber from "./Auth/VerifyPhoneNumber";
@@ -36,9 +36,6 @@ export {
   Home,
   AddCashViaBankTransfer,
   AddCashViaUssd,
-  BuyInput,
-  SellInput,
-  PhotoUpload,
   TransferCash,
   TransferDetails,
   TransferOptions,
@@ -51,17 +48,23 @@ export {
   Login,
   MobileVerification,
   Registration,
-  RequestPasswordReset,
+  ForgotPassword,
   SetPassword,
   VerifyPasswordReset,
   VerifyPhoneNumber,
   ResetPassword,
-  //leaderboard
+  //leaderboard screens
   Leaderboard,
+  //Market screens
   MarketPrice,
   PriceUpdate,
+  //Onboarding screens
   UserOnboarding,
+  // Store screens
   StoreInputs,
   StoreItemSummary,
-  StoreOutputs
+  StoreOutputs,
+  BuyInput,
+  SellOutput,
+  PhotoUpload,
 };

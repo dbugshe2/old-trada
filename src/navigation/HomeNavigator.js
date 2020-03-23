@@ -1,15 +1,32 @@
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/Home/Home';
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import {
+  Home,
+  AddCashViaBankTransfer,
+  AddCashViaUssd,
+  TransferCash,
+  TransferDetails,
+  TransferOptions,
+  TransferToTmoni
+} from "../screens";
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        name="AddCashViaBankTransfer"
+        component={AddCashViaBankTransfer}
+      />
+      <Stack.Screen name="AddCashViaUssd" component={AddCashViaUssd} />
+      <Stack.Screen name="TransferCash" component={TransferCash} />
+      <Stack.Screen name="TransferOptions" component={TransferOptions} />
+      <Stack.Screen name="TransferDetails" component={TransferDetails} />
+      <Stack.Screen name="TransferToTmoni" component={TransferToTmoni} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
-export default HomeNavigator
+export default HomeNavigator;
