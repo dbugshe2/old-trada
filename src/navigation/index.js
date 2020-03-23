@@ -15,7 +15,7 @@ const Navigation = () => {
     <AuthContext.Consumer>
       {authContext => (
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
             {authContext.isAuthenticated ? (
               <Stack.Screen name="Auth" component={AuthNavigator} /> // user authenticated
             ) : (

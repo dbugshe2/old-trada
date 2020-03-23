@@ -11,9 +11,9 @@ import {UserOnboarding} from './screens'
 console.disableYellowBox = true
 
 const AppRoot = props => {
-  const [loadingState, setLoadingState] = useState(false);
+  const [isLoading, setLoadingState] = useState(false);
 
-  if (!loadingState && !props.skipLoadingScreen) {
+  if (!isLoading && !props.skipLoadingScreen) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -27,7 +27,6 @@ const AppRoot = props => {
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
             <Navigation />
        </View>
-      // <UserOnboarding />
     )
   }
 };

@@ -1,13 +1,30 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from "react";
+import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-const StoreNavigator = () => {
+import { StoreInputs, StoreItemSummary, StoreOutputs, PhotoUpload, BuyInput, SellOutput } from "../screens";
+
+const Stack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
+
+const StoreTab = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
-  )
-}
+    <Tab.Navigator initialRouteName="StoreInputs" screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="StoreInputs" component={StoreInputs} />
+      <Tab.Screen name="StoreOutputs" component={StoreOutputs} />
+    </Tab.Navigator>
+  );
+};
 
-export default StoreNavigator
+const StoreNavigator = () => (
+  <Stack.Navigator initialRouteName="Store" screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Store" component={StoreTab} />
+    <Stack.Screen name="StoreItemSummary" component={StoreItemSummary} />
+      <Stack.Screen name="PhotoUpload" component={PhotoUpload} />
+    <Stack.Screen name="BuyInput" component={BuyInput} />
+    <Stack.Screen name="SellOutput" component={SellOutput} />
+  </Stack.Navigator>
+);
+
+export default StoreNavigator;

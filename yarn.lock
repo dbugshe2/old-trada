@@ -1134,6 +1134,13 @@
   resolved "https://registry.yarnpkg.com/@react-navigation/material-bottom-tabs/-/material-bottom-tabs-5.1.4.tgz#3816c567ffaeb7a9e8a75055636162834a9f5ad8"
   integrity sha512-GT8Rc6QjG30DcfVzDXT7B7JCvnm75xLhkXklqkr6/ST3siSghbNLcwh6MWupT5jQ0DZppcOPo9i57CYqljPdsg==
 
+"@react-navigation/material-top-tabs@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-5.1.5.tgz#b7c343671845d67b0a380e22c7a01fd1f87e726c"
+  integrity sha512-Xli1hujQPQPwU3Dfw+PA1b4JSgXOZNB1W4mKiFF7mwIQckj05EwM0ek18OczstWyWsceRhMO51ZDssY8+AoxtA==
+  dependencies:
+    color "^3.1.2"
+
 "@react-navigation/native@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.1.1.tgz#8c37b87232d1870cef6913a595b207ab210b616b"
@@ -4425,6 +4432,11 @@ react-native-screens@2.0.0-alpha.12:
   integrity sha512-x9M7FEdcm97bVDp3pi//nhduJHLFMrmDQs0fq299yx3kHdgHbrmhsa8jgW4HvDQhjyPE0FWADY/GrXFuPRj80w==
   dependencies:
     debounce "^1.2.0"
+
+react-native-tab-view@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.13.0.tgz#23037aa43b0f8f682ddc20415a4baaaf6f82ae8f"
+  integrity sha512-AeYbp/u91+D/C9+PmVEPBmFb3ixv8IkLMC3Sc5MajJ/fg0Zl3Of+BcEknBvTnKoe7Fj2y8+Qf9zorBbh5xzh4A==
 
 react-native-view-shot@3.0.2:
   version "3.0.2"

@@ -1,12 +1,16 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
+import {Leaderboard} from '../screens';
+
+
+const Stack = createStackNavigator()
 
 const LeaderboardNavigator = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="LeaderBoard" component={Leaderboard} />
+    </Stack.Navigator>
   )
 }
 
