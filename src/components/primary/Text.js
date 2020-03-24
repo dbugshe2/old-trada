@@ -234,12 +234,13 @@ class Typography extends Component {
       transform && { textTransform: transform },
       height && { lineHeight: height },
       spacing && { letterSpacing: spacing },
-      weight && { fontWeight: weight },
-      regular && { fontWeight: WEIGHTS.regular },
-      bold && { fontWeight: WEIGHTS.bold },
-      semibold && { fontWeight: WEIGHTS.semibold },
-      medium && { fontWeight: WEIGHTS.medium },
-      light && { fontWeight: WEIGHTS.light },
+      // not supported fo expo-font
+      // weight && { fontWeight: weight },
+      // regular && { fontWeight: WEIGHTS.regular },
+      // bold && { fontWeight: WEIGHTS.bold },
+      // semibold && { fontWeight: WEIGHTS.semibold },
+      // medium && { fontWeight: WEIGHTS.medium },
+      // light && { fontWeight: WEIGHTS.light },
       center && styles.center,
       right && styles.right,
       // color shortcuts
@@ -256,11 +257,11 @@ class Typography extends Component {
       success && { color: COLORS.success },
       info && { color: COLORS.info },
       color && { color },
-      // mtregular && {fontFamily: "montserratRegular"},
-      // rbregular && {fontFamily: "robotoRegular"},
-      // mtmedium && {fontFamily: "montserratMedium"},
-      // rbmedium && {fontFamily: "robotoMedium"},
-      // mtlight && {fontFamily: "montserratLight"},
+      mtregular && {fontFamily: "montserratRegular"},
+      rbregular && {fontFamily: "robotoRegular"},
+      mtmedium && {fontFamily: "montserratMedium"},
+      rbmedium && {fontFamily: "robotoMedium"},
+      mtlight && {fontFamily: "montserratLight"},
       style // rewrite predefined styles
     ]);
 

@@ -9,7 +9,7 @@ import { SIZES } from "../utils/theme";
 const BackButton = ({ backTitle }) => {
   const navigation = useNavigation();
   return (
-    <Block row center middle>
+    <Block row center>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={{padding: SIZES.padding}}
