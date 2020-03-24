@@ -3,6 +3,7 @@ import Card from "./primary/Card";
 import Button from "./primary/Button";
 import Text from "./primary/Text";
 import Input from "./primary/Input";
+import Drop from "./Drop";
 // import MenuButton from "./MenuButton";
 // import ForwardButton from "./ForwardButton";
 // import BackButton from "./BackButton";
@@ -21,6 +22,7 @@ export {
   Button,
   Text,
   Input,
+  Drop,
   // MenuButton,
   // ForwardButton,
   // BackButton,

@@ -1,12 +1,29 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-
-const EnterLocation = () => {
+import React, {useState} from 'react'
+import {Block, Text, Drop, Header, Input, Button} from '../../components'
+import { SIZES } from '../../utils/theme'
+const EnterLocation = ({navigation}) => {
   return (
-    <View>
-      <Text></Text>
-    </View>
-  )
+    <Block background >
+      <Header backTitle="Physical" />
+      <Block space="around" paddingHorizontal={SIZES.padding}>
+      <Block paddingTop={80}>
+        <Drop label="Select State" />
+        <Drop label="LGA" />
+        <Input label="District Ward"/>
+
+      </Block>
+      <Block space="between" row flex={0}>
+      <Button transparent onPress={() => navigation.navigate("EnterLocation")}>        
+          <Text mtregular gray h5>Back</Text>
+        </Button>
+
+        <Button transparent onPress={() => navigation.navigate("EnterBio")}>        
+          <Text mtregular primary h5>Next</Text>
+        </Button>
+      </Block>
+    </Block>
+    </Block>
+    )
 }
 
 export default EnterLocation

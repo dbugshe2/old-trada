@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Block, Text, Header, Input, Button} from '../../components'
 import { SIZES } from '../../utils/theme'
-const EnterPhysical = () => {
+const EnterPhysical = ({navigation}) => {
   return (
     <Block background >
       <Header backTitle="Physical" />
