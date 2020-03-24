@@ -8,9 +8,7 @@ import {
 } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient'
 
-import expoTheme from "../../utils/theme";
-import { spacing, rgba, mergeTheme } from "../../utils";
-import { theme } from '../../constants'
+import { theme, spacing, rgba } from '../../utils'
 
 const { SIZES, COLORS } = theme
 
@@ -80,7 +78,6 @@ class Button extends Component {
       paddingHorizontal,
       theme
     } = this.props;
-    const { SIZES } = mergeTheme(expoTheme, theme);
 
     if (type === "margin") {
       return [
@@ -147,15 +144,16 @@ class Button extends Component {
       // colors
       color,
       transparent,
-      color,
       primary,
       secondary,
-      background,
+      tertiary,
       black,
       white,
       gray,
-      muted,
-      inactive,
+      error,
+      warning,
+      success,
+      info,
       // support for touchables
       highlight,
       nativeFeedback,
@@ -172,7 +170,6 @@ class Button extends Component {
       ...props
     } = this.props;
 
-    const { SIZES, COLORS } = mergeTheme({ ...expoTheme }, theme);
     const marginSpacing = this.getSpacings("margin");
     const paddingSpacing = this.getSpacings("padding");
 
@@ -186,11 +183,14 @@ class Button extends Component {
       transparent && { backgroundColor: "transparent" },
       primary && { backgroundColor: COLORS.primary },
       secondary && { backgroundColor: COLORS.secondary },
+      tertiary && { backgroundColor: COLORS.tertiary },
       black && { backgroundColor: COLORS.black },
       white && { backgroundColor: COLORS.white },
       gray && { backgroundColor: COLORS.gray },
-      muted && { backgroundColor: COLORS.muted },
-      inactive && { backgroundColor: COLORS.inactive },
+      error && { backgroundColor: COLORS.error },
+      warning && { backgroundColor: COLORS.warning },
+      success && { backgroundColor: COLORS.success },
+      info && { backgroundColor: COLORS.info },
       color && { backgroundColor: color }, // custom backgroundColor
       flex && { flex }, // flex width
       height && { height }, 
@@ -273,11 +273,14 @@ Button.defaultProps = {
   transparent: false,
   primary: false,
   secondary: false,
+  tertiary: false,
   black: false,
   white: false,
   gray: false,
-  muted: false,
-  inactive: false,
+  error: false,
+  warning: false,
+  success: false,
+  info: false,
   radius: null,
   shadow: null,
   elevation: 3,

@@ -4,53 +4,48 @@ import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import {AuthState} from './context'
-import Navigation from './navigation';
-import {UserOnboarding} from './screens'
+import Navigation from "./navigation";
 
-console.disableYellowBox = true
+// console.disableYellowBox = true
 
 const AppRoot = props => {
-  const [isLoading, setLoadingState] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!isLoading && !props.skipLoadingScreen) {
+  if (isLoading && !props.skipLoadingScreen) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
         onError={handleLoadingError}
-        onFinish={handleFinishLoading(setLoadingState)}
+        onFinish={handleFinishLoading(setIsLoading)}
       />
     );
   } else {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <Navigation />
-       </View>
-    )
+        <Navigation />
+      </View>
+    );
   }
 };
 
 async function loadResourcesAsync() {
-  await Promise.all([
-    Font.loadAsync({
-      ...Ionicons.font,
-      montserratLight: require("./assets/fonts/MontserratLight.ttf"),
-      montserratRegular: require("./assets/fonts/MontserratRegular.ttf"),
-      montserratMedium: require("./assets/fonts/MontserratMedium.ttf"),
-      robotoRegular: require("./assets/fonts/RobotoRegular.ttf"),
-      robotoMedium: require("./assets/fonts/RobotoMedium.ttf")
-    })
-  ]);
+  await Font.loadAsync({
+    montserratLight: require("./assets/fonts/MontserratLight.ttf"),
+    montserratRegular: require("./assets/fonts/MontserratRegular.ttf"),
+    montserratMedium: require("./assets/fonts/MontserratMedium.ttf"),
+    robotoRegular: require("./assets/fonts/RobotoRegular.ttf"),
+    robotoMedium: require("./assets/fonts/RobotoMedium.ttf")
+  });
 }
 
 function handleLoadingError(error) {
   // report Error to service like Sentry
-  console.warn(error);
+  console.error(error);
 }
 
-function handleFinishLoading(setLoadingState) {
-  setLoadingState(true);
+function handleFinishLoading(setIsLoading) {
+  setIsLoading(false);
 }
 
 export default AppRoot;
@@ -58,6 +53,6 @@ export default AppRoot;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: "red"
   }
-})
+});

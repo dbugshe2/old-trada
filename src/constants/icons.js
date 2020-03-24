@@ -6,8 +6,8 @@ const icons = {
   },
   back: {
     icon: require("../assets/icons/back.png"),
-    width: 16,
-    height: 15
+    width: 24,
+    height: 24
   },
   copy: {
     icon: require("../assets/icons/copy.png"),
@@ -63,7 +63,23 @@ const icons = {
     icon: require("../assets/icons/trend-alt.png"),
     width: 27,
     height: 16
-  }
+  },
+  holdingGrain: {
+    icon: require('../assets/icons/holding-grain.png'),
+    width: 467,
+    height: 310,
+  },
+  logo: {
+    icon: require('../assets/icons/logo.png'),
+    width: 100,
+    height: 70,
+  },
+  logoAlt: {
+    icon: require('../assets/icons/logo-alt.png'),
+    width: 210,
+    height: 147,
+  },
+  
 };
 
 export default icons;

@@ -6,16 +6,15 @@ export const COLORS = {
   primary: "#91CC42",
   secondary: "#3088D5",
   background: "#FFFFFF",
-  
+
   // non-colors
   black: "#000020",
   white: "#FFFFFF",
-  
-  // color variations
-  gray: '#3F3F3F',
-  muted: '#A8A8A8',
-  inactive: '#D8D8D8',
 
+  // color variations
+  gray: "#3F3F3F",
+  muted: "#A8A8A8",
+  inactive: "#D8D8D8"
 };
 
 export const SIZES = {
@@ -33,41 +32,47 @@ export const SIZES = {
   h4: 20,
   h5: 18,
   h6: 16,
-  list: 14,
-  body: 12,
-  tiny: 8,  
+  body: 14,
+  small: 12,
+  tiny: 8,
 
   // app dimensions
   width,
   height
 };
 
-export const LINEHEIGHT ={
+export const LINEHEIGHT = {
   // line height
- ten: 10,
- fourteen: 14,
- fiften: 15,
- sixteen: 16,
- seventeen: 17,
- ninteen: 19,
- twenty: 20,
- twenty_1: 21,
- twenty_4: 24,
- twenty_9: 29,
- thirty_4: 34,
- fourty_1: 41,
-}
+  ten: 10,
+  fourteen: 14,
+  fiften: 15,
+  sixteen: 16,
+  seventeen: 17,
+  ninteen: 19,
+  twenty: 20,
+  twenty_1: 21,
+  twenty_4: 24,
+  twenty_9: 29,
+  thirty_4: 34,
+  fourty_1: 41
+};
 
-export const LETTERSPACING ={
+export const LETTERSPACING = {
   // line spacing
   zero: 0,
   point_15: 0.15,
   point_25: 0.25,
   point_35: 0.35,
   point_4: 0.4,
-  two_point_4: 2.4,
-   
-}
+  two_point_4: 2.4
+};
+export const WEIGHTS = {
+  regular: "normal",
+  bold: "bold",
+  semibold: "500",
+  medium: "400",
+  light: "300"
+};
 
 export const STYLES = {
   header1: { fontSize: SIZES.h1, letterHeight: LINEHEIGHT.fourty_1 },
@@ -88,8 +93,21 @@ export const STYLES = {
   listKey: {},
   listValue: {},
   listItem: {},
-  body: {},
+  body: {}
+};
+export const FONTS = {
+  h1: { fontSize: SIZES.h1 },
+  h2: { fontSize: SIZES.h2 },
+  h3: { fontSize: SIZES.h3 },
+  h4: { fontSize: SIZES.h4 },
+  h5: { fontSize: SIZES.h5 },
+  title: { fontSize: SIZES.title },
+  backTitle: {fontSize: SIZES.h4},
+  subtitle: { fontSize: SIZES.subtitle },
+  body: { fontSize: SIZES.body },
+  caption: { fontSize: SIZES.caption },
+  small: { fontSize: SIZES.small },
+  tiny: { fontSize: SIZES.tiny }
 };
 
-
-export default { COLORS, SIZES, STYLES };
+export default { COLORS, SIZES, WEIGHTS, STYLES, FONTS };

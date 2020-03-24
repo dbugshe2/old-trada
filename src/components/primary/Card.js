@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 
-import { rgba, mergeTheme } from "../../utils";
+import { rgba} from "../../utils";
 import expoTheme from "../../utils/theme";
 
 import Block from "./Block";
@@ -65,7 +65,7 @@ class Card extends Component {
       ...props
     } = this.props;
 
-    const { SIZES, COLORS } = mergeTheme({ ...expoTheme }, theme);
+    const { SIZES, COLORS } = theme;
 
     const cardStyles = StyleSheet.flatten([
       shadow && {

@@ -1,33 +1,57 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, ImageBackground } from "react-native";
 import icons from "../../constants/icons";
 
 const ImageIcon = props => {
-  const { name, style, children } = props;
-  const { icon, height, width, absolute, top, right, bottom, left } = icons[
-    `${name}`
-  ];
+  const {
+    name,
+    style,
+    absolute,
+    top,
+    right,
+    bottom,
+    left,
+    children,
+    background,
+    resize
+  } = props;
+  const { icon, height, width } = icons[`${name}`];
   const iconStyles = StyleSheet.flatten(
     {
       height: height,
       width: width
     },
     absolute && { position: absolute },
-    top && {top},
-    right && {right},
-    bottom && { bottom},
-    left && {left},
+    top && { top },
+    right && { right },
+    bottom && { bottom },
+    left && { left },
     style
   );
+  if (background) {
+    return (
+      <ImageBackground
+        source={icon}
+        style={iconStyles}
+        resizeMode={(resize && resize) || "contain"}
+        {...props}
+      >
+        {children}
+      </ImageBackground>
+    );
+  }
   return (
-    <Image source={icon} style={iconStyles} resizeMode="contain" {...props}>
-      {children}
-    </Image>
+    <Image
+      source={icon}
+      style={iconStyles}
+      resizeMode={(resize && resize) || "contain"}
+      {...props}
+    />
   );
 };
 
 ImageIcon.defaultProps = {
-  name: 'add',
-}
+  name: "add"
+};
 
 export default ImageIcon;
