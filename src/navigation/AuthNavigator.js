@@ -9,7 +9,7 @@ import {
   EnterPhysical,
   Login,
   MobileVerification,
-  Registration,
+  Register,
   ForgotPassword,
   SetPassword,
   VerifyPasswordReset,
@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="UserOnboarding">
+    <Stack.Navigator initialRouteName="UserOnboarding" screenOptions={{headerShown: false}}>
       <Stack.Screen name="UserOnboarding" component={UserOnboarding} />
       <Stack.Screen name="EnterPin" component={EnterPin} />
       <Stack.Screen name="EnterBio" component={EnterBio} />
@@ -29,10 +29,11 @@ const AuthNavigator = () => {
       <Stack.Screen name="EnterPhysical" component={EnterPhysical} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="MobileVerification" component={MobileVerification} />
-      <Stack.Screen name="Registration" component={Registration} />
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="SetPassword" component={SetPassword} />
       <Stack.Screen name="VerifyPasswordReset" component={VerifyPasswordReset} />
+      <Stack.Screen name="VerifyPhoneNumber" component={VerifyPhoneNumber} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
     </Stack.Navigator>
   );

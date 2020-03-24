@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import { AuthContext } from "../context/auth/AuthState";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { LandingScreen } from "../screens";
 import AuthNavigator from "./AuthNavigator";
@@ -16,14 +16,14 @@ const Navigation = () => {
       {authContext => (
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {authContext.isAuthenticated ? (
+            {!authContext.isAuthenticated ? (
               <Stack.Screen name="Auth" component={AuthNavigator} /> // user authenticated
             ) : (
               <Stack.Screen name="App" component={AppDrawer} />
             ) // user NOT authenticated
             }
           </Stack.Navigator>
-        </NavigationContainer>
+          </NavigationContainer>
       )}
     </AuthContext.Consumer>
   );

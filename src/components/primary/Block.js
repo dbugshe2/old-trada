@@ -7,8 +7,7 @@ import {
   ScrollView
 } from "react-native";
 
-import theme from "../../utils/theme";
-// import { spacing, mergeTheme } from "../../utils";
+import { spacing, theme } from "../../utils";
 
 /**
  * https://facebook.github.io/react-native/docs/view
@@ -35,7 +34,7 @@ import theme from "../../utils/theme";
  *   <Text>text 1</Text>
  *   <Text>text 2</Text>
  * </Block>
- * *
+ * 
  * - horizontal centering the content
  * <Block middle>
  *   <Text>text 1</Text>
@@ -122,6 +121,7 @@ import theme from "../../utils/theme";
  * </Block>
  */
 
+const { SIZES, COLORS } = theme;
 class Block extends Component {
   getSpacings(type) {
     const {
@@ -141,7 +141,6 @@ class Block extends Component {
       paddingHorizontal,
       theme
     } = this.props;
-    const { SIZES } = mergeTheme(expoTheme, theme);
 
     if (type === "margin") {
       return [
@@ -233,7 +232,6 @@ class Block extends Component {
       ...props
     } = this.props;
 
-    const { SIZES, COLORS } = mergeTheme(expoTheme, theme);
     const marginSpacing = this.getSpacings("margin");
     const paddingSpacing = this.getSpacings("padding");
 
@@ -263,10 +261,10 @@ class Block extends Component {
       primary && { backgroundColor: COLORS.primary },
       secondary && { backgroundColor: COLORS.secondary },
       background && { backgroundColor: COLORS.background },
-     
+
       black && { backgroundColor: COLORS.black },
       white && { backgroundColor: COLORS.white },
-     
+
       gray && { backgroundColor: COLORS.gray },
       muted && { backgroundColor: COLORS.muted },
       inactive && { backgroundColor: COLORS.inactive },
@@ -291,9 +289,7 @@ class Block extends Component {
     if (scroll) {
       return (
         <View style={blockStyles} {...props}>
-          <ScrollView >
-            {children}
-          </ScrollView>
+          <ScrollView>{children}</ScrollView>
         </View>
       );
     }

@@ -1,13 +1,12 @@
 import rgba from "./rgba";
 import theme from "./theme";
-// import { getMargins, getPaddings, spacing, mergeTheme } from './helpers';
+import { getMargins, getPaddings, spacing } from './helpers';
 import { getStorageData, setStorageData } from "./AsyncStorage";
 
 export {
-  // getMargins,
-  // getPaddings,
-  // spacing,
-  // mergeTheme,
+  getMargins,
+  getPaddings,
+  spacing,
   rgba,
   theme,
   getStorageData,
