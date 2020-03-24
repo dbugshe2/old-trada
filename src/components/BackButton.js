@@ -4,17 +4,19 @@ import { useNavigation } from "@react-navigation/native";
 import ImageIcon from "./primary/ImageIcon";
 import Text from "./primary/Text";
 import Block from './primary/Block';
+import { SIZES } from "../utils/theme";
 
 const BackButton = ({ backTitle }) => {
   const navigation = useNavigation();
   return (
-    <Block row>
+    <Block row center middle>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
+        style={{padding: SIZES.padding}}
       >
         <ImageIcon name="back" />
       </TouchableOpacity>
-        <Text backTitle>{backTitle && backTitle}</Text>
+        <Text black backTitle>{backTitle && backTitle}</Text>
     </Block>
   );
 };

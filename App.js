@@ -14,12 +14,12 @@ const App = props => {
     enableInExpoDevelopment: true,
     debug: true
   });
-  if (isLoading && !props.skipLoadingScreen) {
+  if (isLoading) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
         onError={handleLoadingError}
-        onFinish={handleFinishLoading(setIsLoading)}
+        onFinish={() => setIsLoading(false)}
       />
     );
   } else {
@@ -38,19 +38,20 @@ const App = props => {
 
 export default App;
 
-async function loadResourcesAsync() {
-  return await Font.loadAsync({
-    montserratLight: require("./src/assets/fonts/MontserratLight.ttf"),
-    montserratRegular: require("./src/assets/fonts/MontserratRegular.ttf"),
-    montserratMedium: require("./src/assets/fonts/MontserratMedium.ttf"),
-    robotoRegular: require("./src/assets/fonts/RobotoRegular.ttf"),
-    robotoMedium: require("./src/assets/fonts/RobotoMedium.ttf")
+const loadResourcesAsync = () => {
+  return Font.loadAsync({
+    montserratLight: require("./assets/fonts/MontserratLight.ttf"),
+    montserratRegular: require("./assets/fonts/MontserratRegular.ttf"),
+    montserratMedium: require("./assets/fonts/MontserratMedium.ttf"),
+    robotoRegular: require("./assets/fonts/RobotoRegular.ttf"),
+    robotoMedium: require("./assets/fonts/RobotoMedium.ttf")
   });
 }
 
+
 function handleLoadingError(error) {
   // report Error to service like Sentry
-  console.error(error);
+  Sentry.captureException(error)
 }
 
 function handleFinishLoading(setIsLoading) {

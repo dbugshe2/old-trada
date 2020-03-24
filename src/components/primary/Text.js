@@ -146,6 +146,7 @@ class Typography extends Component {
       h3,
       h4,
       h5,
+      h6,
       title,
       backTitle,
       subtitle,
@@ -220,6 +221,7 @@ class Typography extends Component {
       h3 && FONTS.h3,
       h4 && FONTS.h4,
       h5 && FONTS.h5,
+      h6 && FONTS.h6,
       title && FONTS.title,
       backTitle && FONTS.backTitle,
       subtitle && FONTS.subtitle,
@@ -254,11 +256,11 @@ class Typography extends Component {
       success && { color: COLORS.success },
       info && { color: COLORS.info },
       color && { color },
-      mtregular && {fontFamily: "montserratRegular"},
-      rbregular && {fontFamily: "robotoRegular"},
-      mtmedium && {fontFamily: "montserratMedium"},
-      rbmedium && {fontFamily: "robotoMedium"},
-      mtlight && {fontFamily: "montserratLight"},
+      // mtregular && {fontFamily: "montserratRegular"},
+      // rbregular && {fontFamily: "robotoRegular"},
+      // mtmedium && {fontFamily: "montserratMedium"},
+      // rbmedium && {fontFamily: "robotoMedium"},
+      // mtlight && {fontFamily: "montserratLight"},
       style // rewrite predefined styles
     ]);
 
