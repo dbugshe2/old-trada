@@ -14,7 +14,7 @@ export const COLORS = {
   // color variations
   gray: "#3F3F3F",
   muted: "#A8A8A8",
-  inactive: "#D8D8D8"
+  inactive: "#DBDBDB"
 };
 
 export const SIZES = {

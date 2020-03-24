@@ -1,25 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { AsyncStorage } from "../utils";
+import { getStorageData } from '../utils';
+import {captureException} from 'sentry-expo'
 
-const LandingScreen = ({ navigation}) => {
-  useEffect(() => {
-    async () => {
-      let data = await AsyncStorage.getStorageData();
-      // try {
-      //   if (data) {
-      //     return
-      //   }
-      // } catch (error) {
-        
-      // }
+
+
+export class LandingScreen extends Component {
+  async componentDidMount() {
+    try {
+      let data = await getStorageData()
+      if (data) {
+        this.props.navigation('App')
+      } else {
+        this.props.navigation('Auth')
+      }
+    } catch (error) {
+      captureException(error)
     }
-  });
-  return (
-    <View style={{flex: 1, justifyContent: 'center',alignContent: 'center'}}>
+  }
+  render() {
+    return (
+      <View style={{flex: 1, justifyContent: 'center',alignContent: 'center'}}>
       <Text>loading...</Text>
     </View>
-  )
+    )
+  }
 }
 
 export default LandingScreen
