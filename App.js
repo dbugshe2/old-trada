@@ -7,19 +7,22 @@ import * as Font from "expo-font";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import Navigation from "./src/navigation";
 
+console.disableYellowBox = true;
+  Sentry.init({
+    dsn: "https://5a462ccaf5d6424ca916b8cfc779aefe@sentry.io/5172785",
+    enableInExpoDevelopment: true,
+    debug: true
+  });
+
+  const skipLoading = false
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: true
     };
   }
   async componentDidMount() {
-    Sentry.init({
-      dsn: "https://5a462ccaf5d6424ca916b8cfc779aefe@sentry.io/5172785",
-      enableInExpoDevelopment: true,
-      debug: true
-    });
     try {
       await Font.loadAsync({
         montserratLight: require("./assets/fonts/MontserratLight.ttf"),
@@ -28,18 +31,17 @@ export default class App extends Component {
         robotoRegular: require("./assets/fonts/RobotoRegular.ttf"),
         robotoMedium: require("./assets/fonts/RobotoMedium.ttf")
       });
-      this.setState({ isloading: false });
+      this.setState({ isLoading: false });
     } catch (error) {
-      Sentry.captureException(error)
-      this.setState({ isloading: false });
+      Sentry.captureException(error);
+      this.setState({ isLoading: false });
     }
-    
   }
 
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading && !skipLoading) {
       return <AppLoading />;
-    } else {
+    }
       return (
         <AuthState>
           <SafeAreaProvider>
@@ -50,13 +52,13 @@ export default class App extends Component {
           </SafeAreaProvider>
         </AuthState>
       );
-    }
+    
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "red"
   }
 });

@@ -1,10 +1,12 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import {Input} from '../../components'
 
 const SetPassword = () => {
   return (
     <View>
-      <Text></Text>
+      <Input label="Set Password" secureTextEntry />
+      <Input label="Confirm Password" secureTextEntry />
     </View>
   )
 }

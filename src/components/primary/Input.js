@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput } from "react-native-paper";
-import { COLORS } from "../../utils/theme";
+import { COLORS, SIZES } from "../../utils/theme";
 
 const Input = props => {
   /*
@@ -116,7 +116,17 @@ const Input = props => {
 
   return (
     <TextInput
-      theme={{ colors: { primary: COLORS.primary, surface: COLORS.background, background: COLORS.background } }}
+      theme={{
+        roudness: 4,
+        colors: {
+          primary: COLORS.primary,
+          surface: COLORS.background,
+          background: COLORS.background,
+          disabled: COLORS.muted,
+          text: COLORS.gray
+        }
+      }}
+      style={{marginVertical: SIZES.base}}
       mode="outlined"
       {...props}
     />
