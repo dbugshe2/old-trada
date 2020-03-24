@@ -15,6 +15,7 @@ import ImageIcon from "./primary/ImageIcon";
 // import TransactionsList from "./TransactionsList";
 // import CloseButton from "./CloseButton";
 import Header from "./Header";
+import PinInput from "./PinInput";
 
 export {
   Block,
@@ -33,5 +34,6 @@ export {
   // DropDown,
   // TransactionsList,
   // CloseButton,
-  Header
+  Header,
+  PinInput
 };

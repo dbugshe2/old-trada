@@ -103,7 +103,12 @@ export const FONTS = {
   h5: { fontSize: SIZES.h5 },
   h6: { fontSize: SIZES.h6 },
   title: { fontSize: SIZES.title },
-  backTitle: { fontSize: SIZES.h4, lineHeight: LINE_HEIGHTS.twenty_4 },
+  backTitle: {
+    fontFamily: "montserratRegular",
+    fontSize: SIZES.h4,
+    lineHeight: LINE_HEIGHTS.twenty_4,
+    color: COLORS.black
+  },
   subtitle: { fontSize: SIZES.subtitle },
   body: { fontSize: SIZES.body },
   caption: { fontSize: SIZES.caption },
