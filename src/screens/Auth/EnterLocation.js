@@ -13,7 +13,7 @@ const EnterLocation = ({navigation}) => {
 
       </Block>
       <Block space="between" row flex={0}>
-      <Button transparent onPress={() => navigation.navigate("EnterLocation")}>        
+      <Button transparent onPress={() => navigation.navigate("EnterPhysical")}>        
           <Text mtregular gray h5>Back</Text>
         </Button>
 
