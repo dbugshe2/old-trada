@@ -6,11 +6,11 @@ import {
   TouchableNativeFeedback,
   TouchableWithoutFeedback
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient } from "expo-linear-gradient";
 
-import { theme, spacing, rgba } from '../../utils'
+import { theme, spacing, rgba } from "../../utils";
 
-const { SIZES, COLORS } = theme
+const { SIZES, COLORS } = theme;
 
 /**
  * https://facebook.github.io/react-native/docs/touchableopacity
@@ -175,8 +175,8 @@ class Button extends Component {
 
     const buttonStyles = StyleSheet.flatten([
       {
-        height: SIZES.base * 5.5,
-        borderRadius: SIZES.radius,
+        height: SIZES.base * 10,
+        borderRadius: SIZES.btnRadius,
         backgroundColor: COLORS.primary,
         justifyContent: "center"
       },
@@ -193,9 +193,9 @@ class Button extends Component {
       info && { backgroundColor: COLORS.info },
       color && { backgroundColor: color }, // custom backgroundColor
       flex && { flex }, // flex width
-      height && { height }, 
-      small && {height: SIZES.small * 2},
-      width && { width }, 
+      height && { height },
+      small && { height: SIZES.small * 2 },
+      width && { width },
       shadow && {
         elevation,
         shadowColor: COLORS.black,
@@ -203,7 +203,7 @@ class Button extends Component {
         shadowOpacity: 0.1,
         shadowRadius: elevation
       },
-      radius && {  borderRadius: radius === true ? SIZES.btnRadius : radius  },
+      radius && { borderRadius: radius },
       marginSpacing,
       paddingSpacing,
       style
@@ -231,10 +231,7 @@ class Button extends Component {
 
     if (gradient) {
       return (
-        <ButtonType
-          disabled={disabled}
-          activeOpacity={opacity}
-          {...props}>
+        <ButtonType disabled={disabled} activeOpacity={opacity} {...props}>
           <LinearGradient
             locations={locations}
             style={buttonStyles}
@@ -245,7 +242,7 @@ class Button extends Component {
             {children}
           </LinearGradient>
         </ButtonType>
-      )
+      );
     }
 
     return (
@@ -253,7 +250,8 @@ class Button extends Component {
         disabled={disabled}
         style={buttonStyles}
         activeOpacity={opacity}
-        {...props}>
+        {...props}
+      >
         {children}
       </ButtonType>
     );
@@ -290,7 +288,7 @@ Button.defaultProps = {
   endColor: COLORS.secondary,
   start: { x: 0, y: 0 },
   end: { x: 1, y: 1 },
-  locations: [0.1, 0.9],
+  locations: [0.1, 0.9]
   // opacity: 0.8,
 };
 

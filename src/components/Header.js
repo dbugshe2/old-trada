@@ -10,18 +10,16 @@ const Header = props => {
   const navigation = useNavigation()
   return (
     <View style={styles.contain}>
-			<View style={{flex: 1}}>
-				<TouchableOpacity
+			<View style={{flex: 1}}
 					style={styles.contentLeft}
 					onPress={onPressLeft}
 				>
           {renderLeft && renderLeft() || <BackButton backTitle={backTitle && backTitle}/>}
-				</TouchableOpacity>
 			</View>
 			<View 
 				style={styles.contentCenter}
 				>
-				{/* <Text primary size={20} >{title}</Text> */}
+				<Text gray size={20} >{title && title}</Text>
 			</View>
 			<View style={styles.right}>
 				<TouchableOpacity
@@ -39,13 +37,17 @@ export default Header;
 
 const styles = StyleSheet.create({
 	contain: {
-		height: 56, flexDirection: 'row'
+    height: 56,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
 	},
     contentLeft: {
         flex: 1,
-        justifyContent: "center",
+      justifyContent: "center",
+        alignItems: 'center',
         paddingLeft: 16,
-        // width: 60
+        width: "100%"
     },
     contentCenter: {
         flex: 2,

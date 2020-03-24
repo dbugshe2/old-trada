@@ -20,7 +20,7 @@ export {
   Card,
   Button,
   Text,
-  // Input,
+  Input,
   // MenuButton,
   // ForwardButton,
   // BackButton,

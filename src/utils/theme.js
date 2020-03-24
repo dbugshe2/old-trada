@@ -41,7 +41,7 @@ export const SIZES = {
   height
 };
 
-export const LINEHEIGHT = {
+export const LINE_HEIGHTS = {
   // line height
   ten: 10,
   fourteen: 14,
@@ -75,14 +75,14 @@ export const WEIGHTS = {
 };
 
 export const STYLES = {
-  header1: { fontSize: SIZES.h1, letterHeight: LINEHEIGHT.fourty_1 },
-  header2: { fontSize: SIZES.h4, letterHeight: LINEHEIGHT.twenty_4 },
-  header3: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fiften },
-  body1: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fourteen },
-  title1: { fontSize: SIZES.h4, letterHeight: LINEHEIGHT.twenty_4 },
-  title2: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fiften },
-  titleList: { fontSize: SIZES.list, letterHeight: LINEHEIGHT.twenty_4 },
-  subtitle: { fontSize: SIZES.body, letterHeight: LINEHEIGHT.fiften },
+  header1: { fontSize: SIZES.h1, letterHeight: LINE_HEIGHTS.fourty_1 },
+  header2: { fontSize: SIZES.h4, letterHeight: LINE_HEIGHTS.twenty_4 },
+  header3: { fontSize: SIZES.body, letterHeight: LINE_HEIGHTS.fiften },
+  body1: { fontSize: SIZES.body, letterHeight: LINE_HEIGHTS.fourteen },
+  title1: { fontSize: SIZES.h4, letterHeight: LINE_HEIGHTS.twenty_4 },
+  title2: { fontSize: SIZES.body, letterHeight: LINE_HEIGHTS.fiften },
+  titleList: { fontSize: SIZES.list, letterHeight: LINE_HEIGHTS.twenty_4 },
+  subtitle: { fontSize: SIZES.body, letterHeight: LINE_HEIGHTS.fiften },
   // experimenting with some font styles
   title: {},
   backTitle: {},
@@ -101,8 +101,9 @@ export const FONTS = {
   h3: { fontSize: SIZES.h3 },
   h4: { fontSize: SIZES.h4 },
   h5: { fontSize: SIZES.h5 },
+  h6: { fontSize: SIZES.h6 },
   title: { fontSize: SIZES.title },
-  backTitle: {fontSize: SIZES.h4},
+  backTitle: { fontSize: SIZES.h4, lineHeight: LINE_HEIGHTS.twenty_4 },
   subtitle: { fontSize: SIZES.subtitle },
   body: { fontSize: SIZES.body },
   caption: { fontSize: SIZES.caption },
