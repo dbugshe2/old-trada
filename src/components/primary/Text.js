@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Animated, Text, StyleSheet } from "react-native";
 
-import expoTheme, { STYLES } from "../../utils/theme";
-import { spacing, mergeTheme } from "../../utils";
+import { spacing, theme } from "../../utils";
+const { SIZES, COLORS, FONTS, WEIGHTS } = theme;
+
 
 /**
  * Usage:
@@ -86,7 +87,6 @@ class Typography extends Component {
       paddingHorizontal,
       theme
     } = this.props;
-    const { SIZES } = mergeTheme(expoTheme, theme);
 
     if (type === "margin") {
       return [
@@ -137,18 +137,22 @@ class Typography extends Component {
       ];
     }
   }
- 
+
   render() {
     const {
       // fonts & sizes
-      header1,
-      header2,
-      header3,
-      body1,
-      title1,
-      title2,
-      titleList,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      title,
+      backTitle,
       subtitle,
+      caption,
+      small,
+      tiny,
       size,
       margin,
       marginTop,
@@ -166,6 +170,12 @@ class Typography extends Component {
       paddingHorizontal,
       // styling
       transform,
+      regular,
+      bold,
+      semibold,
+      medium,
+      weight,
+      light,
       center,
       right,
       spacing, // letter-spacing
@@ -174,22 +184,28 @@ class Typography extends Component {
       color,
       primary,
       secondary,
+      tertiary,
       black,
       white,
       gray,
-      muted, 
-      inactive,
+      gray2,
+      muted,
+      error,
+      warning,
+      success,
+      info,
       animated,
       theme,
       style,
       children,
+      mtregular,
+      rbregular,
+      mtmedium,
+      rbmedium,
+      mtlight,
       ...props
     } = this.props;
 
-    const { SIZES, COLORS, FONTS, WEIGHTS } = mergeTheme(
-      { ...expoTheme },
-      theme
-    );
 
     const marginSpacing = this.getSpacings("margin");
     const paddingSpacing = this.getSpacings("padding");
@@ -200,29 +216,52 @@ class Typography extends Component {
         fontSize: SIZES.font,
         color: COLORS.black
       },
-      header1 && STYLES.header1,
-      header2 && STYLES.header2,
-      header3 && STYLES.header3,
-      body1 && STYLES.body1,
-      title1 && STYLES.title1,
-      title2 && STYLES.title2,
-      titleList && STYLES.titleList,
-      subtitle && STYLES.subtitle,
+      h1 && FONTS.h1,
+      h2 && FONTS.h2,
+      h3 && FONTS.h3,
+      h4 && FONTS.h4,
+      h5 && FONTS.h5,
+      h6 && FONTS.h6,
+      title && FONTS.title,
+      backTitle && FONTS.backTitle,
+      subtitle && FONTS.subtitle,
+      caption && FONTS.caption,
+      small && FONTS.small,
+      tiny && FONTS.tiny,
       size && { fontSize: size },
       marginSpacing,
       paddingSpacing,
       transform && { textTransform: transform },
+      height && { lineHeight: height },
+      spacing && { letterSpacing: spacing },
+      // not supported fo expo-font
+      // weight && { fontWeight: weight },
+      // regular && { fontWeight: WEIGHTS.regular },
+      // bold && { fontWeight: WEIGHTS.bold },
+      // semibold && { fontWeight: WEIGHTS.semibold },
+      // medium && { fontWeight: WEIGHTS.medium },
+      // light && { fontWeight: WEIGHTS.light },
       center && styles.center,
       right && styles.right,
       // color shortcuts
       primary && { color: COLORS.primary },
       secondary && { color: COLORS.secondary },
+      tertiary && { color: COLORS.tertiary },
       black && { color: COLORS.black },
       white && { color: COLORS.white },
       gray && { color: COLORS.gray },
-      muted && {color: COLORS.muted},
-      inactive && { color: COLORS.inactive },
+      gray2 && { color: COLORS.gray2 },
+      muted && { color: COLORS.muted },
+      error && { color: COLORS.error },
+      warning && { color: COLORS.warning },
+      success && { color: COLORS.success },
+      info && { color: COLORS.info },
       color && { color },
+      mtregular && {fontFamily: "montserratRegular"},
+      rbregular && {fontFamily: "robotoRegular"},
+      mtmedium && {fontFamily: "montserratMedium"},
+      rbmedium && {fontFamily: "robotoMedium"},
+      mtlight && {fontFamily: "montserratLight"},
       style // rewrite predefined styles
     ]);
 
@@ -270,11 +309,14 @@ Typography.defaultProps = {
   color: null,
   primary: false,
   secondary: false,
+  tertiary: false,
   black: false,
   white: false,
   gray: false,
-  muted: false,
-  inactive: false,
+  error: false,
+  warning: false,
+  success: false,
+  info: false,
   theme: {},
   style: {}
 };

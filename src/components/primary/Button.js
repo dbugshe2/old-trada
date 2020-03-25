@@ -6,13 +6,11 @@ import {
   TouchableNativeFeedback,
   TouchableWithoutFeedback
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient } from "expo-linear-gradient";
 
-import expoTheme from "../../utils/theme";
-import { spacing, rgba, mergeTheme } from "../../utils";
-import { theme } from '../../constants'
+import { theme, spacing, rgba } from "../../utils";
 
-const { SIZES, COLORS } = theme
+const { SIZES, COLORS } = theme;
 
 /**
  * https://facebook.github.io/react-native/docs/touchableopacity
@@ -80,7 +78,6 @@ class Button extends Component {
       paddingHorizontal,
       theme
     } = this.props;
-    const { SIZES } = mergeTheme(expoTheme, theme);
 
     if (type === "margin") {
       return [
@@ -147,15 +144,16 @@ class Button extends Component {
       // colors
       color,
       transparent,
-      color,
       primary,
       secondary,
-      background,
+      odd,
       black,
       white,
       gray,
-      muted,
-      inactive,
+      error,
+      warning,
+      success,
+      info,
       // support for touchables
       highlight,
       nativeFeedback,
@@ -172,30 +170,32 @@ class Button extends Component {
       ...props
     } = this.props;
 
-    const { SIZES, COLORS } = mergeTheme({ ...expoTheme }, theme);
     const marginSpacing = this.getSpacings("margin");
     const paddingSpacing = this.getSpacings("padding");
 
     const buttonStyles = StyleSheet.flatten([
       {
-        height: SIZES.base * 5.5,
-        borderRadius: SIZES.radius,
+        height: SIZES.base * 10,
+        borderRadius: SIZES.btnRadius,
         backgroundColor: COLORS.primary,
         justifyContent: "center"
       },
       transparent && { backgroundColor: "transparent" },
       primary && { backgroundColor: COLORS.primary },
       secondary && { backgroundColor: COLORS.secondary },
+      odd && { backgroundColor: COLORS.odd },
       black && { backgroundColor: COLORS.black },
       white && { backgroundColor: COLORS.white },
       gray && { backgroundColor: COLORS.gray },
-      muted && { backgroundColor: COLORS.muted },
-      inactive && { backgroundColor: COLORS.inactive },
+      error && { backgroundColor: COLORS.error },
+      warning && { backgroundColor: COLORS.warning },
+      success && { backgroundColor: COLORS.success },
+      info && { backgroundColor: COLORS.info },
       color && { backgroundColor: color }, // custom backgroundColor
       flex && { flex }, // flex width
-      height && { height }, 
-      small && {height: SIZES.small * 2},
-      width && { width }, 
+      height && { height },
+      small && { height: SIZES.small * 2 },
+      width && { width },
       shadow && {
         elevation,
         shadowColor: COLORS.black,
@@ -203,7 +203,7 @@ class Button extends Component {
         shadowOpacity: 0.1,
         shadowRadius: elevation
       },
-      radius && {  borderRadius: radius === true ? SIZES.btnRadius : radius  },
+      radius && { borderRadius: radius },
       marginSpacing,
       paddingSpacing,
       style
@@ -231,10 +231,7 @@ class Button extends Component {
 
     if (gradient) {
       return (
-        <ButtonType
-          disabled={disabled}
-          activeOpacity={opacity}
-          {...props}>
+        <ButtonType disabled={disabled} activeOpacity={opacity} {...props}>
           <LinearGradient
             locations={locations}
             style={buttonStyles}
@@ -245,7 +242,7 @@ class Button extends Component {
             {children}
           </LinearGradient>
         </ButtonType>
-      )
+      );
     }
 
     return (
@@ -253,7 +250,8 @@ class Button extends Component {
         disabled={disabled}
         style={buttonStyles}
         activeOpacity={opacity}
-        {...props}>
+        {...props}
+      >
         {children}
       </ButtonType>
     );
@@ -273,11 +271,14 @@ Button.defaultProps = {
   transparent: false,
   primary: false,
   secondary: false,
+  odd: false,
   black: false,
   white: false,
   gray: false,
-  muted: false,
-  inactive: false,
+  error: false,
+  warning: false,
+  success: false,
+  info: false,
   radius: null,
   shadow: null,
   elevation: 3,
@@ -287,7 +288,7 @@ Button.defaultProps = {
   endColor: COLORS.secondary,
   start: { x: 0, y: 0 },
   end: { x: 1, y: 1 },
-  locations: [0.1, 0.9],
+  locations: [0.1, 0.9]
   // opacity: 0.8,
 };
 

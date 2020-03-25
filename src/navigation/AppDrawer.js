@@ -1,11 +1,16 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import {useWindowDimensions} from 'react-native'
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {theme} from '../utils'
+import AppBottomTabs from './AppBottomTabs';
+const Drawer = createDrawerNavigator()
 
 const AppDrawer = () => {
+  const { width } = theme.SIZES
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Drawer.Navigator screenOptions={{headerShown: false}} drawerType={width > 900 ? 'permanent' : 'front'}>
+      <Drawer.Screen name="AppBottomTabs" component={AppBottomTabs} />
+    </Drawer.Navigator>
   )
 }
 

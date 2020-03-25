@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const MainNavigator = () => {
+const EnterPin = () => {
   return (
     <View>
       <Text></Text>
@@ -9,4 +9,4 @@ const MainNavigator = () => {
   )
 }
 
-export default MainNavigator
+export default EnterPin
