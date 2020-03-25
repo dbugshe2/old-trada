@@ -51,7 +51,7 @@ const AppBottomTabs = () => {
         options={{
           tabBarLabel: "Market Price",
           tabBarIcon: ({ focused }) => (
-            <ImageIcon name={focused ? "add" : "add"} />
+            <ImageIcon name={focused ? "trendAlt" : "trend"} />
           )
         }}
       />
