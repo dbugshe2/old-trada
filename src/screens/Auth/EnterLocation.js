@@ -5,7 +5,7 @@ const EnterLocation = ({navigation}) => {
   return (
     <Block background >
       <Block space="around" >
-      <Block paddingTop={80}>
+      <Block>
         <Dropdown label="Select State" />
         <Dropdown label="LGA" />
         <Input label="District Ward"/>

@@ -5,7 +5,7 @@ const EnterPhysical = ({navigation}) => {
   return (
     <Block background >
       <Block space="around" >
-      <Block paddingTop={80}>
+      <Block>
         <Input label="Full Name" />
         <Input label="Phone Number" />
         <Input label="Email" />

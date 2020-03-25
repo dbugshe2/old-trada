@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 
-import { rgba} from "../../utils";
-import expoTheme from "../../utils/theme";
+import { rgba, theme} from "../../utils";
 
 import Block from "./Block";
 
@@ -50,6 +49,7 @@ import Block from "./Block";
  *
  */
 
+const { SIZES, COLORS } = theme;
 class Card extends Component {
   render() {
     const {
@@ -65,7 +65,6 @@ class Card extends Component {
       ...props
     } = this.props;
 
-    const { SIZES, COLORS } = theme;
 
     const cardStyles = StyleSheet.flatten([
       shadow && {

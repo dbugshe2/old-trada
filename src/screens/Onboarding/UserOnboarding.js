@@ -9,15 +9,15 @@ const UserOnboarding = ({navigation}) => {
         <ImageIcon background name="holdingGrain" >
         <ImageIcon name="logoAlt" absolute={true} top={20} left={20} style={{borderWidth: 2}}  />
         </ImageIcon>
-      </Block>
-      <Block flex={1}>
-        <Text h4 center mtregular>
+      <Block paddingTop={40} flex={1}>
+        <Text h3  center mtbold>
           Access to quality inputs
         </Text>
         <Text gray mtlight center marginVertical={SIZES.padding} paddingHorizontal={SIZES.padding}>
           We provide quality inputs from different manufacturers at the best
           prices.
         </Text>
+      </Block>
       </Block>
       <Block space="evenly" center row flex={0.5}>
         <Button transparent onPress={() => navigation.navigate("Login")} >

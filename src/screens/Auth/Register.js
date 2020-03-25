@@ -10,12 +10,12 @@ import { AuthContext } from "../../context/auth/AuthState";
 
 const Registration = ({ navigation }) => {
   const views = [
-    { id: 0, viewContent: () => <EnterBio /> },
+    { id: 0, viewContent: () => <EnterPhysical /> },
     {
       id: 1,
       viewContent: () => <EnterLocation />
     },
-    { id: 2, viewContent: () => <EnterPhysical /> },
+    { id: 2, viewContent: () => <EnterBio /> },
     { id: 3, viewContent: () => <SetPassword /> }
   ];
   return (
@@ -26,7 +26,7 @@ const Registration = ({ navigation }) => {
           <Block>
             <TabedView
               onComplete={() => authContext.login('aiufnv')}
-              scroll
+              
               views={views}
               steps={4}
             />

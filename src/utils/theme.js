@@ -5,6 +5,7 @@ export const COLORS = {
   // base colors
   primary: "#91CC42",
   secondary: "#3088D5",
+  odd: "#F4FAED",
   background: "#FFFFFF",
 
   // non-colors
@@ -14,7 +15,7 @@ export const COLORS = {
   // color variations
   gray: "#3F3F3F",
   muted: "#A8A8A8",
-  inactive: "#DBDBDB"
+  inactive: "#DBDBDB",
 };
 
 export const SIZES = {

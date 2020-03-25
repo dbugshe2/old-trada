@@ -101,7 +101,7 @@ const TabedView = props => {
           orientation="horizontal"
           style={{ flex: 1 }}
           initialPage={initialViewProp}
-          pageMargin={0}
+          pageMargin={10}
           scrollEnabled={(scroll && scroll) || false}
           showPageIndicator={false}
           ref={ref => {
