@@ -11,8 +11,8 @@ const Tab = createMaterialTopTabNavigator();
 const StoreTab = () => {
   return (
     <Tab.Navigator initialRouteName="StoreInputs" screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="StoreInputs" component={StoreInputs} />
-      <Tab.Screen name="StoreOutputs" component={StoreOutputs} />
+      <Tab.Screen name="Buy Your Inputs" component={StoreInputs} />
+      <Tab.Screen name="Sell Your Outputs" component={StoreOutputs} />
     </Tab.Navigator>
   );
 };
