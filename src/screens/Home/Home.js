@@ -19,7 +19,7 @@ const Home = ({navigation}) => {
       <Block>
         <Block center>
         <Text body muted> Tmoni Wallet Balance</Text>
-        <Text  gray h1> N25,000</Text>
+        <Text  gray h1> N25 ,000</Text>
         </Block>
         {/* card */}
         <Block paddingHorizontal={SIZES.padding} paddingTop={30}>
