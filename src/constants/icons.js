@@ -27,7 +27,7 @@ const icons = {
   house: {
     icon: require("../assets/icons/house.png"),
     width: 23,
-    height: 21
+    height: 30
   },
   houseAlt: {
     icon: require("../assets/icons/house-alt.png"),
@@ -55,14 +55,14 @@ const icons = {
     height: 20
   },
   trend: {
-    icon: require("../assets/icons/add.png"),
-    width: 27,
-    height: 16
+    icon: require("../assets/icons/trend.png"),
+    width: 23,
+    height: 20
   },
   trendAlt: {
     icon: require("../assets/icons/trend-alt.png"),
-    width: 27,
-    height: 16
+    width: 23,
+    height: 20
   },
   holdingGrain: {
     icon: require('../assets/icons/holding-grain.png'),
@@ -78,6 +78,21 @@ const icons = {
     icon: require('../assets/icons/logo-alt.png'),
     width: 210,
     height: 147,
+  },
+  cart: {
+    icon: require('../assets/icons/cart.png'),
+    width: 100,
+    height: 70,
+  }, 
+  basket: {
+    icon: require('../assets/icons/basket.png'),
+    width: 100,
+    height: 70,
+  },
+  avatar: {
+    icon: require('../assets/icons/avatar.png'),
+    width: 100,
+    height: 70,
   },
   
 };

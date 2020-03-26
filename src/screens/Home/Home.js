@@ -9,7 +9,7 @@ import {
 import {Block, Card, Text, Header, ImageIcon, Input, Button} from '../../components'
 import { SIZES, COLORS } from '../../utils/theme'
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
   
     <Block scroll  background>
@@ -18,12 +18,14 @@ const Home = () => {
       {/* one */}
       <Block>
         <Block center>
-        <Text body muted>Commission Balance</Text>
-        <Text  gray h1> N5,000</Text>
+        <Text body muted> Tmoni Wallet Balance</Text>
+        <Text  gray h1> N25,000</Text>
         </Block>
         {/* card */}
         <Block paddingHorizontal={SIZES.padding} paddingTop={30}>
-            <Card center middle radius={8} white shadow elevation={10} row>
+            <Card  center middle radius={8} white shadow elevation={10} row>
+            <Block row middle center space="evenly" paddingHorizontal={50}>
+
             <Text marginLeft primary>
             Providus Bank
             </Text>
@@ -33,6 +35,7 @@ const Home = () => {
             <Button transparent center middle paddingHorizontal={SIZES.base}>
                   <ImageIcon name="copy" />
             </Button>
+            </Block>
           </Card>
         </Block>
         <Block center paddingTop={15}>
@@ -47,8 +50,10 @@ const Home = () => {
       {/* two */}
       <Block>
         <Block space="evenly" row center  paddingTop={30} paddingHorizontal={SIZES.padding * 2}>
-          <Button center middle  height={50} width={90} odd shadow elevation={10}>
-          <Block middle center space="evenly" row>
+          <Button center middle  height={50} width={100} odd shadow elevation={10}
+          onPress={() => navigation.navigate("TransferToTmoni")}
+          >
+          <Block middle center  row>
           <ImageIcon  
             style={{
                   
@@ -62,8 +67,8 @@ const Home = () => {
           </Block>
           </Button>
 
-          <Button center middle  height={50} width={90}  odd shadow elevation={10}>
-          <Block middle center space="evenly" row>
+          <Button center middle  height={50} width={100}  odd shadow elevation={10}>
+          <Block middle center row>
           <ImageIcon  
             style={{
                   
@@ -96,7 +101,7 @@ const Home = () => {
             style={{
                   
                 }}
-                name="logo" 
+                name="cart" 
             />
           </Block>
       </Button>
@@ -116,7 +121,7 @@ const Home = () => {
             style={{
                   
                 }}
-                name="logo" 
+                name="basket" 
             />
           </Block>
       </Button>
