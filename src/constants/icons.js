@@ -89,6 +89,11 @@ const icons = {
     width: 100,
     height: 70,
   },
+  avatar: {
+    icon: require('../assets/icons/avatar.png'),
+    width: 100,
+    height: 70,
+  },
   
 };
 
