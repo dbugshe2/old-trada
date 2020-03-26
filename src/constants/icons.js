@@ -74,6 +74,11 @@ const icons = {
     width: 100,
     height: 70,
   },
+  plus: {
+    icon: require('../assets/icons/plus.png'),
+    width: 100,
+    height: 70,
+  },
   logoAlt: {
     icon: require('../assets/icons/logo-alt.png'),
     width: 210,

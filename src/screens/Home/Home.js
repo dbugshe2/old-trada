@@ -19,7 +19,7 @@ const Home = ({navigation}) => {
       <Block>
         <Block center>
         <Text body muted> Tmoni Wallet Balance</Text>
-        <Text  gray h1> N25,000</Text>
+        <Text  gray h1> N25 ,000</Text>
         </Block>
         {/* card */}
         <Block paddingHorizontal={SIZES.padding} paddingTop={30}>
@@ -67,7 +67,9 @@ const Home = ({navigation}) => {
           </Block>
           </Button>
 
-          <Button center middle  height={50} width={100}  odd shadow elevation={10}>
+          <Button center middle  height={50} width={100}  odd shadow elevation={10}
+          onPress={() => navigation.navigate("RecieveNavigator")}
+          >
           <Block middle center row>
           <ImageIcon  
             style={{
