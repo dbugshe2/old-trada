@@ -9,7 +9,7 @@ import {
 import {Block, Card, Text, Header, ImageIcon, Input, Button} from '../../components'
 import { SIZES, COLORS } from '../../utils/theme'
 
-const Home = ({navigation}) => {
+const Home = () => {
   return (
   
     <Block scroll  background>
@@ -50,9 +50,7 @@ const Home = ({navigation}) => {
       {/* two */}
       <Block>
         <Block space="evenly" row center  paddingTop={30} paddingHorizontal={SIZES.padding * 2}>
-          <Button center middle  height={50} width={100} odd shadow elevation={10}
-          onPress={() => navigation.navigate("TransferToTmoni")}
-          >
+          <Button center middle  height={50} width={100} odd shadow elevation={10}>
           <Block middle center  row>
           <ImageIcon  
             style={{
@@ -67,9 +65,7 @@ const Home = ({navigation}) => {
           </Block>
           </Button>
 
-          <Button center middle  height={50} width={100}  odd shadow elevation={10}
-          onPress={() => navigation.navigate("RecieveNavigator")}
-          >
+          <Button center middle  height={50} width={100}  odd shadow elevation={10}>
           <Block middle center row>
           <ImageIcon  
             style={{
