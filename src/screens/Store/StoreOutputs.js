@@ -17,7 +17,9 @@ const StoreOutputs = ({navigation}) => {
    <Block   background>
    <Block space="evenly" paddingHorizontal={SIZES.padding}  marginVertical={35} background>
       <Block flex={2}>
-      <Button  center middle radius={8} white shadow elevation={8} row height={180}>
+      <Button  center middle radius={8} white shadow elevation={8} row height={180}
+      onPress={() => navigation.navigate("StoreItemSummary")}
+      >
          <Block column paddingHorizontal={SIZES.padding} paddingVertical={SIZES.padding}>
           <Block paddingBottom={25} middle row>
          <Block  space="between"  column>
