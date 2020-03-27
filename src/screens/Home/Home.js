@@ -89,7 +89,9 @@ const Home = ({navigation}) => {
 
       {/* three */}
       <Block marginVertical={35} >
-      <Button  center middle radius={8} white shadow elevation={10} row height={150}>
+      <Button  center middle radius={8} white shadow elevation={10} row height={150}
+      onPress={() => navigation.navigate("BuyInput")}
+      >
           <Block paddingHorizontal={SIZES.padding} paddingVertical={SIZES.padding * 2} middle row center>
           <Block column>
           <Text h2>
@@ -109,7 +111,9 @@ const Home = ({navigation}) => {
       </Button>
 
 
-      <Button marginVertical={25} center middle radius={8} white shadow elevation={10} row height={150}>
+      <Button marginVertical={25} center middle radius={8} white shadow elevation={10} row height={150}
+      onPress={() => navigation.navigate("SellOutput")}
+      >
           <Block paddingHorizontal={SIZES.padding} paddingVertical={SIZES.padding * 2} middle row center>
           <Block column>
           <Text h2>
