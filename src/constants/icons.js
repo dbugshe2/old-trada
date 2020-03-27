@@ -39,8 +39,18 @@ const icons = {
     width: 10,
     height: 11
   },
+  recievedAlt: {
+    icon: require("../assets/icons/recieved-alt.png"),
+    width: 10,
+    height: 11
+  },
   sent: {
     icon: require("../assets/icons/sent.png"),
+    width: 10,
+    height: 11
+  },
+  sentAlt: {
+    icon: require("../assets/icons/sent-alt.png"),
     width: 10,
     height: 11
   },
