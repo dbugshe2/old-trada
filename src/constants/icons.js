@@ -100,6 +100,12 @@ const icons = {
     height: 70,
   },
   
+  riceBag: {
+    icon: require('../assets/icons/ricebag.png'),
+    width: 30,
+    height: 60,
+  },
+  
 };
 
 export default icons;

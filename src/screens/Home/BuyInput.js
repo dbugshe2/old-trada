@@ -15,7 +15,7 @@ const BuyInput = () => {
         <Block flex={0} space='around' row>
         <Block>
         <Dropdown label="Category" />
-        <Text primary tiny >Minimum of 10 item per order</Text>
+        <Text primary small >Minimum of 10 item per order</Text>
         </Block>
         <Block>
         <Dropdown label="Qty:10" />
