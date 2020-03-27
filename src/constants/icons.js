@@ -94,6 +94,11 @@ const icons = {
     width: 100,
     height: 70,
   },
+  market: {
+    icon: require('../assets/icons/market.png'),
+    width: 200,
+    height: 150,
+  },
   avatar: {
     icon: require('../assets/icons/avatar.png'),
     width: 100,

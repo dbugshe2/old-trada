@@ -6,7 +6,7 @@ import {
   View,
   ScrollView
 } from "react-native";
-import {Block, Card, Text, Header, ImageIcon, Input, Button} from '../../components'
+import {Block, Card, Text, Header, ImageIcon, Input, Button, FAB} from '../../components'
 import { SIZES, COLORS } from '../../utils/theme'
 import BackButton from '../../components/BackButton';
 import { Divider } from 'react-native-paper';
@@ -40,23 +40,9 @@ const StoreInputs = ({navigation}) => {
       </Button>
       </Block>
      
-     
-
-     
       </Block>
-          <Button right style={{position: "absolute", right: 15,bottom: 35 }}center middle  odd 
-          onPress={() => navigation.navigate("BuyInput")}
-          >
-          
-          <ImageIcon  
-            style={{
-                  
-                }}
-                name="plus" 
-            />
-          
-          </Button>
-    </Block>        
+     <FAB right={15} bottom={35} onPress={() => navigation.navigate("BuyInput")}/>
+    </Block>         
 
   );
 };

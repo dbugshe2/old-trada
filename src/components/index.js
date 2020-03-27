@@ -16,6 +16,7 @@ import TabedView from "./TabedView";
 // import CloseButton from "./CloseButton";
 import Header from "./Header";
 import PinInput from "./PinInput";
+import FAB from "./FAB";
 
 export {
   Block,
@@ -35,5 +36,6 @@ export {
   // TransactionsList,
   // CloseButton,
   Header,
-  PinInput
+  PinInput,
+  FAB,
 };
