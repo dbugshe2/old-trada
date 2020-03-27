@@ -58,10 +58,10 @@ const Home = ({navigation}) => {
             style={{
                   
                 }}
-                name="sent" 
+                name="sentAlt" 
             />
 
-            <Text>
+            <Text marginLeft={8}>
               Send
             </Text>
           </Block>
@@ -75,10 +75,10 @@ const Home = ({navigation}) => {
             style={{
                   
                 }}
-                name="recieved" 
+                name="recievedAlt" 
             />
 
-            <Text>
+            <Text marginLeft={8}>
               Recieve
             </Text>
           </Block>
