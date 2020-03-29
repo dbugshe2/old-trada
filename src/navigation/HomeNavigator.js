@@ -9,6 +9,7 @@ import {
   TransferOptions,
   TransferToTmoni
 } from "../screens";
+import RecieveNavigator from './RecieveNavigator'
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="TransferOptions" component={TransferOptions} />
       <Stack.Screen name="TransferDetails" component={TransferDetails} />
       <Stack.Screen name="TransferToTmoni" component={TransferToTmoni} />
+      <Stack.Screen name="RecieveNavigator" component={RecieveNavigator} />
     </Stack.Navigator>
   );
 };

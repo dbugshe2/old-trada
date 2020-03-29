@@ -90,7 +90,7 @@ const Home = ({navigation}) => {
       {/* three */}
       <Block marginVertical={35} >
       <Button  center middle radius={8} white shadow elevation={10} row height={150}
-      onPress={() => navigation.navigate("BuyInput")}
+      onPress={() => navigation.navigate('Store',{screen: 'BuyInputs'})}
       >
           <Block paddingHorizontal={SIZES.padding} paddingVertical={SIZES.padding * 2} middle row center>
           <Block column>
@@ -112,12 +112,12 @@ const Home = ({navigation}) => {
 
 
       <Button marginVertical={25} center middle radius={8} white shadow elevation={10} row height={150}
-      onPress={() => navigation.navigate("SellOutput")}
+      onPress={() => navigation.navigate('Store',{screen: 'SellOutputs'})}
       >
           <Block paddingHorizontal={SIZES.padding} paddingVertical={SIZES.padding * 2} middle row center>
           <Block column>
           <Text h2>
-          Buy your inputs
+          Sell your Outputs
           </Text>
           <Text left gray body>
           Get inputs from leading agro companies Across the world at guaranteed lowest price  
