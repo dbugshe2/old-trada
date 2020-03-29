@@ -8,7 +8,7 @@ import { AddCashViaBankTransfer, AddCashViaUssd } from "../screens";
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-const RecieveTab = () => {
+const AddCashTab = () => {
   return (
     <Tab.Navigator initialRouteName="AddCashViaBankTransfer" screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Via Bank Transfer" component={AddCashViaBankTransfer} />
@@ -17,10 +17,10 @@ const RecieveTab = () => {
   );
 };
 
-const RecieveNavigator = () => (
+const AddCashNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Recieve" component={RecieveTab} />
+    <Stack.Screen name="Add Cash" component={AddCashTab} />
   </Stack.Navigator>
 );
 
-export default RecieveNavigator;
+export default AddCashNavigator;

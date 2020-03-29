@@ -68,7 +68,7 @@ const Home = ({navigation}) => {
           </Button>
 
           <Button center middle  height={50} width={100}  odd shadow elevation={10}
-          onPress={() => navigation.navigate("RecieveNavigator")}
+          onPress={() => navigation.navigate("AddCashNavigator")}
           >
           <Block middle center row>
           <ImageIcon  
