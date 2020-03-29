@@ -13,7 +13,7 @@ const EnterBio = ({ navigation }) => {
     <Block background >
       <Block space="around" >
       <Block>
-        <Dropdown data={data} label="Gender" />
+        <Dropdown options={data} label="Gender" />
         <Input keyboardType="numeric"
         label="Age"/>
         <Dropdown label="Highest Degree" />

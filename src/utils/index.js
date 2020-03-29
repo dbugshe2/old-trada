@@ -1,7 +1,8 @@
 import rgba from "./rgba";
 import theme from "./theme";
 import { getMargins, getPaddings, spacing } from './helpers';
-import { getStorageData, setStorageData } from "./AsyncStorage";
+import { getUserToken, setUserToken } from "./AsyncStorage";
+import { get, post, put } from "./axios";
 
 export {
   getMargins,
@@ -9,6 +10,9 @@ export {
   spacing,
   rgba,
   theme,
-  getStorageData,
-  setStorageData
+  getUserToken,
+  setUserToken,
+  get,
+  post,
+  put
 };

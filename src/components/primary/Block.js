@@ -281,7 +281,7 @@ class Block extends Component {
 
     if (safe) {
       return (
-        <SafeAreaView style={blockStyles} {...props}>
+        <SafeAreaView showVerticalScrollIndicator={false} style={blockStyles} {...props}>
           {children}
         </SafeAreaView>
       );

@@ -23,7 +23,8 @@ const UserOnboarding = ({navigation}) => {
         <Button transparent onPress={() => navigation.navigate("Login")} >
           <Text h5 muted mtregular>Login</Text>
         </Button>
-        <Button transparent onPress={() => navigation.navigate("Register")}>
+        <Block flex={0} width={1} height={35} inactive></Block>
+        <Button transparent onPress={() => navigation.navigate("MobileVerification")}>
           <Text mtregular primary h5>Register</Text>
         </Button>
       </Block>

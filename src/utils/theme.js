@@ -7,6 +7,7 @@ export const COLORS = {
   secondary: "#3088D5",
   odd: "#F4FAED",
   background: "#FFFFFF",
+  error: "B00020",
 
   // non-colors
   black: "#000020",

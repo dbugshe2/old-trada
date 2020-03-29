@@ -1,28 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { getStorageData } from '../utils';
-import {captureException} from 'sentry-expo'
+import ImageIcon from '../components/primary/ImageIcon';
+
 
 
 
 export class LandingScreen extends Component {
-  async componentDidMount() {
-    try {
-      let data = await getStorageData()
-      if (data) {
-        this.props.navigation('App')
-      } else {
-        this.props.navigation('Auth')
-      }
-    } catch (error) {
-      captureException(error)
-    }
-  }
+ 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center',alignContent: 'center'}}>
-      <Text>loading...</Text>
-    </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+      <ImageIcon name="logo" />
+    <Text>loading...</Text>
+  </View>
     )
   }
 }

@@ -1,28 +1,92 @@
-import React, {useState} from 'react'
-import {Block, Text, Header, Input, Button} from '../../components'
-import { SIZES } from '../../utils/theme'
-const Login = () => {
+import React, { useState, useContext, useEffect } from "react";
+import { Block, Text, Header, Input, Button } from "../../components";
+import { SIZES, COLORS } from "../../utils/theme";
+import { ActivityIndicator } from "react-native";
+import { AuthContext } from "../../context/auth/AuthContext";
+import { useForm } from "react-hook-form";
+import { captureException } from "sentry-expo";
+
+const Login = ({ navigation }) => {
+  const [sending, setSending] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  const auth = useContext(AuthContext);
+
+  const { register, errors, setValue, handleSubmit } = useForm();
+  const { login } = auth;
+  const onSubmit = async data => {
+    setSending(true);
+    const res = await login(data);
+    if (res.status === "success") {
+      setMessage("Login Successfull");
+      setSending(false);
+    }
+    setMessage(res.message);
+    setSending(false);
+  };
+  useEffect(() => {
+    register({ name: "phone" }, { required: "please enter your phone number" });
+    register({ name: "pin" }, { required: "please enter your pin number" });
+  }, [register]);
+
   return (
-    <Block background >
+    <Block background>
       <Header backTitle="Log in" />
-      <Block space="around" marginVertical={SIZES.padding} paddingHorizontal={SIZES.padding}>
-        <Block middle flex={2}>
-        <Input label="Phone Number" keyboardType="phone-pad" mask="+[000] [000] [0000] [000]" />
-        <Input label="Password" />
-        </Block>
-        <Block flex={3} justifyContent="flex-start" marginVertical={SIZES.padding * 2}>
-          <Button>
-            <Text white center h6>Log In</Text>
+      <Block flex={0}>
+        <Text center secondary>
+          {message}
+        </Text>
+      </Block>
+      <Block flex={2}  paddingHorizontal={SIZES.padding}>
+        <Input
+          label="Phone Number"
+          maxLength={11}
+          onChangeText={text => setValue("phone", text)}
+          keyboardType="number-pad"
+          error={errors.phone}
+        />
+        <Input
+          label="Password"
+          secureTextEntry
+          keyboardType="number-pad"
+          maxLength={4}
+          onChangeText={text => setValue("pin", text)}
+          error={errors.pin}
+        />
+        <Block marginVertical={SIZES.padding}>
+        {sending ? (
+          <ActivityIndicator animating size="large" color={COLORS.primary} />
+        ) : (
+          <Button onPress={handleSubmit(onSubmit)}>
+            <Text white center h6>
+              Log In
+            </Text>
           </Button>
-        <Button transparent>
-            <Text secondary center small>Forgot your password?</Text>
-          </Button>
-        </Block>
-        <Block flex={0} top>
+        )}
+        <Button
+          transparent
+          onPress={() => navigation.navigate("ForgotPassword")}
+        >
+          <Text secondary center body>
+            Forgot your password?
+          </Text>
+        </Button>
+
         </Block>
       </Block>
-    </Block>
-  )
-}
 
-export default Login
+      <Block inactive row flex={0} paddingVertical={SIZES.base} middle center>
+        <Text body muted>Don’t have an account?</Text>
+        <Button
+          transparent
+          marginHorizontal={SIZES.base}
+          onPress={() => navigation.navigate("MobileVerification")}
+        >
+          <Text primary>Register</Text>
+        </Button>
+      </Block>
+    </Block>
+  );
+};
+
+export default Login;

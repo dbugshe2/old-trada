@@ -10,9 +10,7 @@ import Dropdown from "./Dropdown";
 // import LoadingOverlay from "./LoadingOverlay";
 import ImageIcon from "./primary/ImageIcon";
 import TabedView from "./TabedView";
-// import Transaction from "./Transaction";
-// import DropDown from "./DropDown";
-// import TransactionsList from "./TransactionsList";
+import StepIndicator from "./StepIndicator";
 // import CloseButton from "./CloseButton";
 import Header from "./Header";
 import PinInput from "./PinInput";
@@ -31,11 +29,9 @@ export {
   // LoadingOverlay,
   ImageIcon,
   TabedView,
-  // Transaction,
-  // DropDown,
-  // TransactionsList,
+  StepIndicator,
   // CloseButton,
   Header,
   PinInput,
-  FAB,
+  FAB
 };

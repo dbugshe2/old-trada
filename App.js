@@ -1,11 +1,13 @@
 import React, { Component, useState } from "react";
-import AuthState from "./src/context/auth/AuthState";
+import AuthProvider from "./src/context/auth/AuthContext";
 import * as Sentry from "sentry-expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppLoading } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import Navigation from "./src/navigation";
+import VariationProvider from "./src/context/variation/VariationContext";
 
 console.disableYellowBox = true;
   Sentry.init({
@@ -25,6 +27,7 @@ export default class App extends Component {
   async componentDidMount() {
     try {
       await Font.loadAsync({
+        ...Ionicons.font,
         montserratLight: require("./assets/fonts/MontserratLight.ttf"),
         montserratRegular: require("./assets/fonts/MontserratRegular.ttf"),
         montserratMedium: require("./assets/fonts/MontserratMedium.ttf"),
@@ -43,14 +46,16 @@ export default class App extends Component {
       return <AppLoading />;
     }
       return (
-        <AuthState>
+        <AuthProvider>
+          <VariationProvider>
           <SafeAreaProvider>
             <View style={styles.container}>
               {Platform.OS === "ios" && <StatusBar barStyle="default" />}
               <Navigation />
             </View>
           </SafeAreaProvider>
-        </AuthState>
+          </VariationProvider>
+        </AuthProvider>
       );
     
   }
@@ -59,6 +64,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red"
+    backgroundColor: "white"
   }
 });
