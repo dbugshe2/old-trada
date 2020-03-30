@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "react-native-paper";
 import { COLORS, SIZES } from "../../utils/theme";
-
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Platform
+} from "react-native";
+import Block from "./Block";
+import Text from "./Text";
 const Input = props => {
   /*
+  //#region 
    *
    * Props
    * mode
@@ -112,25 +121,140 @@ const Input = props => {
    *
    * blur
    * Removes focus from the input.
+   * //#endregion
    */
+  /*
+  ? autocomplete text feature inspired by
+  ? https://gitlab.com/eduardoxlau92/textinput-material-autocomplete/-/blob/master/index.js
+  */
+
+  // const [text, setText] = useState(props.initialValue);
+  // const [selected, setSelected] = useState(props.initialValue);
+  // const [error, setError] = useState(true);
+
+  // const onKeyPress = () => {
+  //   if (text == selected && error) {
+  //     setError(false);
+  //   } else if (text != selected && !error) {
+  //     props.error();
+  //     setError(true);
+  //   }
+  // };
+
+  // const toLowercase = text => {
+  //   return text ? text.lowerCase() : null;
+  // };
+
+  // const listOptions = () => (
+  //   <View
+  //     style={{
+  //       position: Platform.OS == "ios" ? "absolute" : "relative",
+  //       zIndex: 99999999,
+  //       width: "100%",
+  //       top: 0
+  //     }}
+  //   >
+  //     <ScrollView
+  //       showsVerticalScrollIndicator={false}
+  //       keyboardShouldPersistTaps="handler"
+  //       style={styles.autocomplete}
+  //     >
+  //       {props.array
+  //         .filter(object =>
+  //           toLowerCase(object[props.field]).includes(
+  //             toLowerCase(text)
+  //           )
+  //         )
+  //         .map((data, key) => {
+  //           return (
+  //             <TouchableOpacity
+  //               accessible={true}
+  //               style={{ zIndex: 99999999 }}
+  //               key={key}
+  //               style={{}}
+  //               onPress={() => {
+  //                 setSelected(props.field)
+  //                 setText(data[props.field])
+  //                 setError(false)
+  //                 props.value(data);
+  //               }}
+  //             >
+  //               <Text style={styles.autocompleteText}>
+  //                 {data[props.field]}
+  //               </Text>
+  //             </TouchableOpacity>
+  //           );
+  //         })}
+  //     </ScrollView>
+  //   </View>
+  // );
+
+  // if (props.autocomplete) {
+  //   return (
+  //     <View>
+  //       <View>
+  //         <TextInput
+  //           label={props.label}
+  //           mode="outlined"
+  //           onKeyPress={onKeyPress()}
+  //           value={text}
+  //           error={error}
+  //           onChangeText={text => {
+  //            setText(text)
+  //           }}
+  //           {...props}
+  //         />
+  //       </View>
+  //       <View>{error ? listOptions() : null}</View>
+  //     </View>
+  //   );
+  // }
+
 
   return (
-    <TextInput
-      theme={{
-        roudness: 4,
-        colors: {
-          primary: COLORS.primary,
-          surface: COLORS.background,
-          background: COLORS.background,
-          disabled: COLORS.muted,
-          text: COLORS.gray
-        }
-      }}
-      style={{marginVertical: SIZES.base}}
-      mode="outlined"
-      {...props}
-    />
+    <Block flex={(props.flex && props.flex) || 0}>
+      <TextInput
+        theme={{
+          mode: 'exact',
+          roudness: 4,
+          colors: {
+            primary: COLORS.primary,
+            surface: COLORS.background,
+            background: COLORS.background,
+            disabled: COLORS.muted,
+            text: COLORS.gray
+          },
+          fonts: {regular: 'montserratRegular', medium: 'montserratMedium'}
+        }}
+        style={{ marginVertical: SIZES.base }}
+        mode="outlined"
+        {...props}
+      />
+      {props.error && (
+        <Text small color={COLORS.primary}>
+          {props.error.message}
+        </Text>
+      )}
+    </Block>
   );
 };
 
 export default Input;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  autocomplete:{
+   // position:"relative",
+    backgroundColor:"#cecece",
+    zIndex:999999999
+  },
+  autocompleteText:{
+    zIndex:999999999,
+    flex:1,
+    padding:10,
+    fontSize:17,
+    fontWeight:"bold"
+  }
+});

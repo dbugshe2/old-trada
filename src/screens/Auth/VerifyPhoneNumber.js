@@ -1,8 +1,42 @@
-import React from "react";
-import { Block, Text, Header, Input, Button, PinInput } from "../../components";
-import { SIZES } from "../../utils/theme";
+import React, { useContext, useState, useEffect } from "react";
+import { Block, Text, Header, Button, PinInput } from "../../components";
+import { ActivityIndicator } from "react-native";
+import { SIZES, COLORS } from "../../utils/theme";
+import { AuthContext } from "../../context/auth/AuthContext";
+import { captureException } from "sentry-expo";
+import { useForm } from "react-hook-form";
 
-const VerifyPhoneNumber = () => {
+const VerifyPhoneNumber = ({ navigation }) => {
+  const auth = useContext(AuthContext);
+  const { register, handleSubmit, setValue } = useForm();
+
+  const { phone, verifyOtp } = auth;
+
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async data => {
+    setLoading(true);
+    setMessage('')
+    verifyOtp(data)
+      .then(res => {
+        if (res.status === "success") {
+          navigation.navigate("Register");
+        } else {
+          setMessage(res.message);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        setMessage(err.message);
+        captureException(err);
+        setLoading(false);
+        return;
+      });
+  };
+  useEffect(() => {
+    register({ name: "verifyPhoneOtp" }, { required: true, minLength: 4 });
+  }, [register]);
   return (
     <Block background>
       <Header backTitle="Verify Phone Number" />
@@ -11,15 +45,16 @@ const VerifyPhoneNumber = () => {
         marginVertical={SIZES.padding}
         paddingHorizontal={SIZES.padding}
       >
-        <Block middle flex={2}>
+        <Block middle center flex={2}>
           <PinInput
-            style={{ width: "80%", height: 200 }}
+            style={{ width: "80%" }}
             pinCount={4}
             autoFocusOnLoad
-            onCodeFilled={code => {
-              console.log(`Code is ${code}, you are good to go!`);
+            onCodeChanged={text => {
+              setValue("verifyPhoneOtp", text);
             }}
           />
+          <Text secondary h5>{message}</Text>
         </Block>
         <Block
           flex={2}
@@ -28,7 +63,7 @@ const VerifyPhoneNumber = () => {
         >
           <Button transparent>
             <Text gray center small>
-              We sent a text message to 07067139202 with your verification code
+              We sent a text message to {phone} with your verification code
             </Text>
           </Button>
           <Button transparent>
@@ -38,11 +73,15 @@ const VerifyPhoneNumber = () => {
           </Button>
         </Block>
         <Block justifyContent="flex-start">
-          <Button onPress={() => navigation.navigate("VerifyPhoneNumber")}>
-            <Text white center h6>
-              Continue
-            </Text>
-          </Button>
+          {loading ? (
+            <ActivityIndicator animating size="large" color={COLORS.primary} />
+          ) : (
+            <Button onPress={handleSubmit(onSubmit)}>
+              <Text white center h6>
+                Continue
+              </Text>
+            </Button>
+          )}
         </Block>
       </Block>
     </Block>

@@ -1,8 +1,43 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Block, Text, Header, Input, Button } from "../../components";
-import { SIZES } from "../../utils/theme";
+import { ActivityIndicator } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import { SIZES, COLORS } from "../../utils/theme";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../context/auth/AuthContext";
+import { captureException } from "sentry-expo";
 
-const MobileVerification = ({navigation}) => {
+const MobileVerification = ({ navigation }) => {
+  const { register, handleSubmit, setValue, errors } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const auth = useContext(AuthContext);
+  const { requestOtp } = auth;
+  useEffect(() => {
+    register(
+      { name: "phone" },
+      { required: true, maxLength: 11, minLength: 10 }
+    );
+  }, [register]);
+  const onSubmit = data => {
+    setLoading(true);
+    requestOtp(data)
+      .then(res => {
+        console.log({ ...res });
+        if (res.status === "success") {
+          navigation.navigate("VerifyPhoneNumber");
+        } else {
+          setMessage(res.message);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        captureException(err);
+        setLoading(false);
+        setMessage({ ...err });
+        return;
+      });
+  };
   return (
     <Block background>
       <Header backTitle="Mobile Verification" />
@@ -15,26 +50,57 @@ const MobileVerification = ({navigation}) => {
           <Input
             label="Phone Number"
             keyboardType="phone-pad"
-            mask="+[000] [000] [0000] [000]"
+            // render={props => {
+            //   return <TextInputMask type={'cel-phone'} options={{ maskType: 'INTERNATIONAL', withDDD: true, dddMask: '+234' }} {...props} />
+            // }}
+            onChangeText={text => {
+              setValue("phone", text);
+            }}
+            maxLength={11}
           />
+          {errors.phone && (
+            <Text small color="red">
+              Please enter a valid phone number
+            </Text>
+          )}
+          <Text secondary body>
+            {message}
+          </Text>
         </Block>
         <Block
-          flex={2}
+          flex={3}
           justifyContent="flex-start"
           marginVertical={SIZES.padding * 2}
         >
           <Button transparent>
             <Text gray center small>
-              By signing up, you confirm that you agree to our <Text primary>Terms or Use</Text> and
-              have read and understood our <Text primary>Privacy Policy</Text>. You will receive an
-              SMS to confirm Your phone number. SMS fee may apply.
+              By signing up, you confirm that you agree to our
+              <Text primary>Terms or Use</Text> and have read and understood our{" "}
+              <Text primary>Privacy Policy</Text>. You will receive an SMS to
+              confirm Your phone number. SMS fee may apply.
             </Text>
           </Button>
         </Block>
         <Block justifyContent="flex-start">
-          <Button onPress={() => navigation.navigate('VerifyPhoneNumber')}>
-            <Text white center h6>
-              Continue
+          {loading ? (
+            <ActivityIndicator animating size="large" color={COLORS.primary} />
+          ) : (
+            <Button onPress={handleSubmit(onSubmit)}>
+              <Text white center h6>
+                Continue
+              </Text>
+            </Button>
+          )}
+        </Block>
+      </Block>
+      <Block flex={0} inactive center paddingVertical={SIZES.base}>
+        <Block flex={0} row middle center>
+          <Text muted body center>
+            Already verified your phone number?
+          </Text>
+          <Button marginHorizontal={SIZES.base} transparent onPress={() => navigation.navigate("Register")}>
+            <Text body primary>
+              Register
             </Text>
           </Button>
         </Block>

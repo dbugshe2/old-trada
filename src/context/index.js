@@ -1,7 +1,7 @@
-import AuthState from './auth/AuthState'
-import { AuthContext } from './auth/AuthState'
+import AuthProvider from './auth/AuthContext'
+import { AuthContext } from './auth/AuthContext'
 
 export {
-  AuthState,
+  AuthProvider,
   AuthContext
 }

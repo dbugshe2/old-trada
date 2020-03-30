@@ -60,7 +60,7 @@ const TabedView = props => {
    *
    */
 
-  const { views, initialView, scroll, steps, onComplete } = props;
+  const { views, initialView, scroll, steps, onComplete, onNext } = props;
 
   const initialViewProp = (initialView && initialView) || 0; // use initialView of 0
 
@@ -71,13 +71,20 @@ const TabedView = props => {
   let TabedViewRef = null;
   let TabsListRef = null;
 
-  const handleViewSelected = viewId => {
-    if (viewId > steps - 1 ) {
+  const handleViewSelected = (direction) => {
+    if (activeView > steps - 1 ) {
       onComplete && onComplete();
       return
     }
-    setActiveView(viewId);
-    TabedViewRef.setPage(viewId);
+
+    if (direction === 'next') {
+        setActiveView(activeView + 1);
+        TabedViewRef.setPage(activeView + 1);
+    }
+    if (direction === 'prev') {
+      setActiveView(activeView - 1);
+    TabedViewRef.setPage(activeView - 1);
+    }
   };
 
   const handleScroll = position => {
@@ -96,7 +103,7 @@ const TabedView = props => {
         />
       </Block>
 
-      <Block>
+      <Block flex={4}>
         <ViewPager
           orientation="horizontal"
           style={{ flex: 1 }}
@@ -119,12 +126,12 @@ const TabedView = props => {
           ))}
         </ViewPager>
       </Block>
-      <Block flex={0} space="between" row>
+      <Block flex={0.5} space="between" row>
         <Block>
           {activeView !== 0 && (
             <Button
               transparent
-              onPress={() => handleViewSelected(activeView - 1)}
+              onPress={() => handleViewSelected('prev')}
             >
               <Text mtregular gray h5>
                 Back
@@ -132,14 +139,14 @@ const TabedView = props => {
             </Button>
           )}
         </Block>
-        <Block right bottom>
+        <Block>
           <Button
             radius={0}
             transparent
-            onPress={() => handleViewSelected(activeView + 1)}
+            onPress={() => handleViewSelected('next')}
           >
             <Text right mtregular primary h5>
-              Next
+            {activeView === steps - 1 ? 'Finish' : 'Next'}
             </Text>
           </Button>
         </Block>
