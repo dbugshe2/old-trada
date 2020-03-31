@@ -4,7 +4,7 @@ import Button from "./primary/Button";
 import Text from "./primary/Text";
 import Input from "./primary/Input";
 import Dropdown from "./Dropdown";
-// import MenuButton from "./MenuButton";
+import MenuButton from "./MenuButton";
 // import ForwardButton from "./ForwardButton";
 // import BackButton from "./BackButton";
 // import LoadingOverlay from "./LoadingOverlay";
@@ -15,7 +15,9 @@ import StepIndicator from "./StepIndicator";
 import Header from "./Header";
 import PinInput from "./PinInput";
 import FAB from "./FAB";
-
+import Timer from './Timer'
+import Sidebar from './Sidebar';
+import Swiper from './Swiper';
 export {
   Block,
   Card,
@@ -23,7 +25,7 @@ export {
   Text,
   Input,
   Dropdown,
-  // MenuButton,
+  MenuButton,
   // ForwardButton,
   // BackButton,
   // LoadingOverlay,
@@ -33,5 +35,8 @@ export {
   // CloseButton,
   Header,
   PinInput,
-  FAB
+  FAB,
+  Timer,
+  Sidebar,
+  Swiper
 };

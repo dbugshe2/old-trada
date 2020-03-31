@@ -1,10 +1,10 @@
 import React, { createContext, useReducer, useMemo, useState } from "react";
 import axios from "axios";
 // import {get, post, put} from '../../utils'
-import { setUserToken, getUserToken } from "../../utils/AsyncStorage";
+import { setUserToken, getUserToken, setUser } from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
-import { AsyncStorage } from 'react-native';
-  import {
+import { AsyncStorage } from "react-native";
+import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
@@ -16,50 +16,54 @@ import { AsyncStorage } from 'react-native';
   VERIFY_OTP_FAIL,
   USER_DETAILS,
   USER_LOADED,
+  CLEAR_ERRORS,
   AUTH_ERROR,
   VERIFY_AUTH_FAIL,
-  VERIFY_AUTH_SUCCESS
+  VERIFY_AUTH_SUCCESS,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAIL,
+  PASSWORD_RESET_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  SET_RESET_PIN_OTP
 } from "../types";
 
 // User
 
 /*
-Object {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlN2Y2NTFiYTZkMDI5MDA2ODViZDVmNyIsInJvbGUiOiJhZ2VudCIsImlhdCI6MTU4NTQ5MTc1NiwiZXhwIjoxNTg1NDk1MzU2fQ.e99gx40smOzcQSjMTnzvFF_7HNGrFGPUgsXeNEOmv-w",
-  "data": Object {
-    "_id": "5e7f651ba6d02900685bd5f7",
-    "active": true,
-    "address": "No 31, 441 crescent, gwarinpa Abuja",
-    "agentId": "TRADA9050484101",
-    "commissionWallet": "5e7f651ba6d02900685bd5f9",
-    "dateOfBirth": "12-OCT-99",
-    "district": "Lugbe",
-    "education": "Secondary education",
-    "email": "paul.david@gmail.com",
-    "firstName": "Paul",
-    "gender": "Male",
-    "isReseller": false,
-    "lastName": "David",
-    "lga": "Estako",
-    "lock": false,
-    "meta": Object {
-      "createdAt": "2020-03-28T14:54:19.355Z",
-      "updatedAt": "2020-03-28T14:54:19.355Z",
-    },
-    "phone": "+2349050484101",
-    "resellerApproved": false,
-    "role": "agent",
-    "state": "Abuja",
-    "verified": true,
-    "wallet": "5e7f651ba6d02900685bd5f8",
-  },
-  "status": "success",
-  "statusCode": 200,
-}
-
-*/ 
-
-
+ * const user = {
+ *   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlN2Y2NTFiYTZkMDI5MDA2ODViZDVmNyIsInJvbGUiOiJhZ2VudCIsImlhdCI6MTU4NTQ5MTc1NiwiZXhwIjoxNTg1NDk1MzU2fQ.e99gx40smOzcQSjMTnzvFF_7HNGrFGPUgsXeNEOmv-w",
+ *   "data": Object {
+ *     "_id": "5e7f651ba6d02900685bd5f7",
+ *     "active": true,
+ *     "address": "No 31, 441 crescent, gwarinpa Abuja",
+ *     "agentId": "TRADA9050484101",
+ *     "commissionWallet": "5e7f651ba6d02900685bd5f9",
+ *     "dateOfBirth": "12-OCT-99",
+ *     "district": "Lugbe",
+ *     "education": "Secondary education",
+ *     "email": "paul.david@gmail.com",
+ *     "firstName": "Paul",
+ *     "gender": "Male",
+ *     "isReseller": false,
+ *     "lastName": "David",
+ *     "lga": "Estako",
+ *     "lock": false,
+ *     "meta": Object {
+ *       "createdAt": "2020-03-28T14:54:19.355Z",
+ *       "updatedAt": "2020-03-28T14:54:19.355Z",
+ *     },
+ *     "phone": "+2349050484101",
+ *     "resellerApproved": false,
+ *     "role": "agent",
+ *     "state": "Abuja",
+ *     "verified": true,
+ *     "wallet": "5e7f651ba6d02900685bd5f8",
+ *   },
+ *   "status": "success",
+ *   "statusCode": 200,
+ * }
+ *
+ */
 
 export const AuthContext = createContext();
 
@@ -67,7 +71,7 @@ const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/users";
 
 const AuthProvider = props => {
   const [loading, setLoading] = useState(true);
-  
+
   const initialState = {
     token: null,
     isAuthenticated: null,
@@ -76,6 +80,7 @@ const AuthProvider = props => {
     userId: null,
     userDetails: null,
     phone: null,
+    resetPinOtp: null,
     message: null
   };
 
@@ -105,7 +110,7 @@ const AuthProvider = props => {
           ...state,
           token: action.payload,
           isAuthenticated: true
-        }
+        };
       case VERIFY_AUTH_FAIL:
       case AUTH_ERROR:
       case OTP_FAIL:
@@ -115,8 +120,7 @@ const AuthProvider = props => {
           ...state,
           token: null,
           isAuthenticated: false,
-          user: null,
-          error: action.payload
+          user: null
         };
       case CLEAR_ERRORS:
         return {
@@ -135,6 +139,26 @@ const AuthProvider = props => {
           userDetail: action.payload
         };
       case FORGOT_PASSWORD_SUCCESS:
+        return {
+          ...state,
+          phone: action.payload
+        };
+      case FORGOT_PASSWORD_SUCCESS:
+        return {
+          ...state,
+          message: action.payload
+        };
+      case SET_RESET_PIN_OTP:
+        return {
+          ...state,
+          resetPinOtp: action.payload
+        };
+      case PASSWORD_RESET_SUCCESS:
+        return {
+          ...state,
+          message: action.payload
+        };
+      case PASSWORD_RESET_FAIL:
         return {
           ...state,
           message: action.payload
@@ -181,16 +205,19 @@ const AuthProvider = props => {
     try {
       const res = await fetch(`${baseUrl}/phone/otp/confirm`, config);
       let json = await res.json();
-      dispatch({
-        type: VERIFY_OTP_SUCCESS
-      });
-      return json;
-    } catch (error) {
+      if (json === "success") {
+        dispatch({
+          type: VERIFY_OTP_SUCCESS
+        });
+        return json;
+      }
       dispatch({
         type: VERIFY_OTP_FAIL,
         payload: error.message
       });
-      captureException(error)
+      return json;
+    } catch (error) {
+      captureException(error);
       return error;
     }
   };
@@ -242,59 +269,127 @@ const AuthProvider = props => {
       },
       body: JSON.stringify(formData)
     };
+    setLoading(true);
     try {
-      // setLoading(true)
       const res = await fetch(`${baseUrl}/login`, config);
       const json = await res.json();
-      console.log(json)
       if (json.status === "success") {
-        await setUserToken(json.access_token);
+        setUserToken(json.access_token)
+          .then(() => setUser(json.data))
+          .catch(err => captureException(err));
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: json.access_token
+          payload: json
         });
-        // setLoading(false)
-        return json
+        setLoading(false);
+        return json;
       }
       dispatch({
         type: LOGIN_FAIL,
         payload: json
       });
-      // setLoading(false)
+      setLoading(false);
       return json;
     } catch (error) {
       captureException(error);
-      // setLoading(false)
     }
+    setLoading(false);
   };
-//  console.log(state)
+  //  console.log(state)
   const verifyLogin = async () => {
     try {
-      const res = await getUserToken()
+      const res = await getUserToken();
       if (res != null) {
         dispatch({
           type: VERIFY_AUTH_SUCCESS,
           payload: res
-        })
-        setLoading(false)
+        });
+        setLoading(false);
       } else {
         dispatch({
-          type: VERIFY_AUTH_FAIL,
-        })
-        setLoading(false)
-        
+          type: VERIFY_AUTH_FAIL
+        });
+        setLoading(false);
       }
-      setLoading(false)
-      return res
+      setLoading(false);
+      return res;
     } catch (error) {
-      captureException(error)
+      captureException(error);
     }
-  }
+  };
 
+  //  /pin/forgot
+  const requestResetOtp = async formData => {
+    const config = {
+      method: "POST",
+      header: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    };
+    try {
+      const res = await fetch(`${baseUrl}/pin/forgot`, config);
+      const json = await res.json();
+      if (json.status === "success") {
+        dispatch({
+          type: FORGOT_PASSWORD_SUCCESS,
+          payload: formData.phone
+        });
+        return json;
+      }
+      dispatch({
+        type: FORGOT_PASSWORD_FAIL,
+        payload: json.message
+      });
+      return json;
+    } catch (error) {
+      captureException(error);
+    }
+  };
+
+  const setResetPinOtp = formData => {
+    dispatch({
+      type: SET_RESET_PIN_OTP,
+      payload: formData.resetPinOtp
+    });
+  };
+  // /pin/reset
+  const resetPin = async formData => {
+    const config = {
+      method: "POST",
+      header: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        resetPinOtp: resetPinOtp,
+        newPin: formData.newPin
+      })
+    };
+    try {
+      const res = await fetch(`${baseUrl}/pin/reset`, config);
+      const json = await res.json();
+      if (json.status === "success") {
+        dispatch({
+          type: PASSWORD_RESET_SUCCESS,
+          payload: json.status
+        });
+        return json;
+      }
+      dispatch({
+        type: PASSWORD_RESET_FAIL,
+        payload: json.message
+      });
+      return json;
+    } catch (error) {
+      captureException(error);
+    }
+  };
   const logout = async () => {
-    await AsyncStorage.clear();
-    dispatch({ type: LOGOUT })
-  }
+    setLoading(true);
+    const res = AsyncStorage.clear();
+    if (res !== null) dispatch({ type: LOGOUT });
+    setLoading(false);
+  };
 
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
@@ -306,6 +401,7 @@ const AuthProvider = props => {
       userId: state.userId,
       userDetail: state.userDetail,
       phone: state.phone,
+      resetPinOtp: state.resetPinOtp,
       message: state.message,
       loading: loading,
       requestOtp,
@@ -314,10 +410,13 @@ const AuthProvider = props => {
       signup,
       login,
       verifyLogin,
+      requestResetOtp,
+      setResetPinOtp,
+      resetPin,
       logout,
       clearErrors
     };
-  }, [state]);
+  }, [state, loading]);
 
   return (
     <AuthContext.Provider value={values}>{props.children}</AuthContext.Provider>

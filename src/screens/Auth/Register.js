@@ -34,7 +34,6 @@ const Register = ({ navigation }) => {
 
   const [activeView, setActiveView] = useState(initialViewProp); // state of activetab initialized to initialView
   const [activeState, setActiveState] = useState(null);
-  const [activeLGA, setActiveLGA] = useState(null);
   const [sending, setSending] = useState(false);
 
   // form state

@@ -5,68 +5,80 @@ import Text from "./primary/Text";
 import Block from "./primary/Block";
 import BackButton from "./BackButton";
 import { SIZES } from "../utils/theme";
+import ImageIcon from "./primary/ImageIcon";
+import MenuButton from "./MenuButton";
 
 const Header = props => {
   const {
     renderLeft,
     title,
     backTitle,
+    main,
+    shadow,
     renderRight,
     onPressLeft,
     onPressRight
   } = props;
   const navigation = useNavigation();
+  const HEADER_HEIGHT = 56;
+  const styles = StyleSheet.flatten([
+    shadow && {
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
+      borderWidth: 1,
+      borderColor: "#fff"
+    }
+  ]);
   return (
-    <View style={styles.contain}>
-      <View
-        style={styles.contentLeft}
-        onPress={onPressLeft}
-      >
-        {(renderLeft && renderLeft()) || (
-          <BackButton backTitle={backTitle && backTitle} />
-        )}
-      </View>
-      {title && ( <Text style={styles.contentCenter}>
-          <Text gray size={20}>
+    <Block
+      flex={0}
+      height={HEADER_HEIGHT}
+      row
+      space="between"
+      middle
+      style={styles}
+    >
+      {renderLeft ? (
+        renderLeft()
+      ) : title ? (
+        <Block middle paddingLeft={SIZES.padding}>
+          <Text h2 black mtregular>
             {title}
           </Text>
-        </Text>)}
-       
-    </View>
+        </Block>
+      ) : (
+        backTitle && (
+          <Block>
+            <BackButton backTitle={backTitle && backTitle} />
+          </Block>
+        )
+      )}
+      {main && (
+        <Block space="between" row>
+          <Block center middle>
+            <ImageIcon name="trada" />
+          </Block>
+          <MenuButton
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              height: HEADER_HEIGHT,
+              zIndex: 99999999999
+            }}
+          />
+        </Block>
+      )}
+      {renderRight ? renderRight() : null}
+    </Block>
   );
 };
 
 export default Header;
-
-const styles = StyleSheet.create({
-  contain: {
-    height: 56,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  contentLeft: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    width: "90%",
-  },
-  contentCenter: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  contentRight: {
-    justifyContent: "center",
-    alignItems: "flex-end",
-    paddingLeft: 10,
-    paddingRight: 20,
-    height: "100%"
-  },
-  right: {
-    flex: 1,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-end"
-  }
-});
