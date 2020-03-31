@@ -19,6 +19,9 @@ const Leaderboard = () => {
         return (
           <Block row  middle center marginVertical={20} paddingHorizontal={SIZES.padding}>
             
+              <Text muted paddingRight={8}>
+                {item.id}
+              </Text>
             <Block>
               <Text gray h6>
                 {item.title}
