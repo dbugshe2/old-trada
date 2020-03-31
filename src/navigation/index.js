@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext } from "../context/auth/AuthContext";
@@ -8,32 +8,35 @@ import AppDrawer from "./AppDrawer";
 
 const Stack = createStackNavigator();
 
-const Navigation = () => {
-  const navigatorRef = useRef(null);
+class Navigation extends Component {
 
-  const auth = useContext(AuthContext);
 
-  const { isAuthenticated, loading, message, verifyLogin } = auth;
+  static contextType = AuthContext
 
-  useEffect(() => {
-    verifyLogin()
-  
-  }, [isAuthenticated]);
+  componentDidMount() {
+    this.context.verifyLogin();
+  }
 
-  return (
-    <NavigationContainer ref={navigatorRef}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {loading ? (
-          <Stack.Screen name="LandingScreen" component={LandingScreen} />
-        ) : isAuthenticated ? (
-          <Stack.Screen name="App" component={AppDrawer} />
-        ) : (
-          <Stack.Screen name="Auth" component={AuthNavigator} /> // user NOT authenticated
-        ) // user authenticated
-        }
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+  render() {
+    return (
+      <AuthContext.Consumer>
+        {({isAuthenticated, loading}) => (
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {loading ? (
+                <Stack.Screen name="LandingScreen" component={LandingScreen} />
+              ) : isAuthenticated ? (
+                <Stack.Screen name="App" component={AppDrawer} />
+              ) : (
+                <Stack.Screen name="Auth" component={AuthNavigator} /> // user NOT authenticated
+              ) // user authenticated
+              }
+            </Stack.Navigator>
+          </NavigationContainer>
+        )}
+      </AuthContext.Consumer>
+    );
+  }
+}
 
 export default Navigation;

@@ -16,23 +16,23 @@ const icons = {
   },
   event: {
     icon: require("../assets/icons/event.png"),
-    width: 23,
-    height: 23
+    width: 28,
+    height: 27
   },
   eventAlt: {
     icon: require("../assets/icons/event-alt.png"),
-    width: 23,
-    height: 23
+    width: 28,
+    height: 27
   },
   house: {
     icon: require("../assets/icons/house.png"),
-    width: 23,
+    width: 30,
     height: 30
   },
   houseAlt: {
     icon: require("../assets/icons/house-alt.png"),
-    width: 23,
-    height: 21
+    width: 30,
+    height: 30
   },
   recieved: {
     icon: require("../assets/icons/recieved.png"),
@@ -56,22 +56,22 @@ const icons = {
   },
   storeFront: {
     icon: require("../assets/icons/store-front.png"),
-    width: 23,
-    height: 20
+    width: 27,
+    height: 27
   },
   storeFrontAlt: {
     icon: require("../assets/icons/store-front-alt.png"),
-    width: 23,
-    height: 20
+    width: 27,
+    height: 27
   },
   trend: {
     icon: require("../assets/icons/trend.png"),
-    width: 23,
+    width: 27,
     height: 20
   },
   trendAlt: {
     icon: require("../assets/icons/trend-alt.png"),
-    width: 23,
+    width: 27,
     height: 20
   },
   holdingGrain: {
@@ -116,8 +116,8 @@ const icons = {
   },
   trada: {
     icon: require('../assets/icons/trada.png'),
-    width: 100,
-    height: 70,
+    width: 69,
+    height: 22,
   },
   
   riceBag: {
@@ -166,6 +166,11 @@ const icons = {
     width: 23,
     height: 30
   },
+  menu: {
+    icon: require('../assets/icons/menu.png'),
+    width: 24,
+    height:24,
+  }
 };
 
 export default icons;

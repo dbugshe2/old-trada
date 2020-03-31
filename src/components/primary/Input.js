@@ -224,7 +224,6 @@ const Input = props => {
             disabled: COLORS.muted,
             text: COLORS.gray
           },
-          fonts: {regular: 'montserratRegular', medium: 'montserratMedium'}
         }}
         style={{ marginVertical: SIZES.base }}
         mode="outlined"

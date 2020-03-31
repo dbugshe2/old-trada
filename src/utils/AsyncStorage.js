@@ -26,9 +26,9 @@ export const setUserToken = async (data) => {
 
 export const getUser = async () => {
   try {
-      let token = await AsyncStorage.getItem(USER_KEY);
+      let user = await AsyncStorage.getItem(USER_KEY);
 
-      if (token !== null) return token;
+      if (user !== null) return user;
       else return null;
 
   } catch (error) {

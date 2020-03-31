@@ -216,6 +216,7 @@ class Block extends Component {
       gray,
       muted,
       inactive,
+      lightgray,
       // spacing
       margin,
       padding,
@@ -268,6 +269,7 @@ class Block extends Component {
       gray && { backgroundColor: COLORS.gray },
       muted && { backgroundColor: COLORS.muted },
       inactive && { backgroundColor: COLORS.inactive },
+      lightgray && {backgroundColor: COLORS.lightgray},
       style // rewrite predefined styles
     ]);
 

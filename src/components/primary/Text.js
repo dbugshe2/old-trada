@@ -212,7 +212,7 @@ class Typography extends Component {
 
     const textStyles = StyleSheet.flatten([
       {
-        fontWeight: WEIGHTS.regular,
+        // fontWeight: WEIGHTS.regular,
         fontSize: SIZES.font,
         color: COLORS.black
       },

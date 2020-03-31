@@ -15,6 +15,7 @@ export const COLORS = {
 
   // color variations
   gray: "#3F3F3F",
+  lightgray: "#F4F4F4",
   muted: "#A8A8A8",
   inactive: "#DBDBDB",
 };

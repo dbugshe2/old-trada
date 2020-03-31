@@ -15,14 +15,11 @@ const Login = ({ navigation }) => {
   const { register, errors, setValue, handleSubmit } = useForm();
   const { login } = auth;
   const onSubmit = async data => {
-    setSending(true);
-    const res = await login(data);
-    if (res.status === "success") {
-      setMessage("Login Successfull");
-      setSending(false);
+    try {
+      const res = await login(data);
+    } catch (error) {
+      captureException(error)
     }
-    setMessage(res.message);
-    setSending(false);
   };
   useEffect(() => {
     register({ name: "phone" }, { required: "please enter your phone number" });
