@@ -131,7 +131,41 @@ const icons = {
     width: 30,
     height: 60,
   },
-  
+  support: {
+    icon: require("../assets/icons/support.png"),
+    width: 23,
+    height: 30
+  },
+  settings: {
+    icon: require("../assets/icons/settings.png"),
+    width: 23,
+    height: 30
+  },
+  logout: {
+    icon: require("../assets/icons/logout.png"),
+    width: 23,
+    height: 30
+  },
+  hcsw: {
+    icon: require("../assets/icons/logout.png"),
+    width: 23,
+    height: 30
+  },
+  farmer: {
+    icon: require("../assets/icons/farmer.png"),
+    width: 23,
+    height: 30
+  },
+  commision: {
+    icon: require("../assets/icons/commision.png"),
+    width: 23,
+    height: 30
+  },
+  about: {
+    icon: require("../assets/icons/about.png"),
+    width: 23,
+    height: 30
+  },
 };
 
 export default icons;
