@@ -114,9 +114,20 @@ const icons = {
     width: 100,
     height: 70,
   },
+  trada: {
+    icon: require('../assets/icons/trada.png'),
+    width: 100,
+    height: 70,
+  },
   
   riceBag: {
     icon: require('../assets/icons/ricebag.png'),
+    width: 30,
+    height: 60,
+  },
+  
+  coin: {
+    icon: require('../assets/icons/coin.png'),
     width: 30,
     height: 60,
   },
