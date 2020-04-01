@@ -28,6 +28,8 @@ import UserOnboarding from "./Onboarding/UserOnboarding";
 import StoreInputs from "./Store/StoreInputs";
 import StoreItemSummary from "./Store/StoreItemSummary";
 import StoreOutputs from "./Store/StoreOutputs";
+import PersonalInformation from "./Profile/PersonalInformation";
+import ProfileVerification from "./Profile/ProfileVerification";
 
 export {
   LandingScreen,
@@ -65,5 +67,7 @@ export {
   StoreOutputs,
   BuyInput,
   SellOutput,
-  PhotoUpload
+  PhotoUpload,
+  PersonalInformation,
+  ProfileVerification
 };

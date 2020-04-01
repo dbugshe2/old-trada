@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import { AddCashViaBankTransfer, AddCashViaUssd } from "../screens";
+import { Header } from "../components";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -18,7 +19,7 @@ const AddCashTab = () => {
 };
 
 const AddCashNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
+  <Stack.Navigator >
     <Stack.Screen name="Add Cash" component={AddCashTab} />
   </Stack.Navigator>
 );
