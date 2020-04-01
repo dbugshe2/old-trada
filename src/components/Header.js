@@ -43,6 +43,7 @@ const Header = props => {
       row
       space="between"
       middle
+      background
       style={styles}
     >
       {renderLeft ? (

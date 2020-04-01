@@ -10,6 +10,7 @@ import {
   TransferToTmoni
 } from "../screens";
 import AddCashNavigator from './AddCashNavigator'
+import { Header } from "../components";
 
 const Stack = createStackNavigator();
 
@@ -26,7 +27,9 @@ const HomeNavigator = () => {
       <Stack.Screen name="TransferOptions" component={TransferOptions} />
       <Stack.Screen name="TransferDetails" component={TransferDetails} />
       <Stack.Screen name="TransferToTmoni" component={TransferToTmoni} />
-      <Stack.Screen name="AddCashNavigator" component={AddCashNavigator} />
+      <Stack.Screen name="AddCashNavigator" screenOptions={{
+        header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
+      }} component={AddCashNavigator} />
     </Stack.Navigator>
   );
 };

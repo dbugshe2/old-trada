@@ -23,9 +23,7 @@ const AppDrawer = () => {
       }}
       hideStatusBar
     >
-      <Drawer.Screen name="Home" component={AppBottomTabs}
-        options={{ drawerLabel: "Home", drawerIcon: ({ focused}) => <ImageIcon name={focused ?"houseAlt": "house"} /> }}
-      />
+
       <Drawer.Screen
         name="Farmers"
         options={{ drawerLabel: "Farmers activities", drawerIcon : () => <ImageIcon name="farmer" /> }}

@@ -156,6 +156,11 @@ const icons = {
     width: 23,
     height: 30
   },
+  farmerAlt: {
+    icon: require("../assets/icons/farmer-alt.png"),
+    width: 23,
+    height: 30
+  },
   commision: {
     icon: require("../assets/icons/commision.png"),
     width: 23,
