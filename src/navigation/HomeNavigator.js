@@ -11,6 +11,7 @@ import {
 } from "../screens";
 import AddCashNavigator from './AddCashNavigator'
 import { Header } from "../components";
+import ProfileTab from "./ProfileTab";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,10 @@ const HomeNavigator = () => {
       <Stack.Screen name="AddCashNavigator" screenOptions={{
         header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
       }} component={AddCashNavigator} />
+      
+    <Stack.Screen name="ProfileTab" component={ProfileTab}  />
+
+      
     </Stack.Navigator>
   );
 };

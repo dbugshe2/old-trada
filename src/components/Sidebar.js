@@ -5,6 +5,7 @@ import {
   DrawerItem,
   DrawerView
 } from "@react-navigation/drawer";
+import { useNavigation } from '@react-navigation/native';
 import Block from "./primary/Block";
 import Text from "./primary/Text";
 import Button from "./primary/Button";
@@ -16,6 +17,7 @@ import ImageIcon from './primary/ImageIcon';
 const Sidebar = props => {
   const auth = useContext(AuthContext);
   const { logout, user } = auth;
+  const navigation = useNavigation();
   return (
     <Block scroll showVerticalScrollIndicator={false} space="between">
       <Block>
@@ -27,7 +29,9 @@ const Sidebar = props => {
             style={{ width: 100, height: 100, borderRadius: 100 }}
           />
           <Text h5 gray mtmedium>Sani Christopher</Text>
-          <Button secondary height={18} paddingHorizontal={SIZES.base} paddingHorizontal={SIZES.padding}>
+          <Button secondary height={18} paddingHorizontal={SIZES.base} paddingHorizontal={SIZES.padding}
+          onPress={() =>  navigation.navigate("Home", { screen: "ProfileTab" })}
+          >
             <Text small white center mtmedium>
               Edit Profile
             </Text>

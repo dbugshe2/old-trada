@@ -10,7 +10,7 @@ const Dropdown = props => {
 
   const style = {
     borderWidth: SIZES.base / 2,
-    borderColor: error && COLORS.error || COLORS.muted,
+    borderColor: error && COLORS.error || COLORS.gray,
     borderRadius: SIZES.radius,
     height: SIZES.base * 14,
     justifyContent: "center",

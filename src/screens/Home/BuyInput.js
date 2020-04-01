@@ -9,19 +9,19 @@ const BuyInput = () => {
       <Text marginVertical={5} paddingHorizontal={SIZES.padding }>Transfer funds to your Tmoni account</Text>
       <Block marginVertical={25}  paddingHorizontal={SIZES.padding}>
         <Block middle flex={0}>
-        <Dropdown label="Select State" />
-        <Dropdown label="LGA" />
-        <Dropdown label="Category" />
+        <Dropdown defaultValue="Select State" />
+        <Dropdown defaultValue="LGA" />
+        <Dropdown defaultValue="Category" />
         <Block flex={0} space='around' row>
         <Block>
-        <Dropdown label="Category" />
+        <Dropdown defaultValue="Category" />
         <Text primary small >Minimum of 10 item per order</Text>
         </Block>
         <Block>
-        <Dropdown label="Qty:10" />
+        <Dropdown defaultValue="Qty:10" />
         </Block>
         </Block>
-        <Dropdown label="Pickup location" />
+        <Dropdown defaultValue="Pickup location" />
         </Block>
   
       </Block>
