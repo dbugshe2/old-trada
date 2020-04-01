@@ -19,9 +19,7 @@ const AddCashTab = () => {
 };
 
 const AddCashNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }} screenOptions={{
-        header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
-      }}>
+  <Stack.Navigator >
     <Stack.Screen name="Add Cash" component={AddCashTab} />
   </Stack.Navigator>
 );
