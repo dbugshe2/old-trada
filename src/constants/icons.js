@@ -186,6 +186,11 @@ const icons = {
     width: 30,
     height: 30
   },
+  lock: {
+    icon: require("../assets/icons/lock.png"),
+    width: 30,
+    height: 30
+  },
 };
 
 export default icons;
