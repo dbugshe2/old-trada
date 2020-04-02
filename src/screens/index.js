@@ -32,10 +32,10 @@ import PersonalInformation from "./Profile/PersonalInformation";
 import ProfileVerification from "./Profile/ProfileVerification";
 import Commission from "./Commission/Commission";
 import CommissionAct from "./Commission/CommissionAct";
-import Settings from "./SideBar/Settings";
-import ChangePassword from "./SideBar/ChangePassword";
-import About from "./SideBar/About";
-import Faq from "./SideBar/Faq";
+import Settings from "./Settings/Settings";
+import ChangePassword from "./Settings/ChangePassword";
+import About from "./About/About";
+import Faq from "./About/Faq";
 
 export {
   LandingScreen,

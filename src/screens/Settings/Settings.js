@@ -15,8 +15,9 @@ import { Divider } from 'react-native-paper';
 
 const Settings = ({navigation}) => {
   return (
-   <Block paddingHorizontal={SIZES.padding} scroll background>
+   <Block background>
     <Header backTitle="Settings" />
+   <Block paddingHorizontal={SIZES.padding} scroll background>
 
     <Block marginVertical={18} center row >
 
@@ -29,6 +30,7 @@ const Settings = ({navigation}) => {
     </Block>
     <Divider />
   
+  </Block>
   </Block>
   )
 }
