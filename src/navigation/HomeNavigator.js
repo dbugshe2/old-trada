@@ -13,6 +13,7 @@ import AddCashTab from './AddCashTab'
 import { Header } from "../components";
 import ProfileTab from "./ProfileTab";
 import CommissionNavigator from "./CommissionNavigator";
+import SettingsNavigator from "./SettingsNavigator";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const HomeNavigator = () => {
       
     <Stack.Screen name="ProfileTab" component={ProfileTab}  />
     <Stack.Screen name="CommissionNavigator" component={CommissionNavigator}  />
+    <Stack.Screen name="SettingsNavigator" component={SettingsNavigator} />
 
       
     </Stack.Navigator>

@@ -6,6 +6,7 @@ import AppBottomTabs from "./AppBottomTabs";
 import { Sidebar, ImageIcon } from "../components";
 import { SIZES, COLORS } from "../utils/theme";
 import  CommissionNavigator  from './CommissionNavigator'
+import SettingsNavigator from "./SettingsNavigator";
 const Drawer = createDrawerNavigator();
 
 
@@ -46,7 +47,7 @@ const AppDrawer = () => {
       <Drawer.Screen
         name="Settings"
         options={{ drawerLabel: "Settings", drawerIcon : () => <ImageIcon name="settings" />  }}
-        component={AppBottomTabs}
+        component={SettingsNavigator}
       />
       <Drawer.Screen
         name="Support"
