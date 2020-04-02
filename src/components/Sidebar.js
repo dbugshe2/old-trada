@@ -30,7 +30,7 @@ const Sidebar = props => {
           />
           <Text h5 gray mtmedium>Sani Christopher</Text>
           <Button secondary height={18} paddingHorizontal={SIZES.base} paddingHorizontal={SIZES.padding}
-          onPress={() =>  navigation.navigate("Home", { screen: "ProfileTab" })}
+          onPress={() => navigation.navigate("ProfileTab")}
           >
             <Text small white center mtmedium>
               Edit Profile

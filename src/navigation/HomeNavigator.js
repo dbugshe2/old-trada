@@ -7,11 +7,12 @@ import {
   TransferCash,
   TransferDetails,
   TransferOptions,
-  TransferToTmoni
+  TransferToTmoni,
 } from "../screens";
-import AddCashNavigator from './AddCashNavigator'
+import AddCashTab from './AddCashTab'
 import { Header } from "../components";
 import ProfileTab from "./ProfileTab";
+import CommissionNavigator from "./CommissionNavigator";
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,7 @@ const HomeNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen
+      <Stack.Screen 
         name="AddCashViaBankTransfer"
         component={AddCashViaBankTransfer}
       />
@@ -28,11 +29,12 @@ const HomeNavigator = () => {
       <Stack.Screen name="TransferOptions" component={TransferOptions} />
       <Stack.Screen name="TransferDetails" component={TransferDetails} />
       <Stack.Screen name="TransferToTmoni" component={TransferToTmoni} />
-      <Stack.Screen name="AddCashNavigator" screenOptions={{
+      <Stack.Screen name="AddCashTab"  screenOptions={{
         header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
-      }} component={AddCashNavigator} />
+      }}component={AddCashTab} />
       
     <Stack.Screen name="ProfileTab" component={ProfileTab}  />
+    <Stack.Screen name="CommissionNavigator" component={CommissionNavigator}  />
 
       
     </Stack.Navigator>

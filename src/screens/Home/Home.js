@@ -109,7 +109,7 @@ const Home = ({ navigation }) => {
               height={50}
               width={100}
               odd
-              onPress={() => navigation.navigate("AddCashNavigator")}
+              onPress={() => navigation.navigate("AddCashTab")}
             >
               <Block middle center row>
                 <ImageIcon style={{}} name="recievedAlt" />
@@ -167,9 +167,7 @@ const Home = ({ navigation }) => {
             elevation={10}
             row
             height={150}
-            onPress={() =>
-              navigation.navigate("Store", { screen: "SellOutputs" })
-            }
+            onPress={() =>  navigation.navigate("Store", { screen: "SellOutputs" })}
           >
             <Block
               paddingHorizontal={SIZES.padding}

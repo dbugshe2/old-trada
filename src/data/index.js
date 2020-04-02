@@ -100,3 +100,127 @@ export const data= [
       amount: '2,300',
     },
   ];
+
+
+  export const commission= [
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+    {
+      action: 'Cash Out',
+      amount: 'N2,000',
+      date: '12:11, Jan 28, 2020', 
+      status: 'Successful'   
+    },
+  ];
