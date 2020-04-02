@@ -175,7 +175,17 @@ const icons = {
     icon: require('../assets/icons/menu.png'),
     width: 24,
     height:24,
-  }
+  },
+  cashout: {
+    icon: require("../assets/icons/cashout.png"),
+    width: 30,
+    height: 30
+  },
+  cashoutAlt: {
+    icon: require("../assets/icons/cashout-alt.png"),
+    width: 30,
+    height: 30
+  },
 };
 
 export default icons;

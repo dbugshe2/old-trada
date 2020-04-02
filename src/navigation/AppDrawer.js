@@ -5,7 +5,9 @@ import { theme } from "../utils";
 import AppBottomTabs from "./AppBottomTabs";
 import { Sidebar, ImageIcon } from "../components";
 import { SIZES, COLORS } from "../utils/theme";
+import  CommissionNavigator  from './CommissionNavigator'
 const Drawer = createDrawerNavigator();
+
 
 const AppDrawer = () => {
   const { width } = theme.SIZES;
@@ -34,7 +36,7 @@ const AppDrawer = () => {
       <Drawer.Screen
         name="Commission"
         options={{ drawerLabel: "Commission activities", drawerIcon : () => <ImageIcon name="commision" />  }}
-        component={AppBottomTabs}
+        component={CommissionNavigator}
       />
       <Drawer.Screen
         name="HowTo"

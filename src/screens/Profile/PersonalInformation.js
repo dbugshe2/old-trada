@@ -22,7 +22,7 @@ const PersonalInformation = () => {
                 <Input label="Email"/>
                 <Input label="Phone"/>
                 <Input label="Address"/>
-                <Dropdown defaultValue="Gender"/>
+                <Dropdown defaultValue  ="Gender"/>
 
                 <Block  row  >
                 <Dropdown marginRight={15} flex={6} defaultValue="Day"/>
