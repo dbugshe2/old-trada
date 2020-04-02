@@ -7,6 +7,7 @@ import { Sidebar, ImageIcon } from "../components";
 import { SIZES, COLORS } from "../utils/theme";
 import  CommissionNavigator  from './CommissionNavigator'
 import SettingsNavigator from "./SettingsNavigator";
+import AboutNavigator from "./AboutNavigator";
 const Drawer = createDrawerNavigator();
 
 
@@ -57,7 +58,7 @@ const AppDrawer = () => {
       <Drawer.Screen
         name="About"
         options={{ drawerLabel: "About", drawerIcon : () => <ImageIcon name="about" />  }}
-        component={AppBottomTabs}
+        component={AboutNavigator}
       />
     </Drawer.Navigator>
   );
