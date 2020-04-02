@@ -34,6 +34,8 @@ import Commission from "./Commission/Commission";
 import CommissionAct from "./Commission/CommissionAct";
 import Settings from "./SideBar/Settings";
 import ChangePassword from "./SideBar/ChangePassword";
+import About from "./SideBar/About";
+import Faq from "./SideBar/Faq";
 
 export {
   LandingScreen,
@@ -78,5 +80,7 @@ export {
   PersonalInformation,
   ProfileVerification,
   Settings,
-  ChangePassword
+  ChangePassword,
+  About,
+  Faq
 };
