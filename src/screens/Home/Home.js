@@ -10,15 +10,19 @@ import {
   Swiper
 } from "../../components";
 import { SIZES, COLORS, LINE_HEIGHTS, LETTERSPACING } from "../../utils/theme";
-import AuthProvider,{ AuthContext, CommissionContext, useAuthContext } from "../../context";
+import AuthProvider, {
+  AuthContext,
+  CommissionContext,
+  useAuthContext
+} from "../../context";
 import { ActivityIndicator } from "react-native-paper";
+import { CurrencyFormatter } from "../../utils";
 
 const Home = ({ navigation }) => {
+  const auth = useAuthContext();
 
-  
-  const auth = useAuthContext()
-
-  const {userDetails} = auth
+  const { userDetails } = auth;
+  console.log("home\n", userDetails);
   return (
     <Block scroll background>
       <Header main shadow />
@@ -29,12 +33,9 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Tmoni Wallet Balance
             </Text>
-            <Number
-                value={userDetails.wallet.balance}
-                renderText={formatted => (
-                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
-                )}
-              />
+            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
+              {CurrencyFormatter(userDetails.wallet.balance)}
+            </Text>
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -60,12 +61,9 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Commission Balance
             </Text>
-              <Number
-                value={userDetails.commissionWallet.balance}
-                renderText={formatted => (
-                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
-                )}
-              />
+            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
+              {CurrencyFormatter(userDetails.commissionWallet.balance)}
+            </Text>
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -180,7 +178,9 @@ const Home = ({ navigation }) => {
             elevation={10}
             row
             height={150}
-            onPress={() =>  navigation.navigate("Store", { screen: "SellOutputs" })}
+            onPress={() =>
+              navigation.navigate("Store", { screen: "SellOutputs" })
+            }
           >
             <Block
               paddingHorizontal={SIZES.padding}

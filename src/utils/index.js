@@ -3,6 +3,7 @@ import theme from "./theme";
 import { getMargins, getPaddings, spacing } from './helpers';
 import { getUserToken, setUserToken } from "./AsyncStorage";
 import { get, post, put } from "./axios";
+import CurrencyFormatter from './currency';
 
 export {
   getMargins,
@@ -14,5 +15,6 @@ export {
   setUserToken,
   get,
   post,
-  put
+  CurrencyFormatter
+
 };

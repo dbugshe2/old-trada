@@ -318,6 +318,7 @@ const AuthProvider = props => {
     } catch (error) {
       // network error
       captureException(error);
+      return null
     }
   };
 
@@ -417,6 +418,7 @@ const AuthProvider = props => {
         logout("Your Session Expired, please log in to continue");
       }
     } catch (error) {
+      console.log('verify login failed')
       captureException(error);
       setLoading(false);
     }

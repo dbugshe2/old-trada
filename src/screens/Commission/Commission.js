@@ -1,12 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  Block,
-  Text,
-  Header,
-  Number,
-  ImageIcon,
-  Button
-} from "../../components";
+import { Block, Text, Header, ImageIcon, Button } from "../../components";
 import { SIZES, COLORS, LINE_HEIGHTS, LETTERSPACING } from "../../utils/theme";
 import {
   TouchableOpacity,
@@ -16,12 +9,11 @@ import {
   ActivityIndicator
 } from "react-native";
 import { CommissionContext, useCommissionContext } from "../../context";
+import { CurrencyFormatter } from "../../utils";
 
 const Commission = ({ navigation }) => {
-
-    const [loadingBalance, setLoadingBalance] = useState(true)
-    const [loadingHistory, setLoadingHistory] = useState(true)
-
+  const [loadingBalance, setLoadingBalance] = useState(true);
+  const [loadingHistory, setLoadingHistory] = useState(true);
 
   const commission = useCommissionContext();
   const {
@@ -34,13 +26,13 @@ const Commission = ({ navigation }) => {
 
   useEffect(() => {
     if (commissionBalance === null) {
-        getCommissionWallet();
-        setLoadingBalance(false)
+      getCommissionWallet();
+      setLoadingBalance(false);
     }
-}, [commissionBalance]);
-useEffect(() => {
+  }, [commissionBalance]);
+  useEffect(() => {
     if (history === null) getRecentCommissionHistory(7);
-    setLoadingHistory(false)
+    setLoadingHistory(false);
   }, [history]);
   return (
     <Block background>
@@ -53,15 +45,10 @@ useEffect(() => {
           {loading && loadingBalance ? (
             <ActivityIndicator size="large" animating color={COLORS.primary} />
           ) : (
-            <Number
-              value={commissionBalance}
-              renderText={formatted => (
-                <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-                  {"\u20A6 "}
-                  {formatted}
-                </Text>
-              )}
-            />
+            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
+              {"\u20A6 "}
+              {CurrencyFormatter(commissionBalance)}
+            </Text>
           )}
         </Block>
 
@@ -86,9 +73,9 @@ useEffect(() => {
         </Block>
 
         <Block>
-          {loading  || loadingHistory ? (
+          {loading || loadingHistory ? (
             <ActivityIndicator />
-          )  : (
+          ) : (
             <FlatList
               data={history}
               keyExtractor={(item, index) => `item-${index}`}
@@ -107,14 +94,9 @@ useEffect(() => {
 
                     <Block row right>
                       <Block>
-                        <Number
-                          value={756778989}
-                          renderText={formatted => (
-                            <Text gray h6 right>
-                              {formatted}
-                            </Text>
-                          )}
-                        />
+                        <Text gray h6 right>
+                          {CurrencyFormatter(98765467)}
+                        </Text>
                         <Text primary right>
                           successfull
                         </Text>
