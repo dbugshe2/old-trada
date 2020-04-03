@@ -18,7 +18,6 @@ import FAB from "./FAB";
 import Timer from './Timer'
 import Sidebar from './Sidebar';
 import Swiper from './Swiper';
-import Number from './Number';
 import Snack from './Snack';
 
 export {
@@ -42,6 +41,5 @@ export {
   Timer,
   Sidebar,
   Swiper,
-  Number,
   Snack
 };
