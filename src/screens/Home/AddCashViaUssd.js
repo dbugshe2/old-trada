@@ -1,72 +1,88 @@
-import React, {useState} from 'react'
-import {Block, Text, Header, Input, Button, ImageIcon, Dropdown} from '../../components'
-import { SIZES } from '../../utils/theme'
+import React, { useState } from "react";
+import {
+  Block,
+  Text,
+  Header,
+  Input,
+  Button,
+  ImageIcon,
+  Dropdown
+} from "../../components";
+import { SIZES } from "../../utils/theme";
+import { useAuthContext } from "../../context/index";
+import { KeyboardAvoidingView } from "react-native";
 
 const AddCashViaUssd = () => {
+  const auth = useAuthContext();
+
+  const { userDetails } = auth;
+  const [amount, setAmount] = useState("");
   return (
-    <Block background >
-      <Block scroll marginVertical={60} marginHorizontal={30} paddingHorizontal={SIZES.padding}>
+    <Block background paddingHorizontal={SIZES.padding}>
+      <KeyboardAvoidingView behavior="padding">
+        <Input
+          keyboardType="numeric"
+          clearTextOnFocus
+          onChangeText={text => setAmount(text)}
+          label="Enter Amount"
+          // value={amount}
+        />
+      </KeyboardAvoidingView>
+      <Block scroll paddingHorizontal={SIZES.padding * 2}>
+        <Text paddingVertical={30} muted>
+          Make a USSD transfer into your Trada wallet by selecting Providus Bank
+          as destination bank
+        </Text>
+
+        <Block space="evenly" >
           <Block>
-            <Input label="Enter Amount" />
+            <Text gray h6>
+              ACCESS BANK
+            </Text>
+            <Text mtmedium primary small>
+              *901*1*{amount}*{userDetails.wallet.accountNumber}#
+            </Text>
           </Block>
-         <Text  paddingTop={30} muted>
-           Make a USSD transfer into your Trada wallet by selecting Providus Bank as destination bank
-         </Text>
 
-        <Block marginVertical={50}>
-        
+          <Block marginVertical={20}>
+            <Text gray h6>
+              DIAMOND BANK
+            </Text>
+            <Text mtmedium primary small>
+              *426*{amount}*{userDetails.wallet.accountNumber}#
+            </Text>
+          </Block>
+
           <Block>
-         <Text gray h6>
-         ACCESS BANK
-         </Text>
-         <Text primary small>
-         *901*1*100*9907683967#
-         </Text>
+            <Text gray h6>
+              FCMB
+            </Text>
+            <Text mtmedium primary small>
+              *329*{amount}*{userDetails.wallet.accountNumber}#
+            </Text>
           </Block>
 
-         <Block marginVertical={20}>
-         <Text gray h6>
-         DIAMOND BANK
-         </Text>
-         <Text primary small>
-         *426*100*9907683967
-         </Text>
-         </Block> 
+          <Block marginVertical={20}>
+            <Text gray h6>
+              FIDELITY BANK
+            </Text>
+            <Text mtmedium primary small>
+              *770*{userDetails.wallet.accountNumber}*{amount}#
+            </Text>
+          </Block>
 
-         <Block>
-         <Text gray h6>
-         FCMB
-         </Text>
-         <Text primary small>
-         *329*100*9907683967#
-         </Text>
-         </Block> 
-        
-         <Block  marginVertical={20}>
-         <Text gray h6>
-         FIDELITY BANK
-         </Text>
-         <Text primary small>
-         *770*9907683967*100#
-         </Text>
-         </Block> 
-        
-         <Block>
-         <Text gray h6>
-         FIRST BANK
-         </Text>
-         <Text primary small>
-         *894*100*9907683967#
-         </Text>
-         </Block> 
-        
+          <Block>
+            <Text gray h6>
+              FIRST BANK
+            </Text>
+            <Text mtmedium primary small>
+              *894*{amount}*{userDetails.wallet.accountNumber}#
+            </Text>
+          </Block>
         </Block>
-        
-         
-
       </Block>
     </Block>
-  )
-}
+  );
+};
 
-export default AddCashViaUssd
+export default AddCashViaUssd;

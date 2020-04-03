@@ -1,9 +1,12 @@
-import React, { createContext, useReducer, useMemo, useState } from "react";
-import axios from "axios";
-// import {get, post, put} from '../../utils'
-import { setUserToken, getUserToken, setUser } from "../../utils/AsyncStorage";
+import React, { createContext, useReducer, useMemo, useState, useContext } from "react";
+import {
+  setUserToken,
+  getUserToken,
+  removeUserToken,
+  setUser,
+  getUser
+} from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
-import { AsyncStorage } from "react-native";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -16,7 +19,6 @@ import {
   VERIFY_OTP_FAIL,
   USER_DETAILS,
   USER_LOADED,
-  CLEAR_ERRORS,
   AUTH_ERROR,
   VERIFY_AUTH_FAIL,
   VERIFY_AUTH_SUCCESS,
@@ -24,8 +26,18 @@ import {
   FORGOT_PASSWORD_FAIL,
   PASSWORD_RESET_FAIL,
   PASSWORD_RESET_SUCCESS,
-  SET_RESET_PIN_OTP
+  SET_RESET_PIN_OTP,
+  CLEAR_MESSAGE,
+  SHOW_MESSAGE,
+  SUCCESS,
+  FAILURE,
+  UNAUHTORIZED_CODE,
+  NETWORK_ERROR,
+  SERVER_ERROR,
+  SET_TOKEN
 } from "../types";
+import { COLORS } from "../../utils/theme";
+import { Snack, Text } from "../../components";
 
 // User
 
@@ -69,6 +81,8 @@ export const AuthContext = createContext();
 
 const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/users";
 
+
+
 const AuthProvider = props => {
   const [loading, setLoading] = useState(true);
 
@@ -76,12 +90,11 @@ const AuthProvider = props => {
     token: null,
     isAuthenticated: null,
     user: null,
-    error: null,
-    userId: null,
-    userDetails: null,
     phone: null,
+    userDetails: null,
     resetPinOtp: null,
-    message: null
+    message: null,
+    showMessage: null
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -97,20 +110,17 @@ const AuthProvider = props => {
         return {
           ...state,
           token: action.payload.access_token,
-          user: { ...action.payload.data },
-          isAuthenticated: true
+          user: action.payload.data,
+          message: "Login successfull",
+          showMessage: true
         };
       case LOGIN_FAIL:
         return {
           ...state,
-          isAuthenticated: false
+          message: "Login Unsuccessful",
+          shoMessage: true
         };
       case VERIFY_AUTH_SUCCESS:
-        return {
-          ...state,
-          token: action.payload,
-          isAuthenticated: true
-        };
       case VERIFY_AUTH_FAIL:
       case AUTH_ERROR:
       case OTP_FAIL:
@@ -120,12 +130,13 @@ const AuthProvider = props => {
           ...state,
           token: null,
           isAuthenticated: false,
-          user: null
-        };
-      case CLEAR_ERRORS:
-        return {
-          ...state,
-          errors: null
+          user: null,
+          userDetails: null,
+          phone: null,
+          profileImage: null,
+          resetPinOtp: null,
+          message: action.payload,
+          showMessage: true
         };
       case OTP_SUCCESS:
         return {
@@ -136,7 +147,16 @@ const AuthProvider = props => {
       case USER_DETAILS:
         return {
           ...state,
-          userDetail: action.payload
+          userDetails: action.payload.data,
+          phone: action.payload.data.phone,
+          message: "Welcome back " + action.payload.data.firstName,
+          showMessage: true,
+          isAuthenticated: true
+        };
+      case SET_TOKEN:
+        return {
+          ...state,
+          token: action.payload
         };
       case FORGOT_PASSWORD_SUCCESS:
         return {
@@ -144,24 +164,36 @@ const AuthProvider = props => {
           phone: action.payload
         };
       case FORGOT_PASSWORD_SUCCESS:
-        return {
-          ...state,
-          message: action.payload
-        };
       case SET_RESET_PIN_OTP:
         return {
           ...state,
           resetPinOtp: action.payload
         };
       case PASSWORD_RESET_SUCCESS:
-        return {
-          ...state,
-          message: action.payload
-        };
       case PASSWORD_RESET_FAIL:
+      case CLEAR_MESSAGE:
         return {
           ...state,
-          message: action.payload
+          message: null,
+          showMessage: false
+        };
+      case SHOW_MESSAGE:
+        return {
+          ...state,
+          message: action.payload,
+          showMessage: true
+        };
+      case NETWORK_ERROR:
+        return {
+          ...state,
+          message: "Failed, It seems we're experiencing network problems",
+          showMessage: true
+        };
+      case SERVER_ERROR:
+        return {
+          ...state,
+          message: action.payload.message,
+          showMessage: true
         };
       default:
         return state;
@@ -260,61 +292,133 @@ const AuthProvider = props => {
       return error;
     }
   };
-
-  const login = async formData => {
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    };
-    setLoading(true);
+  const fetchUserDetails = async token => {
+    // return userDetails response or null
+    console.log("Fetching User Details..");
     try {
-      const res = await fetch(`${baseUrl}/login`, config);
-      const json = await res.json();
-      if (json.status === "success") {
-        setUserToken(json.access_token)
-          .then(() => setUser(json.data))
-          .catch(err => captureException(err));
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: json
-        });
-        setLoading(false);
-        return json;
+      const data = await (
+        await fetch(`${baseUrl}/find`, {
+          method: "GET",
+          headers: {
+            access_token: "Bearer " + token,
+            "Content-Type": "application/json"
+          }
+        })
+      ).json();
+      if (data.status === SUCCESS) {
+        // user authorized
+        return data;
+      } else if (
+        data.status === FAILURE &&
+        data.statusCode === UNAUHTORIZED_CODE
+      ) {
+        // session expired
+        return null;
       }
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: json
-      });
-      setLoading(false);
-      return json;
     } catch (error) {
+      // network error
       captureException(error);
     }
-    setLoading(false);
   };
-  //  console.log(state)
-  const verifyLogin = async () => {
+
+  const login = async formData => {
+    setLoading(true);
     try {
-      const res = await getUserToken();
-      if (res != null) {
+      const data = await (
+        await fetch(`${baseUrl}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+      ).json();
+
+      if (data.status === SUCCESS) {
+        // login Successfull
         dispatch({
-          type: VERIFY_AUTH_SUCCESS,
-          payload: res
+          type: LOGIN_SUCCESS,
+          payload: data
         });
-        setLoading(false);
+        const fetchUser = await fetchUserDetails(data.access_token);
+        if (fetchUser !== null && fetchUser.status === SUCCESS) {
+          // user details successfull
+          dispatch({
+            type: USER_DETAILS,
+            payload: fetchUser
+          });
+          setLoading(false);
+          const saveToken = await setUserToken(data.access_token);
+        } else if (fetchUser !== null && fetchUser.status === FAILURE) {
+          // user details unsuccessfull
+          //show error message
+          dispatch({
+            type: LOGIN_FAIL,
+            payload: fetchUser.message //error message
+          });
+          setLoading(false);
+        }
       } else {
+        // login failed
         dispatch({
-          type: VERIFY_AUTH_FAIL
+          type: LOGIN_FAIL,
+          payload: data.message // error message
         });
         setLoading(false);
       }
       setLoading(false);
-      return res;
+    } catch (error) {
+      // network error
+      captureException(error);
+      dispatch({
+        type: NETWORK_ERROR,
+        payload: "Network Error.."
+      });
+      setLoading(false);
+    }
+  };
+
+  console.log("auth", state); // ? LOG HERE------->
+  console.log("loading>> ", loading);
+  // const isAuthorized = (res) => res.status
+  const verifyLogin = async () => {
+    // VERIFY LOGIN STATE
+    setLoading(true);
+    try {
+      const userToken = await getUserToken();
+      if (userToken !== null) {
+        //token exists in storage
+        const userData = await fetchUserDetails(userToken);
+        if (userData !== null) {
+          // userData request successful
+          if (userData.status === SUCCESS) {
+            // user still authorized
+            dispatch({ type: USER_DETAILS, payload: userData });
+            dispatch({ type: SET_TOKEN, payload: userToken });
+            setLoading(false);
+          } else if (
+            userData.status === FAILURE &&
+            userData.statusCode === UNAUHTORIZED_CODE
+          ) {
+            // user unauhtorized
+            logout("Session Expired, Log in to continue");
+            setLoading(false);
+          }
+        } else { // userData request NOT successfull
+          // server error
+          dispatch({
+            type: SERVER_ERROR,
+            payload: "Unable to fetch user data"
+          });
+          setLoading(false);
+        }
+      } else {
+        // token doesn't exist in storage
+        logout("Your Session Expired, please log in to continue");
+      }
     } catch (error) {
       captureException(error);
+      setLoading(false);
     }
   };
 
@@ -384,25 +488,23 @@ const AuthProvider = props => {
       captureException(error);
     }
   };
-  const logout = async () => {
+  const logout = (message = "Have a nice day, see you soon") => {
     setLoading(true);
-    const res = AsyncStorage.clear();
-    if (res !== null) dispatch({ type: LOGOUT });
-    setLoading(false);
+    removeUserToken().then(() => {
+      dispatch({ type: LOGOUT, payload: message });
+      setLoading(false);
+    }).catch(err => captureException(err))
   };
-
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   const values = useMemo(() => {
     return {
       isAuthenticated: state.isAuthenticated,
       user: state.user,
-      error: state.error,
-      userId: state.userId,
-      userDetail: state.userDetail,
+      userDetails: state.userDetails,
       phone: state.phone,
       resetPinOtp: state.resetPinOtp,
       message: state.message,
+      showMessage: state.showMessage,
       loading: loading,
       requestOtp,
       verifyOtp,
@@ -413,13 +515,22 @@ const AuthProvider = props => {
       requestResetOtp,
       setResetPinOtp,
       resetPin,
-      logout,
-      clearErrors
+      logout
     };
   }, [state, loading]);
 
   return (
-    <AuthContext.Provider value={values}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={values}>
+      {props.children}
+      <Snack
+        visible={state.showMessage}
+        onDismiss={() => dispatch({ type: CLEAR_MESSAGE })}
+      >
+        <Text color={COLORS.gray} body mtmedium>
+          {state.message}
+        </Text>
+      </Snack>
+    </AuthContext.Provider>
   );
 };
 

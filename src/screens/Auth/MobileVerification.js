@@ -4,14 +4,14 @@ import { ActivityIndicator } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import { SIZES, COLORS } from "../../utils/theme";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../context/auth/AuthContext";
+import { AuthContext, useAuthContext } from "../../context";
 import { captureException } from "sentry-expo";
 
 const MobileVerification = ({ navigation }) => {
   const { register, handleSubmit, setValue, errors } = useForm();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const auth = useContext(AuthContext);
+  const auth = useAuthContext();
   const { requestOtp } = auth;
   useEffect(() => {
     register(

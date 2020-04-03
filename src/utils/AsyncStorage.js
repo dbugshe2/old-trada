@@ -24,6 +24,14 @@ export const setUserToken = async (data) => {
   }
 };
 
+export const removeUserToken = async () => {
+  try {
+        return await AsyncStorage.removeItem(TOKEN_KEY);
+  } catch (error) {
+      throw new Error(error)
+  }
+};
+
 export const getUser = async () => {
   try {
       let user = await AsyncStorage.getItem(USER_KEY);

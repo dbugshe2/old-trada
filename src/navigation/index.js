@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AuthContext } from "../context/auth/AuthContext";
+import { AuthContext } from "../context";
 import { LandingScreen } from "../screens";
 import AuthNavigator from "./AuthNavigator";
 import AppDrawer from "./AppDrawer";
+import { captureException } from 'sentry-expo';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,11 @@ class Navigation extends Component {
   static contextType = AuthContext
 
   componentDidMount() {
-    this.context.verifyLogin();
+    try {
+      this.context.verifyLogin()
+    } catch (error) {
+      captureException(error)      
+    }
   }
 
   render() {

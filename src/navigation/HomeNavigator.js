@@ -9,7 +9,7 @@ import {
   TransferOptions,
   TransferToTmoni,
 } from "../screens";
-import AddCashTab from './AddCashTab'
+import AddCash from './AddCashTab'
 import { Header } from "../components";
 import ProfileTab from "./ProfileTab";
 import CommissionNavigator from "./CommissionNavigator";
@@ -33,7 +33,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="TransferToTmoni" component={TransferToTmoni} />
       <Stack.Screen name="AddCashTab"  screenOptions={{
         header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
-      }}component={AddCashTab} />
+      }}component={AddCash} />
       
     <Stack.Screen name="ProfileTab" component={ProfileTab}  />
     <Stack.Screen name="CommissionNavigator" component={CommissionNavigator}  />

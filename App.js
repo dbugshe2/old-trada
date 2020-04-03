@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import AuthProvider from "./src/context/auth/AuthContext";
+import { AuthProvider } from "./src/context";
 import * as Sentry from "sentry-expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppLoading } from "expo";

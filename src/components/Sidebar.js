@@ -10,13 +10,13 @@ import Block from "./primary/Block";
 import Text from "./primary/Text";
 import Button from "./primary/Button";
 import { Image } from "react-native";
-import { AuthContext } from "../context/auth/AuthContext";
+import { useAuthContext } from "../context";
 import { SIZES } from "../utils/theme";
 import ImageIcon from './primary/ImageIcon';
 
 const Sidebar = props => {
-  const auth = useContext(AuthContext);
-  const { logout, user } = auth;
+  const auth = useAuthContext();
+  const { logout, userDetails } = auth;
   const navigation = useNavigation();
   return (
     <Block scroll showVerticalScrollIndicator={false} space="between">
@@ -24,11 +24,11 @@ const Sidebar = props => {
         <Block height={166} center marginVertical={SIZES.padding * 2} space="evenly">
           <Image
             source={{
-              uri: "https://api.adorable.io/avatars/100/tradaAvatar.png"
+              uri: userDetails.profileImage
             }}
             style={{ width: 100, height: 100, borderRadius: 100 }}
           />
-          <Text h5 gray mtmedium>Sani Christopher</Text>
+          <Text h5 gray mtmedium>{userDetails.firstName} {userDetails.lastName}</Text>
           <Button secondary height={18} paddingHorizontal={SIZES.base} paddingHorizontal={SIZES.padding}
           onPress={() => navigation.navigate("ProfileTab")}
           >

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Block, Text, Header, Input, Button } from "../../components";
 import { SIZES, COLORS } from "../../utils/theme";
 import { ActivityIndicator } from "react-native";
-import { AuthContext } from "../../context/auth/AuthContext";
+import { AuthContext, useAuthContext } from "../../context";
 import { useForm } from "react-hook-form";
 import { captureException } from "sentry-expo";
 
@@ -10,7 +10,7 @@ const Login = ({ navigation }) => {
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const auth = useContext(AuthContext);
+  const auth = useAuthContext();
 
   const { register, errors, setValue, handleSubmit } = useForm();
   const { login } = auth;

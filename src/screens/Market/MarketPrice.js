@@ -14,7 +14,8 @@ import { Divider } from 'react-native-paper';
 
 const MarketPrice = ({navigation}) => {
   return (
-   <Block   background center middle>
+    <Block background center middle>
+      <Header title="Market Price"/>
    <Block   background center middle>
       <ImageIcon  name="market"  />
       <Text muted small>Update Daily Market Price & Earn credit points</Text>

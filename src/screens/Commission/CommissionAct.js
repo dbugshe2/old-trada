@@ -6,9 +6,9 @@ import { TouchableOpacity, View, FlatList, StyleSheet } from 'react-native'
 
 const CommissionAct = () => {
     return (
-          <Block  background paddingHorizontal={SIZES.padding}>
+          <Block  background >
           <Header backTitle="Your Activity" />
-          <Block marginVertical={15} scroll>
+          <Block marginVertical={15} paddingHorizontal={SIZES.padding}>
             <Block>
                 <FlatList
                 data={commission}
