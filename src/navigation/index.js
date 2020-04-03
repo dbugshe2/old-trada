@@ -14,9 +14,13 @@ class Navigation extends Component {
   static contextType = AuthContext
 
   componentDidMount() {
-    this.context.verifyLogin();
+    this.context.verifyLogin()
+    // this.verifyIntervalID = setInterval(this.context.verifyLogin(),1200000)
   }
 
+  componentWillUnmount() {
+    // clearInterval(this.verifyIntervalID)
+  }
   render() {
     return (
       <AuthContext.Consumer>

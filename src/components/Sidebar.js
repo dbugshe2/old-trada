@@ -16,19 +16,19 @@ import ImageIcon from './primary/ImageIcon';
 
 const Sidebar = props => {
   const auth = useContext(AuthContext);
-  const { logout, user } = auth;
+  const { logout, firstName, lastName, profileImage } = auth;
   const navigation = useNavigation();
   return (
-    <Block scroll showVerticalScrollIndicator={false} space="between">
-      <Block>
+    <Block  space="between">
+      <Block scroll>
         <Block height={166} center marginVertical={SIZES.padding * 2} space="evenly">
           <Image
             source={{
-              uri: "https://api.adorable.io/avatars/100/tradaAvatar.png"
+              uri: profileImage
             }}
             style={{ width: 100, height: 100, borderRadius: 100 }}
           />
-          <Text h5 gray mtmedium>Sani Christopher</Text>
+          <Text h5 gray mtmedium>{firstName} {lastName}</Text>
           <Button secondary height={18} paddingHorizontal={SIZES.base} paddingHorizontal={SIZES.padding}
           onPress={() => navigation.navigate("ProfileTab")}
           >
@@ -41,7 +41,7 @@ const Sidebar = props => {
           <DrawerItemList {...props} />
         </Block>
       </Block>
-      <DrawerItem {...props} icon={({ focused, color, size }) => <ImageIcon name="logout" /> } onPress={() => logout()} label="Logout" />
+      <DrawerItem  label={() => <Text mtregular body gray>Logout</Text>} {...props} icon={({ focused, color, size }) => <ImageIcon name="logout" /> } onPress={() => logout()} />
     </Block>
   );
 };

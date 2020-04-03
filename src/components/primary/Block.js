@@ -34,7 +34,7 @@ import { spacing, theme } from "../../utils";
  *   <Text>text 1</Text>
  *   <Text>text 2</Text>
  * </Block>
- * 
+ *
  * - horizontal centering the content
  * <Block middle>
  *   <Text>text 1</Text>
@@ -269,7 +269,7 @@ class Block extends Component {
       gray && { backgroundColor: COLORS.gray },
       muted && { backgroundColor: COLORS.muted },
       inactive && { backgroundColor: COLORS.inactive },
-      lightgray && {backgroundColor: COLORS.lightgray},
+      lightgray && { backgroundColor: COLORS.lightgray },
       style // rewrite predefined styles
     ]);
 
@@ -283,16 +283,24 @@ class Block extends Component {
 
     if (safe) {
       return (
-        <SafeAreaView showVerticalScrollIndicator={false} style={blockStyles} {...props}>
+        <SafeAreaView
+          showVerticalScrollIndicator={false}
+          style={blockStyles}
+          {...props}
+        >
           {children}
         </SafeAreaView>
       );
     }
     if (scroll) {
       return (
-        <View style={blockStyles} {...props}>
-          <ScrollView>{children}</ScrollView>
-        </View>
+        <ScrollView
+          showVerticalScrollIndicator={false}
+          style={blockStyles}
+          {...props}
+        >
+          {children}
+        </ScrollView>
       );
     }
     return (

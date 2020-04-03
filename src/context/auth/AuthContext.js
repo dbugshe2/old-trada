@@ -1,7 +1,12 @@
 import React, { createContext, useReducer, useMemo, useState } from "react";
 import axios from "axios";
-// import {get, post, put} from '../../utils'
-import { setUserToken, getUserToken, setUser } from "../../utils/AsyncStorage";
+import { get, post, put } from "../../utils";
+import {
+  setUserToken,
+  getUserToken,
+  setUser,
+  getUser
+} from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
 import { AsyncStorage } from "react-native";
 import {
@@ -26,6 +31,8 @@ import {
   PASSWORD_RESET_SUCCESS,
   SET_RESET_PIN_OTP
 } from "../types";
+import { Snackbar } from "react-native-paper";
+import { COLORS } from '../../utils/theme';
 
 // User
 
@@ -63,6 +70,10 @@ import {
  *   "statusCode": 200,
  * }
  *
+ * const findUser = {
+ *
+ * }
+ *
  */
 
 export const AuthContext = createContext();
@@ -78,8 +89,16 @@ const AuthProvider = props => {
     user: null,
     error: null,
     userId: null,
-    userDetails: null,
+    walletBalance: null,
+    commissionBalance: null,
+    firstName: null,
+    lastName: null,
+    accountName: null,
+    accountNumber: null,
+    bankName: null,
+    accountBalance: null,
     phone: null,
+    profileImage: null,
     resetPinOtp: null,
     message: null
   };
@@ -97,7 +116,7 @@ const AuthProvider = props => {
         return {
           ...state,
           token: action.payload.access_token,
-          user: { ...action.payload.data },
+          user: action.payload.data,
           isAuthenticated: true
         };
       case LOGIN_FAIL:
@@ -108,7 +127,16 @@ const AuthProvider = props => {
       case VERIFY_AUTH_SUCCESS:
         return {
           ...state,
-          token: action.payload,
+          commissionBalance: action.payload.data.commissionWallet.balance,
+          walletBalance: action.payload.data.wallet.balance,
+          firstName: action.payload.data.firstName, 
+          lastName: action.payload.data.lastName,
+          accountName: action.payload.data.wallet.accountName,
+          accountNumber: action.payload.data.wallet.accountNumber,
+          accountBalance: action.payload.data.wallet.accountBalance,
+          bankName: action.payload.data.wallet.bankName,
+          phone: action.payload.data.phone,
+          profileImage: action.payload.data.profileImage,
           isAuthenticated: true
         };
       case VERIFY_AUTH_FAIL:
@@ -136,7 +164,16 @@ const AuthProvider = props => {
       case USER_DETAILS:
         return {
           ...state,
-          userDetail: action.payload
+          commissionBalance: action.payload.data.commissionWallet.balance,
+          walletBalance: action.payload.data.wallet.balance,
+          firstName: action.payload.data.firstName, 
+          lastName: action.payload.data.lastName,
+          accountName: action.payload.data.wallet.accountName,
+          accountNumber: action.payload.data.wallet.accountNumber,
+          accountBalance: action.payload.data.wallet.accountBalance,
+          bankName: action.payload.data.wallet.bankName,
+          phone: action.payload.data.phone,
+          profileImage: action.payload.data.profileImage,
         };
       case FORGOT_PASSWORD_SUCCESS:
         return {
@@ -260,8 +297,39 @@ const AuthProvider = props => {
       return error;
     }
   };
+  const fetchUserDetails = () => {
+   return  getUserToken()
+    .then(userToken => {
+      if (userToken !== null) {
+        return fetch(`${baseUrl}/find`, {
+          method: "GET",
+          headers: {
+            access_token: "Bearer " + userToken,
+            "Content-Type": "application/json"
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === "success") {
+              dispatch({
+                type: VERIFY_AUTH_SUCCESS,
+                payload: data
+              });
+              return data
+            } else {
+              dispatch({ type: LOGOUT });
+              return data
+            }
+          })
+          .catch(err => captureException(err));
+      } else {
+        dispatch({ type: LOGOUT });
+      }
+    })
+    .catch(err => captureException(err));
+  };
 
-  const login = async formData => {
+  const login = formData => {
     const config = {
       method: "POST",
       headers: {
@@ -270,59 +338,73 @@ const AuthProvider = props => {
       body: JSON.stringify(formData)
     };
     setLoading(true);
-    try {
-      const res = await fetch(`${baseUrl}/login`, config);
-      const json = await res.json();
-      if (json.status === "success") {
-        setUserToken(json.access_token)
-          .then(() => setUser(json.data))
-          .catch(err => captureException(err));
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: json
-        });
-        setLoading(false);
-        return json;
-      }
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: json
-      });
-      setLoading(false);
-      return json;
-    } catch (error) {
-      captureException(error);
-    }
-    setLoading(false);
+    fetch(`${baseUrl}/login`, config)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: data
+          });
+          setUserToken(data.access_token)
+            .then(() => fetchUserDetails())
+            .then(userDetails => {
+              console.log(userDetails)
+              dispatch({ type: USER_DETAILS, payload: userDetails })
+              setLoading(false)
+             })
+            
+            .catch(err => captureException(err));
+        } else {
+          dispatch({
+            type: LOGIN_FAIL,
+            payload: data
+          });
+          setLoading(false);
+        }
+      })
+      .catch(err => captureException(err));
   };
-  //  console.log(state)
+
+  console.log("auth", state); // ? LOG HERE------->
   const verifyLogin = async () => {
-    try {
-      const res = await getUserToken();
-      if (res != null) {
-        dispatch({
-          type: VERIFY_AUTH_SUCCESS,
-          payload: res
-        });
-        setLoading(false);
-      } else {
-        dispatch({
-          type: VERIFY_AUTH_FAIL
-        });
-        setLoading(false);
-      }
-      setLoading(false);
-      return res;
-    } catch (error) {
-      captureException(error);
-    }
+    getUserToken()
+      .then(userToken => {
+        if (userToken !== null) {
+          return fetch(`${baseUrl}/find`, {
+            method: "GET",
+            headers: {
+              access_token: "Bearer " + userToken,
+              "Content-Type": "application/json"
+            }
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === "success") {
+                dispatch({
+                  type: VERIFY_AUTH_SUCCESS,
+                  payload: data
+                });
+                setLoading(false)
+              } else {
+                dispatch({ type: LOGOUT });
+                setLoading(false)
+              }
+            })
+            .catch(err => captureException(err));
+          } else {
+            dispatch({ type: LOGOUT });
+            setLoading(false)
+        }
+      })
+      .catch(err => captureException(err));
   };
 
   //  /pin/forgot
   const requestResetOtp = async formData => {
     const config = {
       method: "POST",
-      header: {
+      headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(formData)
@@ -357,7 +439,7 @@ const AuthProvider = props => {
   const resetPin = async formData => {
     const config = {
       method: "POST",
-      header: {
+      headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -387,7 +469,7 @@ const AuthProvider = props => {
   const logout = async () => {
     setLoading(true);
     const res = AsyncStorage.clear();
-    if (res !== null) dispatch({ type: LOGOUT });
+    dispatch({ type: LOGOUT });
     setLoading(false);
   };
 
@@ -395,12 +477,21 @@ const AuthProvider = props => {
 
   const values = useMemo(() => {
     return {
+      token: state.token,
       isAuthenticated: state.isAuthenticated,
       user: state.user,
       error: state.error,
       userId: state.userId,
-      userDetail: state.userDetail,
+      walletBalance: state.walletBalance,
+      commissionBalance: state.commissionBalance,
+      firstName: state.firstName,
+      lastName: state.lastName,
+      accountName: state.accountName,
+      accountNumber: state.accountNumber,
+      bankName: state.bankName,
+      accountBalance: state.accountBalance,
       phone: state.phone,
+      profileImage: state.profileImage,
       resetPinOtp: state.resetPinOtp,
       message: state.message,
       loading: loading,
@@ -408,6 +499,7 @@ const AuthProvider = props => {
       verifyOtp,
       setUserDetails,
       signup,
+      fetchUserDetails,
       login,
       verifyLogin,
       requestResetOtp,
@@ -419,7 +511,19 @@ const AuthProvider = props => {
   }, [state, loading]);
 
   return (
-    <AuthContext.Provider value={values}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={values}>
+      {props.children}
+      <Snackbar duration={Snackbar.DURATION_SHORT} visible={state.message !== null} theme={{
+          roudness: 4,
+          colors: {
+            primary: COLORS.primary,
+            surface: COLORS.background,
+            background: COLORS.background,
+            disabled: COLORS.muted,
+            text: COLORS.gray
+          },
+        }} />
+    </AuthContext.Provider>
   );
 };
 

@@ -199,7 +199,7 @@ const Register = ({ navigation }) => {
   }, [states_and_lgas]);
   return (
     <Block background paddingHorizontal={SIZES.padding}>
-      <Header backTitle="" />
+      <Header backTitle  />
       <Text center body secondary>
         <Text secondary>{message}</Text>
       </Text>

@@ -8,6 +8,7 @@ import * as Font from "expo-font";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import Navigation from "./src/navigation";
 import VariationProvider from "./src/context/variation/VariationContext";
+import { CommissionProvider } from "./src/context";
 
 console.disableYellowBox = true;
   Sentry.init({
@@ -47,6 +48,7 @@ export default class App extends Component {
     }
       return (
         <AuthProvider>
+          <CommissionProvider>
           <VariationProvider>
           <SafeAreaProvider>
             <View style={styles.container}>
@@ -55,6 +57,7 @@ export default class App extends Component {
             </View>
           </SafeAreaProvider>
           </VariationProvider>
+          </CommissionProvider>
         </AuthProvider>
       );
     

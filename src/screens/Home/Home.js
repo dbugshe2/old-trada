@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Block,
   Card,
@@ -7,11 +7,25 @@ import {
   ImageIcon,
   Input,
   Button,
-  Swiper
+  Swiper,
+  Number,
 } from "../../components";
 import { SIZES, COLORS, LINE_HEIGHTS, LETTERSPACING } from "../../utils/theme";
+import AuthProvider,{ AuthContext, CommissionContext } from "../../context";
+import { ActivityIndicator } from "react-native-paper";
 
 const Home = ({ navigation }) => {
+  // const commission = useContext(CommissionContext);
+  // const { loading, getCommissionWallet, commissionBalance } = commission;
+  
+  const auth = useContext(AuthContext)
+
+  const {bankName, accountNumber, commissionBalance, walletBalance, fetchUserDetails} = auth
+
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, [commissionBalance]);
   return (
     <Block scroll background>
       <Header main shadow />
@@ -22,9 +36,12 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Tmoni Wallet Balance
             </Text>
-            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-              N25 ,000
-            </Text>
+            <Number
+                value={walletBalance}
+                renderText={formatted => (
+                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
+                )}
+              />
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -35,10 +52,10 @@ const Home = ({ navigation }) => {
               row
             >
               <Text primary mtlight small marginHorizontal={SIZES.base}>
-                Providus Bank
+                {bankName}
               </Text>
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
-                9902046493
+                {accountNumber}
               </Text>
               <Button transparent paddingHorizontal={SIZES.padding}>
                 <ImageIcon name="copy" />
@@ -50,9 +67,12 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Commission Balance
             </Text>
-            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-              N5 ,000
-            </Text>
+              <Number
+                value={commissionBalance}
+                renderText={formatted => (
+                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
+                )}
+              />
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -63,10 +83,10 @@ const Home = ({ navigation }) => {
               row
             >
               <Text primary mtlight small marginHorizontal={SIZES.base}>
-                Providus Bank
+                {bankName}
               </Text>
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
-                9902046493
+                {accountNumber}
               </Text>
               <Button transparent paddingHorizontal={SIZES.padding}>
                 <ImageIcon name="copy" />
