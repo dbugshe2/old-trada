@@ -2,10 +2,10 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Block, Text, Header, Input, Button } from "../../components";
 import { SIZES } from "../../utils/theme";
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../../context/auth/AuthContext';
+import { AuthContext, useAuthContext } from '../../context';
 
 const EnterPhysical = () => {
-  const auth = useContext(AuthContext)
+  const auth = useAuthContext()
   const {setUserDetails} = auth
   const { register, setValue, handleSubmit, errors } = useForm({mode: 'onBlur'});
   const [message, setMessage] = useState("");

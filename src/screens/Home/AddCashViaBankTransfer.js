@@ -1,51 +1,64 @@
-import React, {useState} from 'react'
-import {Block, Text, Header, Input, Button, ImageIcon, Dropdown} from '../../components'
-import { SIZES } from '../../utils/theme'
+import React, { useState } from "react";
+import {
+  Block,
+  Text,
+  Header,
+  Input,
+  Button,
+  ImageIcon,
+  Dropdown
+} from "../../components";
+import { SIZES } from "../../utils/theme";
+import { useAuthContext } from "../../context/index";
 
 const AddCashViaBankTransfer = () => {
-  return (
-    <Block background >
-      <Block scroll marginVertical={60} marginHorizontal={30} paddingHorizontal={SIZES.padding}>
+  const auth = useAuthContext();
 
-         <Text  muted>
-         Make a bank transfer into the following account to fund your Trada wallet
-         </Text>
+  const { userDetails } = auth;
+  return (
+    <Block background>
+      <Block
+        scroll
+        marginVertical={60}
+        marginHorizontal={30}
+        paddingHorizontal={SIZES.padding}
+      >
+        <Text muted>
+          Make a bank transfer into the following account to fund your Trada
+          wallet
+        </Text>
 
         <Block marginVertical={50}>
-        
           <Block>
-         <Text gray h6>
-             ACCOUNT NAME
-         </Text>
-         <Text primary small>
-             CHRISTOPHER SANI
-         </Text>
+            <Text gray h6>
+              ACCOUNT NAME
+            </Text>
+            <Text primary small>
+              {userDetails.wallet.accountName}
+            </Text>
           </Block>
 
-         <Block marginVertical={20}>
-         <Text gray h6>
+          <Block marginVertical={20}>
+            <Text gray h6>
               ACCOUNT NUMBER
-         </Text>
-         <Text primary small>
-              9907683967
-         </Text>
-         </Block> 
+            </Text>
+            <Text primary small>
+            {userDetails.wallet.accountNumber}
+            </Text>
+          </Block>
 
-         <Block>
-         <Text gray h6>
+          <Block>
+            <Text gray h6>
               BANK NAME
-         </Text>
-         <Text primary small>
-              Providus Bank
-         </Text>
-         </Block> 
+            </Text>
+            <Text primary small>
+            {userDetails.wallet.bankName}
+            </Text>
+          </Block>
         </Block>
-        
-         
-
       </Block>
     </Block>
-  )
-}
+  );
+};
 
-export default AddCashViaBankTransfer
+export default AddCashViaBankTransfer;

@@ -11,21 +11,24 @@ const Tab = createMaterialTopTabNavigator();
 
 const AddCashTab = () => {
   return (
-    <Tab.Navigator initialRouteName="AddCashViaBankTransfer" screenOptions={{
-        header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
-      }}>
+    <Tab.Navigator initialRouteName="AddCashViaBankTransfer">
       <Tab.Screen name="Via Bank Transfer" component={AddCashViaBankTransfer} />
       <Tab.Screen name="Via Ussd Code" component={AddCashViaUssd} />
     </Tab.Navigator>
   );
 };
 
-// const AddCashNavigator = () => (
-//   <Stack.Navigator >
-//     <Stack.Screen name="Add Cash" component={AddCashTab} screenOptions={{
-//         header: ({scene, previous, navigation}) => (<Header backTitle="Add Cash" />)
-//       }}/>
-//   </Stack.Navigator>
-// );
-
-export default AddCashTab;
+const AddCash = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        header: ({ scene, previous, navigation }) => (
+          <Header backTitle="Add Cash" />
+        )
+      }}
+    >
+      <Stack.Screen name="AddCashTab" component={AddCashTab} />
+    </Stack.Navigator>
+  );
+};
+export default AddCash;

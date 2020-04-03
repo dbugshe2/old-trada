@@ -10,8 +10,15 @@ import {
   Swiper
 } from "../../components";
 import { SIZES, COLORS, LINE_HEIGHTS, LETTERSPACING } from "../../utils/theme";
+import AuthProvider,{ AuthContext, CommissionContext, useAuthContext } from "../../context";
+import { ActivityIndicator } from "react-native-paper";
 
 const Home = ({ navigation }) => {
+
+  
+  const auth = useAuthContext()
+
+  const {userDetails} = auth
   return (
     <Block scroll background>
       <Header main shadow />
@@ -22,9 +29,12 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Tmoni Wallet Balance
             </Text>
-            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-              N25 ,000
-            </Text>
+            <Number
+                value={userDetails.wallet.balance}
+                renderText={formatted => (
+                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
+                )}
+              />
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -35,10 +45,10 @@ const Home = ({ navigation }) => {
               row
             >
               <Text primary mtlight small marginHorizontal={SIZES.base}>
-                Providus Bank
+                {userDetails.wallet.bankName}
               </Text>
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
-                9902046493
+                {userDetails.wallet.accountNumber}
               </Text>
               <Button transparent paddingHorizontal={SIZES.padding}>
                 <ImageIcon name="copy" />
@@ -50,9 +60,12 @@ const Home = ({ navigation }) => {
             <Text small muted mtmedium>
               Commission Balance
             </Text>
-            <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-              N5 ,000
-            </Text>
+              <Number
+                value={userDetails.commissionWallet.balance}
+                renderText={formatted => (
+                  <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>{"\u20A6 "}{formatted}</Text>
+                )}
+              />
             <Block
               marginTop={SIZES.padding}
               lightgray
@@ -63,10 +76,10 @@ const Home = ({ navigation }) => {
               row
             >
               <Text primary mtlight small marginHorizontal={SIZES.base}>
-                Providus Bank
+                {userDetails.wallet.bankName}
               </Text>
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
-                9902046493
+                {userDetails.wallet.accountNumber}
               </Text>
               <Button transparent paddingHorizontal={SIZES.padding}>
                 <ImageIcon name="copy" />

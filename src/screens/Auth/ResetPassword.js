@@ -11,13 +11,13 @@ import {
 } from "../../components";
 import ViewPager from "@react-native-community/viewpager";
 import { COLORS, SIZES } from "../../utils/theme";
-import { AuthContext } from "../../context/auth/AuthContext";
+import { AuthContext, useAuthContext } from "../../context";
 import { VariationContext } from "../../context/variation/VariationContext";
 import { useForm } from "react-hook-form";
 import { captureException } from "sentry-expo";
 
 const ResetPassword = ({ navigation }) => {
-  const auth = useContext(AuthContext);
+  const auth = useAuthContext();
   const { register, setValue, handleSubmit, errors } = useForm();
 
   const { resetPin } = auth;

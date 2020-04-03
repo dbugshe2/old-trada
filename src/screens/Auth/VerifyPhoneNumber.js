@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Block, Text, Header, Button, PinInput } from "../../components";
 import { ActivityIndicator } from "react-native";
 import { SIZES, COLORS } from "../../utils/theme";
-import { AuthContext } from "../../context/auth/AuthContext";
+import { AuthContext, useAuthContext } from "../../context";
 import { captureException } from "sentry-expo";
 import { useForm } from "react-hook-form";
 
 const VerifyPhoneNumber = ({ navigation }) => {
-  const auth = useContext(AuthContext);
+  const auth = useAuthContext();
   const { register, handleSubmit, setValue } = useForm();
 
   const { phone, verifyOtp } = auth;

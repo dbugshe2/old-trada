@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import { StoreInputs, StoreItemSummary, StoreOutputs, PhotoUpload, BuyInput, SellOutput } from "../screens";
+import { Header } from "../components";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -18,7 +19,7 @@ const StoreTab = () => {
 };
 
 const StoreNavigator = () => (
-  <Stack.Navigator initialRouteName="Store" screenOptions={{ headerShown: false }}>
+  <Stack.Navigator initialRouteName="Store" screenOptions={{ header: ({scene, previous, navigation}) => (<Header title="My Store" />)}}>
     <Stack.Screen name="Store" component={StoreTab} />
     <Stack.Screen name="StoreItemSummary" component={StoreItemSummary} />
       <Stack.Screen name="PhotoUpload" component={PhotoUpload} />
