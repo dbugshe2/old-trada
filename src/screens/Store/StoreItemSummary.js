@@ -40,7 +40,35 @@ const StoreItemSummary = ({navigation}) => {
         {/* end */}
         <Block marginVertical={25} flex={0.8}>
         <Card outlined white >
+          <Block paddingHorizontal={SIZES.padding} marginVertical={20}>
+              <Block space='between' row>
+                <Text muted h6>Location</Text>
+                <Text gray h6>Panshi, Jos</Text>
+              </Block>
+              <Block  space='between' row>
+              <Text muted h6>Item</Text>
+                <Text gray h6>Rice Padi</Text>
+              </Block>
+              <Block space='between' row>
+              <Text muted h6>Qty</Text>
+                <Text gray h6>50</Text>
+              </Block>
+              <Block space='between' row>
+              <Text muted h6>Estimated</Text>
+                <Text gray h6>N80, 000</Text>
+              </Block>
+              <Block space='between' row>
+              <Text muted h6>Pickup Location</Text>
+                <Text gray h6>Plateau Jos</Text>
+              </Block>
 
+
+
+
+
+
+
+          </Block>
         </Card>
       </Block>
 

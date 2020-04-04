@@ -5,6 +5,7 @@ import { theme } from "../utils";
 import AppBottomTabs from "./AppBottomTabs";
 import { Sidebar, ImageIcon } from "../components";
 import { SIZES, COLORS } from "../utils/theme";
+import  FarmerNavigator  from './FarmerNavigator'
 import  CommissionNavigator  from './CommissionNavigator'
 import SettingsNavigator from "./SettingsNavigator";
 import AboutNavigator from "./AboutNavigator";
@@ -33,7 +34,7 @@ const AppDrawer = () => {
       <Drawer.Screen
         name="Farmers"
         options={{ drawerLabel: "Farmers activities", drawerIcon : () => <ImageIcon name="farmer" /> }}
-        component={AppBottomTabs}
+        component={FarmerNavigator}
       />
       <Drawer.Screen
         name="Commission"
