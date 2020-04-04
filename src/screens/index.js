@@ -36,6 +36,12 @@ import Settings from "./Settings/Settings";
 import ChangePassword from "./Settings/ChangePassword";
 import About from "./About/About";
 import Faq from "./About/Faq";
+import FarmerActivitiesAdd from "./Farmer/FarmerActivitiesAdd";
+import FarmerActivities from "./Farmer/FarmerActivities";
+import FarmerCultivate from "./Farmer/FarmerCultivate";
+import FarmerOnboarding from "./Farmer/FarmerOnboarding";
+import FarmerPhotoUpload from "./Farmer/FarmerPhotoUpload";
+import FarmerSummary from "./Farmer/FarmerSummary";
 
 export {
   LandingScreen,
@@ -82,5 +88,13 @@ export {
   Settings,
   ChangePassword,
   About,
-  Faq
+  Faq,
+  // Farmer Screens
+  FarmerActivitiesAdd,
+  FarmerCultivate,
+  FarmerOnboarding,
+  FarmerPhotoUpload,
+  FarmerSummary,
+  FarmerActivities,
+
 };

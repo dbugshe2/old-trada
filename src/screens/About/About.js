@@ -13,40 +13,35 @@ import { Divider } from 'react-native-paper';
 const About = ({navigation}) => {
     return (
    <Block  background>
-    <Header backTitle="Settings" />
+    <Header backTitle="About Trada" />
    <Block paddingHorizontal={SIZES.padding} scroll >
 
-    <Block marginVertical={18} center row >
-
-        <TouchableOpacity  onPress={() => navigation.navigate("ChangePassword")}>
+    <Block>
+        <Button paddingVertical={20}  height={50} transparent>
         <Text marginLeft={10} gray h6>Rate app</Text>
-        </TouchableOpacity>
+        </Button>
 
     </Block>
     <Divider />
 
-    <Block marginVertical={18} center row >
-        
-        <TouchableOpacity  onPress={() => navigation.navigate("Faq")}>
+    <Block>
+        <Button paddingVertical={20} height={50}  transparent onPress={() => navigation.navigate("Faq")}>
         <Text marginLeft={10} gray h6>FAQs</Text>
-        </TouchableOpacity>
+        </Button>
 
     </Block>
     <Divider />
-    <Block marginVertical={18} center row >
-
-        <TouchableOpacity>
+    <Block>
+        <Button paddingVertical={20}  height={50} transparent>
         <Text marginLeft={10} gray h6>Terms and conditions</Text>
-        </TouchableOpacity>
+        </Button>
 
     </Block>
     <Divider />
-
-    <Block marginVertical={18} center row >
-
-        <TouchableOpacity >
+    <Block>
+        <Button paddingVertical={20}  height={50} transparent>
         <Text marginLeft={10} gray h6>Privacy policy</Text>
-        </TouchableOpacity>
+        </Button>
 
     </Block>
     <Divider />
