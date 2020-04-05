@@ -179,7 +179,7 @@ const icons = {
   cashout: {
     icon: require("../assets/icons/cashout.png"),
     width: 30,
-    height: 30
+    height: 31
   },
   cashoutAlt: {
     icon: require("../assets/icons/cashout-alt.png"),

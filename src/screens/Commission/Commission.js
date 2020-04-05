@@ -8,7 +8,10 @@ import {
   StyleSheet,
   ActivityIndicator
 } from "react-native";
-import { CommissionContext, useCommissionContext } from "../../context";
+import {
+  CommissionContext,
+  useCommissionContext
+} from "../../context/commission/CommissionContext";
 import { CurrencyFormatter } from "../../utils";
 
 const Commission = ({ navigation }) => {
@@ -20,20 +23,24 @@ const Commission = ({ navigation }) => {
     getCommissionWallet,
     getRecentCommissionHistory,
     history,
-    commissionBalance,
-    loading
+    commissionBalance
   } = commission;
 
   useEffect(() => {
-    if (commissionBalance === null) {
-      getCommissionWallet();
+    (async () => {
+      setLoadingBalance(true);
+      await getCommissionWallet();
       setLoadingBalance(false);
-    }
-  }, [commissionBalance]);
+    })();
+  }, []);
   useEffect(() => {
-    if (history === null) getRecentCommissionHistory(7);
-    setLoadingHistory(false);
-  }, [history]);
+    (async () => {
+      setLoadingHistory(true);
+      await getRecentCommissionHistory(7);
+      setLoadingHistory(false);
+    })();
+    return setLoadingHistory(true);
+  }, []);
   return (
     <Block background>
       <Header backTitle="Comission Activities" />
@@ -42,20 +49,24 @@ const Commission = ({ navigation }) => {
           <Text small muted mtmedium>
             Commision Balance
           </Text>
-          {loading && loadingBalance ? (
+          {loadingBalance ? (
             <ActivityIndicator size="large" animating color={COLORS.primary} />
           ) : (
             <Text gray height={LINE_HEIGHTS.fourty_1} h1 mtregular>
-              {"\u20A6 "}
               {CurrencyFormatter(commissionBalance)}
             </Text>
           )}
         </Block>
 
         <Block flex={0} marginVertical={30} center>
-          <Button secondary width={150} height={50}>
+          <Button
+            secondary
+            width={138}
+            height={35}
+            onPress={() => navigation.navigate("CashOut")}
+          >
             <Block center space="evenly" row>
-              <Text middle h5 white>
+              <Text middlebody white>
                 Cash out
               </Text>
               <ImageIcon name="cashout" />
@@ -73,32 +84,35 @@ const Commission = ({ navigation }) => {
         </Block>
 
         <Block>
-          {loading || loadingHistory ? (
+          {loadingHistory ? (
             <ActivityIndicator />
           ) : (
             <FlatList
+            showsVerticalScrollIndicator={false}
               data={history}
               keyExtractor={(item, index) => `item-${index}`}
               renderItem={({ item }) => {
                 return (
-                  <Block marginVertical={15} row space="between">
-                    <Block row center>
+                  <Block marginVertical={15} style={{borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: COLORS.lightgray, }} row space="between">
+                    <Block row center middle>
                       <ImageIcon name="cashoutAlt" />
                       <Block marginLeft={15}>
-                        <Text gray h6>
-                          Cash Out
+                        <Text mtmedium gray h6>
+                        Cash out
                         </Text>
-                        <Text muted>date</Text>
+                        <Text mtmedium body muted>
+                                    {new Date(item.meta.createdAt).toLocaleString()}
+                        </Text>
                       </Block>
                     </Block>
 
                     <Block row right>
                       <Block>
                         <Text gray h6 right>
-                          {CurrencyFormatter(98765467)}
+                          {CurrencyFormatter(item.commission)}
                         </Text>
-                        <Text primary right>
-                          successfull
+                        <Text mtmedium small primary right>
+                          Successfull
                         </Text>
                       </Block>
                     </Block>

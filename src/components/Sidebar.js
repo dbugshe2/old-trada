@@ -10,7 +10,7 @@ import Block from "./primary/Block";
 import Text from "./primary/Text";
 import Button from "./primary/Button";
 import { Image } from "react-native";
-import { useAuthContext } from "../context";
+import { useAuthContext } from "../context/auth/AuthContext";
 import { SIZES } from "../utils/theme";
 import ImageIcon from './primary/ImageIcon';
 

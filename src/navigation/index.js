@@ -25,7 +25,7 @@ class Navigation extends Component {
   render() {
     return (
       <AuthContext.Consumer>
-        {({isAuthenticated, loading}) => (
+        {({ isAuthenticated, loading }) => (
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {loading ? (

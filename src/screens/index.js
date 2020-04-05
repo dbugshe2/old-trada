@@ -32,6 +32,7 @@ import PersonalInformation from "./Profile/PersonalInformation";
 import ProfileVerification from "./Profile/ProfileVerification";
 import Commission from "./Commission/Commission";
 import CommissionAct from "./Commission/CommissionAct";
+import CashOut from './Commission/CashOut';
 import Settings from "./Settings/Settings";
 import ChangePassword from "./Settings/ChangePassword";
 import About from "./About/About";
@@ -83,6 +84,7 @@ export {
   // Sidebar
   Commission,
   CommissionAct,
+  CashOut,
   PersonalInformation,
   ProfileVerification,
   Settings,

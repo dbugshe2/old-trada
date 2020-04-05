@@ -1,10 +1,18 @@
-import React, { createContext, useReducer, useMemo, useState, useContext } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useMemo,
+  useState,
+  useContext
+} from "react";
+import wretch from "wretch";
 import {
   setUserToken,
   getUserToken,
   removeUserToken,
   setUser,
-  getUser
+  getUser,
+  removeUser
 } from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
 import {
@@ -37,7 +45,10 @@ import {
   SET_TOKEN
 } from "../types";
 import { COLORS } from "../../utils/theme";
-import { Snack, Text } from "../../components";
+import Text from "../../components/primary/Text";
+import { apiGet, apiPost, apiPut, apiDel } from "../../utils";
+import { isValid } from "../../utils/token";
+import { Snackbar } from "react-native-paper";
 
 // User
 
@@ -79,9 +90,28 @@ import { Snack, Text } from "../../components";
 
 export const AuthContext = createContext();
 
+export const validateToken = async () => {
+  try {
+    const token = await getUserToken();
+    if (token !== null) {
+      if (isValid(token)) {
+        return token;
+      } else {
+        logout("Session Expired, log in to continue");
+        return null;
+      }
+    } else {
+      logout("Welcome");
+      return null;
+    }
+  } catch (error) {
+    captureException(error);
+    return null
+  }
+};
+
+
 const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/users";
-
-
 
 const AuthProvider = props => {
   const [loading, setLoading] = useState(true);
@@ -192,7 +222,7 @@ const AuthProvider = props => {
       case SERVER_ERROR:
         return {
           ...state,
-          message: action.payload.message,
+          message: action.payload,
           showMessage: true
         };
       default:
@@ -292,133 +322,104 @@ const AuthProvider = props => {
       return error;
     }
   };
-  const fetchUserDetails = async token => {
+  const fetchUserDetails = token => {
     // return userDetails response or null
     console.log("Fetching User Details..");
-    try {
-      const data = await (
-        await fetch(`${baseUrl}/find`, {
-          method: "GET",
-          headers: {
-            access_token: "Bearer " + token,
-            "Content-Type": "application/json"
-          }
-        })
-      ).json();
-      if (data.status === SUCCESS) {
-        // user authorized
+    // check definition and wretch docs
+    return apiGet("/users/find", {}, token, true)
+      .unauthorized(err => console.log("unauthorized", err))
+      .notFound(err => console.log("not found", err))
+      .timeout(err => console.log("timeout", err))
+      .internalError(err => console.log("server Error", err))
+      .fetchError(err => console.log("Netwrok error", err))
+      .json()
+      .then(data => {
+        console.log("data from fetchuserdta", data);
         return data;
-      } else if (
-        data.status === FAILURE &&
-        data.statusCode === UNAUHTORIZED_CODE
-      ) {
-        // session expired
+      })
+      .catch(err => {
+        captureException(err);
         return null;
-      }
-    } catch (error) {
-      // network error
-      captureException(error);
-      return null
-    }
+      });
   };
 
   const login = async formData => {
     setLoading(true);
     try {
-      const data = await (
-        await fetch(`${baseUrl}/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(formData)
-        })
-      ).json();
-
-      if (data.status === SUCCESS) {
-        // login Successfull
+      const data = await apiPost("/users/login", formData)
+        .notFound(err => console.log("not found", err))
+        .timeout(err => console.log("timeout", err))
+        .internalError(err => console.log("server Error", err))
+        .fetchError(err => console.log("Netwrok error", err))
+        .json();
+      console.log("login res..", data);
+      await setUserToken(data.access_token);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: data
+      });
+      const user = await fetchUserDetails(data.access_token);
+      console.log("getting that user..");
+      if (user !== null) {
+        await setUser(JSON.stringify(user));
         dispatch({
-          type: LOGIN_SUCCESS,
-          payload: data
-        });
-        const fetchUser = await fetchUserDetails(data.access_token);
-        if (fetchUser !== null && fetchUser.status === SUCCESS) {
-          // user details successfull
-          dispatch({
-            type: USER_DETAILS,
-            payload: fetchUser
-          });
-          setLoading(false);
-          const saveToken = await setUserToken(data.access_token);
-        } else if (fetchUser !== null && fetchUser.status === FAILURE) {
-          // user details unsuccessfull
-          //show error message
-          dispatch({
-            type: LOGIN_FAIL,
-            payload: fetchUser.message //error message
-          });
-          setLoading(false);
-        }
-      } else {
-        // login failed
-        dispatch({
-          type: LOGIN_FAIL,
-          payload: data.message // error message
+          type: USER_DETAILS,
+          payload: user
         });
         setLoading(false);
+      } else {
+        console.log("fetching user failed during login");
       }
-      setLoading(false);
-    } catch (error) {
-      // network error
-      captureException(error);
+    } catch (err) {
       dispatch({
-        type: NETWORK_ERROR,
-        payload: "Network Error.."
+        type: LOGIN_FAIL
       });
+      captureException(err);
+      console.log("login err", err);
       setLoading(false);
     }
   };
 
-  console.log("auth", state); // ? LOG HERE------->
-  console.log("loading>> ", loading);
-  // const isAuthorized = (res) => res.status
+  console.log("auth", state); // ? LOGS HERE------->
+  console.log("loading__>>> ", loading);
   const verifyLogin = async () => {
     // VERIFY LOGIN STATE
     setLoading(true);
     try {
+      // fetch user token
       const userToken = await getUserToken();
+      console.log("token", userToken);
+
       if (userToken !== null) {
-        //token exists in storage
-        const userData = await fetchUserDetails(userToken);
-        if (userData !== null) {
-          // userData request successful
-          if (userData.status === SUCCESS) {
-            // user still authorized
-            dispatch({ type: USER_DETAILS, payload: userData });
+        // token exists in storage
+
+        if (isValid(userToken)) {
+          // token is still valid
+          console.log("token found to be valid ;)");
+          //fetch user data
+          const userData = await getUser();
+
+          if (userData !== null) {
+            // sucessfully fetched user data
+            dispatch({ type: USER_DETAILS, payload: JSON.parse(userData) });
             dispatch({ type: SET_TOKEN, payload: userToken });
             setLoading(false);
-          } else if (
-            userData.status === FAILURE &&
-            userData.statusCode === UNAUHTORIZED_CODE
-          ) {
-            // user unauhtorized
-            logout("Session Expired, Log in to continue");
+          } else {
+            // somehting went wrong fetching user data
+            logout("Unable to fetch user data");
             setLoading(false);
           }
-        } else { // userData request NOT successfull
-          // server error
-          dispatch({
-            type: SERVER_ERROR,
-            payload: "Unable to fetch user data"
-          });
-          setLoading(false);
+        } else {
+          // token is not valid
+          logout("Your session expired, log in to continue");
         }
       } else {
-        // token doesn't exist in storage
-        logout("Your Session Expired, please log in to continue");
+        // token does not exist in storage
+        logout("Welcome");
+        setLoading(false);
       }
     } catch (error) {
-      console.log('verify login failed')
+      console.log("verify login failed", error);
       captureException(error);
       setLoading(false);
     }
@@ -490,12 +491,16 @@ const AuthProvider = props => {
       captureException(error);
     }
   };
-  const logout = (message = "Have a nice day, see you soon") => {
+  const logout = async (message = "Have a nice day, see you soon") => {
     setLoading(true);
-    removeUserToken().then(() => {
+    try {
+      await removeUserToken();
+      await removeUser();
       dispatch({ type: LOGOUT, payload: message });
       setLoading(false);
-    }).catch(err => captureException(err))
+    } catch (err) {
+      captureException(err);
+    }
   };
 
   const values = useMemo(() => {
@@ -524,16 +529,22 @@ const AuthProvider = props => {
   return (
     <AuthContext.Provider value={values}>
       {props.children}
-      <Snack
+      <Snackbar
         visible={state.showMessage}
         onDismiss={() => dispatch({ type: CLEAR_MESSAGE })}
+        duration={3000}
+        style={{
+          backgroundColor: (props.color && props.color) || COLORS.odd
+        }}
       >
         <Text color={COLORS.gray} body mtmedium>
-          {state.message}
+          {values.message}
         </Text>
-      </Snack>
+      </Snackbar>
     </AuthContext.Provider>
   );
 };
+
+export const useAuthContext = () => useContext(AuthContext)
 
 export default AuthProvider;
