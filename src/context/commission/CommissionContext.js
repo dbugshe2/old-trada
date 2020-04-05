@@ -5,12 +5,8 @@ import React, {
   useState,
   useContext
 } from "react";
-import axios from "axios";
 import { getUserToken } from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
-import {
-  useAuthContext
-} from "../";
 import {
   COMMISSION_WALLET_SUCCESS,
   COMMISSION_WALLET_FAIL,
@@ -28,10 +24,11 @@ import {
   FAILURE,
   UNAUHTORIZED_CODE
 } from "../types";
-import { Snack, Text } from "../../components";
 import { COLORS } from "../../utils/theme";
-
-// User
+import { apiGet } from "../../utils";
+import { validateToken, useAuthContext } from "../auth/AuthContext";
+import { Snackbar } from 'react-native-paper';
+import Text from '../../components/primary/Text'
 
 /*
  * const commissionWallet = {
@@ -50,35 +47,7 @@ import { COLORS } from "../../utils/theme";
  *    "status": "success",
  *    "statusCode": 200
  * }
- *
- * const commissioinHitory = {
- *  "data": [],
- *  "totalDocumentCount": 0,
- *  "skip": 0,
- *  "limit": 10,
- *  "status": "success",
- *  "statusCode": 200
- *  }
- *
- * const commissionLeaderboard = {
- *   "data": [{
- *       "user": "Paul David",
- *       "commissionEarned": 0
- *   }, {
- *       "user": "Paul David",
- *       "commissionEarned": 0
- *   }, {
- *       "user": "Maroof Shittu",
- *       "commissionEarned": 0
- *   }],
- *   "totalDocumentCount": 3,
- *   "skip": 0,
- *   "limit": 4,
- *   "status": "success",
- *   "statusCode": 200
- * }
  */
-
 export const CommissionContext = createContext();
 
 const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/commissions";
@@ -86,14 +55,14 @@ const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/commissions";
 const CommissionProvider = props => {
   const [loading, setLoading] = useState(true);
   const auth = useAuthContext();
-  const {logout } = auth;
+  const { logout } = auth;
 
   const initialState = {
     commissionWallet: null,
     commissionWalletId: null,
     userId: null,
     commissionBalance: null,
-    history: null,
+    history: [],
     leaderboard: [],
     error: null,
     showMessage: null,
@@ -115,14 +84,14 @@ const CommissionProvider = props => {
       case COMMISSION_HISTORY_SUCCESS:
         return {
           ...state,
-          history: [...state.history, ...action.payload.data]
-        }
+          history: action.payload.data
+        };
       case COMMISSION_HISTORY_FAIL:
         return {
           ...state,
           message: action.payload,
           showMessage: true
-        }
+        };
       case FIND_COMMISSION_SUCCESS:
       case FIND_COMMISSION_FAIL:
       case COMMISSION_LEADERBOARD_SUCCESS:
@@ -134,7 +103,7 @@ const CommissionProvider = props => {
           ...state,
           message: null,
           showMessage: false
-        }
+        };
       default:
         return state;
     }
@@ -143,77 +112,66 @@ const CommissionProvider = props => {
   // console.log("commission ", state);
 
   const getCommissionWallet = async () => {
-    setLoading(true);
     try {
-      const token = await getUserToken()
-      const data = await (
-        await fetch(`${baseUrl}/wallet`, {
-          method: "GET",
-          headers: {
-            access_token: "Bearer " + token,
-            'Content-Type': 'application/json'
-          },
-          
-        })
-      ).json();
-      console.log(data, 'token', token)
-      if (data.status === SUCCESS) {
-        // user authorized
+      const token = await validateToken();
+      if (token) {
+        const data = await apiGet("/commissions/wallet", {}, token, true)
+          .unauthorized(err => console.log("unauthorized", err))
+          .notFound(err => console.log("not found", err))
+          .timeout(err => console.log("timeout", err))
+          .internalError(err => console.log("server Error", err))
+          .fetchError(err => console.log("Netwrok error", err))
+          .json();
+        if (data) {
+          dispatch({
+            type: COMMISSION_WALLET_SUCCESS,
+            payload: data
+          });
+        }
+      }
+    } catch (error) {
+      dispatch({
+        type: COMMISSION_WALLET_FAIL,
+        payload: error
+      });
+      captureException(error);
+    }
+  };
+
+  const getRecentCommissionHistory = async limit => {
+    try {
+      const token = await validateToken();
+      if (token) {
+        const data = await apiGet(
+          "/commissions/history",
+          { skip: 0, limit: limit },
+          token,
+          true
+        )
+          .unauthorized(err => console.log("unauthorized", err))
+          .notFound(err => console.log("not found", err))
+          .timeout(err => console.log("timeout", err))
+          .internalError(err => console.log("server Error", err))
+          .fetchError(err => console.log("Netwrok error", err))
+          .json();
+        console.log(data)
+        if (data) {
+          dispatch({
+            type: COMMISSION_HISTORY_SUCCESS,
+            payload: data
+          });
+        }
+      } else {
         dispatch({
-          type: COMMISSION_WALLET_SUCCESS,
-          payload: data
+          type: COMMISSION_HISTORY_FAIL,
+          payload: "Sorry, Session Expired log in again to continue"
         });
-        setLoading(false)
-      } else if (data.status === FAILURE && statusCode === UNAUHTORIZED_CODE) {
       }
     } catch (error) {
       captureException(error);
-      setLoading(false);
     }
   };
-  const getRecentCommissionHistory = (limit) => {
-    setLoading(true)
-      getUserToken().then(token => {
-        console.log('token from commission', token)
-        fetch(`${baseUrl}/history?skip=0&limit=${limit}`, {
-          method: 'GET',
-          headers: {
-            access_token: "Bearer " + token,
-            'Content-Type': 'application/json'
-          }
-        })
-      }).then(res => res.json())
-        .then(data => {
-          console.log('history fetch', data)
-          if (data.status === SUCCESS) {
-            dispatch({
-              type: COMMISSION_HISTORY_SUCCESS,
-              payload: data
-            })
-            setLoading(false)
-          } else if (data.status === FAILURE && data.statusCode === UNAUHTORIZED_CODE) { // user unathorized
-            dispatch({
-              type: COMMISSION_HISTORY_FAIL,
-              payload: "Sorry, Session Expired log in again to continue"
-            })
-            setLoading(false)
-          } else {
-            dispatch(({
-              type: COMMISSION_HISTORY_FAIL,
-              payload: "Operation Failed"
-            }))
-            setLoading(false)
-          }
-        
-      }).catch(error => {
-        captureException(error)
-        setLoading(false)
-    })
-    
-  }
-  const getCommissionHistory = async (limit, skip) => {
-    
-  }
+  const getCommissionHistory = async (limit, skip) => {};
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   const values = useMemo(() => {
@@ -227,7 +185,6 @@ const CommissionProvider = props => {
       error: state.error,
       message: state.message,
       showMessage: state.showMessage,
-      loading: loading,
       getCommissionWallet,
       getCommissionHistory,
       getRecentCommissionHistory,
@@ -238,16 +195,22 @@ const CommissionProvider = props => {
   return (
     <CommissionContext.Provider value={values}>
       {props.children}
-      <Snack
+      <Snackbar
         visible={state.showMessage}
         onDismiss={() => dispatch({ type: CLEAR_MESSAGE })}
+        duration={3000}
+        style={{
+          backgroundColor: COLORS.odd
+        }}
       >
         <Text color={COLORS.gray} body mtmedium>
-          {state.message}
+          {values.message}
         </Text>
-      </Snack>
+      </Snackbar>
     </CommissionContext.Provider>
   );
 };
+
+export const useCommissionContext = () => useContext(CommissionContext);
 
 export default CommissionProvider;

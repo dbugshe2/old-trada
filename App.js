@@ -8,15 +8,16 @@ import * as Font from "expo-font";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import Navigation from "./src/navigation";
 import VariationProvider from "./src/context/variation/VariationContext";
+import CommissionProvider from "./src/context/commission/CommissionContext";
 
 console.disableYellowBox = true;
-  Sentry.init({
-    dsn: "https://5a462ccaf5d6424ca916b8cfc779aefe@sentry.io/5172785",
-    enableInExpoDevelopment: true,
-    debug: true
-  });
+Sentry.init({
+  dsn: "https://5a462ccaf5d6424ca916b8cfc779aefe@sentry.io/5172785",
+  enableInExpoDevelopment: true,
+  debug: true
+});
 
-  const skipLoading = false
+const skipLoading = false;
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -45,19 +46,20 @@ export default class App extends Component {
     if (this.state.isLoading && !skipLoading) {
       return <AppLoading />;
     }
-      return (
-        <AuthProvider>
-          <VariationProvider>
-          <SafeAreaProvider>
-            <View style={styles.container}>
-              {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-              <Navigation />
-            </View>
-          </SafeAreaProvider>
-          </VariationProvider>
-        </AuthProvider>
-      );
-    
+    return (
+      <AuthProvider>
+        <VariationProvider>
+          <CommissionProvider>
+            <SafeAreaProvider>
+              <View style={styles.container}>
+                {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+                <Navigation />
+              </View>
+            </SafeAreaProvider>
+          </CommissionProvider>
+        </VariationProvider>
+      </AuthProvider>
+    );
   }
 }
 

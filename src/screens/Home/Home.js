@@ -5,7 +5,7 @@ import {
   Text,
   Header,
   ImageIcon,
-  Input,
+  Snack,
   Button,
   Swiper
 } from "../../components";
@@ -16,13 +16,22 @@ import AuthProvider, {
   useAuthContext
 } from "../../context";
 import { ActivityIndicator } from "react-native-paper";
-import { CurrencyFormatter } from "../../utils";
-
+import { CurrencyFormatter, saveToClipboard, decode } from "../../utils";
 const Home = ({ navigation }) => {
   const auth = useAuthContext();
 
   const { userDetails } = auth;
-  console.log("home\n", userDetails);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleCopy = async () => {
+    console.log("copy clicked");
+    await saveToClipboard(userDetails.wallet.accountNumber);
+    console.log("copied");
+    setMessage(`${userDetails.wallet.accountNumber} copied!`);
+  };
+
   return (
     <Block scroll background>
       <Header main shadow />
@@ -51,7 +60,11 @@ const Home = ({ navigation }) => {
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
                 {userDetails.wallet.accountNumber}
               </Text>
-              <Button transparent paddingHorizontal={SIZES.padding}>
+              <Button
+                onPress={() => handleCopy()}
+                transparent
+                paddingHorizontal={SIZES.padding}
+              >
                 <ImageIcon name="copy" />
               </Button>
             </Block>
@@ -79,7 +92,11 @@ const Home = ({ navigation }) => {
               <Text muted mtlight small spacing={LETTERSPACING.two_point_4}>
                 {userDetails.wallet.accountNumber}
               </Text>
-              <Button transparent paddingHorizontal={SIZES.padding}>
+              <Button
+                onPress={() => handleCopy()}
+                transparent
+                paddingHorizontal={SIZES.padding}
+              >
                 <ImageIcon name="copy" />
               </Button>
             </Block>
@@ -87,6 +104,9 @@ const Home = ({ navigation }) => {
         </Swiper>
       </Block>
       {/* card */}
+      <Text mtmedium secondary tiny center>
+        {message}
+      </Text>
       <Block space="evenly" paddingHorizontal={SIZES.padding}>
         {/* two */}
         <Block>
@@ -164,7 +184,7 @@ const Home = ({ navigation }) => {
                   guaranteed lowest price
                 </Text>
               </Block>
-              <ImageIcon style={{}} name="cart" />
+              <ImageIcon name="cart" />
             </Block>
           </Button>
 
@@ -198,7 +218,7 @@ const Home = ({ navigation }) => {
                   guaranteed lowest price
                 </Text>
               </Block>
-              <ImageIcon style={{}} name="basket" />
+              <ImageIcon name="basket" />
             </Block>
           </Button>
         </Block>
