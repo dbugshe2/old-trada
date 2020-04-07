@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useMemo, useState } from "react";
+import React, { createContext, useReducer, useMemo, useState, useContext } from "react";
 import { setUserToken, getUserToken } from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
 import {
@@ -7,20 +7,30 @@ import {
   GET_STATES_AND_LGAS_FAIL,
   GET_STATES_AND_LGAS_SUCCESS,
   GET_LGAS_FAIL,
-  GET_LGAS_SUCCESS
+  GET_LGAS_SUCCESS,
+  GET_BANKS_SUCCESS,
+  GET_BANKS_FAIL,
+  RESOLVE_ACCOUNT_SUCCESS,
+  RESOLVE_ACCOUNT_FAIL
 } from "../types";
-
+import { apiGet } from '../../utils/fetcher';
+import useAuthContext from '../auth/AuthContext'
 export const VariationContext = createContext();
 
 const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/variation";
 
-const VariationProvider = props => {
+const VariationProvider = ({children}) => {
 
   const [loading, setLoading] = useState(true);
+  const auth = useAuthContext()
+
+  const {validateToken, logout} = auth
+ 
   const initialState = {
     states_and_lgas: null,
     states: null,
     lgas: null,
+    banks: null,
     message: null,
     errors: null
   };
@@ -57,6 +67,16 @@ const VariationProvider = props => {
           ...state,
           message: action.payload
         };
+      case GET_BANKS_SUCCESS:
+        return {
+          ...state,
+          banks: action.payload.data
+        }
+      case GET_BANKS_FAIL:
+      case RESOLVE_ACCOUNT_SUCCESS:
+      case RESOLVE_ACCOUNT_FAIL:
+      default: 
+        return state
     }
   }, initialState || {});
   // /states_and_lga
@@ -102,9 +122,41 @@ const VariationProvider = props => {
     setLoading(false);
     return;
   };
-  const getLGAS = alias => {};
+  const getLGAS = alias => { };
+  
+  const getBanks = async () => {
+    try {
+      const token = await validateToken()
+  
+      if (token) {
+        const data = await apiGet('/variation/banks', {}, token, true)
+        .unauthorized(err => console.log("unauthorized", err))
+        .notFound(err => console.log("not found", err))
+        .timeout(err => console.log("timeout", err))
+        .internalError(err => console.log("server Error", err))
+        .fetchError(err => console.log("Netwrok error", err))
+        .json();
+        if (data) {
+          dispatch ({
+            type: GET_BANKS_SUCCESS,
+            payload: data
+          })
+        } else {
+          dispatch ({
+            type: GET_BANKS_FAIL,
+            payload: data.message
+          })
+        }
 
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+      } else {
+        logout("session Expired bitch")
+      }
+      
+    } catch (error) {
+      captureException(error)
+    }
+  }
+
 
   const values = useMemo(() => {
     return {
@@ -112,19 +164,23 @@ const VariationProvider = props => {
       states_and_lgas: state.states_and_lgas,
       states: state.states,
       lgas: state.lgas,
+      bank: state.bank,
       errors: state.errors,
       loading,
       getStatesDetails,
       getStates,
-      getLGAS
+      getLGAS,
+      getBanks
     };
   }, [state]);
 
   return (
     <VariationContext.Provider value={values}>
-      {props.children}
+      {children}
     </VariationContext.Provider>
   );
 };
+
+export const useVariationContext = () => useContext(VariationContext)
 
 export default VariationProvider;

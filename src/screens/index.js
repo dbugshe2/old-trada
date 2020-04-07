@@ -31,7 +31,7 @@ import StoreOutputs from "./Store/StoreOutputs";
 import PersonalInformation from "./Profile/PersonalInformation";
 import ProfileVerification from "./Profile/ProfileVerification";
 import Commission from "./Commission/Commission";
-import CommissionAct from "./Commission/CommissionAct";
+import CommissionHistory from "./Commission/CommissionHistory";
 import CashOut from './Commission/CashOut';
 import Settings from "./Settings/Settings";
 import ChangePassword from "./Settings/ChangePassword";
@@ -83,7 +83,7 @@ export {
   PhotoUpload,
   // Sidebar
   Commission,
-  CommissionAct,
+  CommissionHistory,
   CashOut,
   PersonalInformation,
   ProfileVerification,

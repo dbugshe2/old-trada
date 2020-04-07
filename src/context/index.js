@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import AuthProvider, { AuthContext, useAuthContext, validateToken} from './auth/AuthContext'
+import AuthProvider, { AuthContext, useAuthContext} from './auth/AuthContext'
 import CommissionProvider,{ CommissionContext, useCommissionContext } from './commission/CommissionContext';
-
-
+import WalletProvider, { useWalletContext } from './wallet/WalletContext'
+import VariationProvider, { VariationContext, useVariationContext } from './variation/VariationContext';
 
 export {
   AuthProvider,
@@ -11,5 +10,9 @@ export {
   CommissionContext,
   CommissionProvider,
   useCommissionContext,
-  validateToken
+  WalletProvider,
+  useWalletContext,
+  useVariationContext,
+  VariationProvider,
+  VariationContext
 }

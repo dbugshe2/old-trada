@@ -90,30 +90,10 @@ import { Snackbar } from "react-native-paper";
 
 export const AuthContext = createContext();
 
-export const validateToken = async () => {
-  try {
-    const token = await getUserToken();
-    if (token !== null) {
-      if (isValid(token)) {
-        return token;
-      } else {
-        logout("Session Expired, log in to continue");
-        return null;
-      }
-    } else {
-      logout("Welcome");
-      return null;
-    }
-  } catch (error) {
-    captureException(error);
-    return null
-  }
-};
-
 
 const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/users";
 
-const AuthProvider = props => {
+const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
 
   const initialState = {
@@ -502,7 +482,26 @@ const AuthProvider = props => {
       captureException(err);
     }
   };
-
+ const validateToken = async () => {
+    try {
+      const token = await getUserToken();
+      if (token !== null) {
+        if (isValid(token)) {
+          return token;
+        } else {
+          logout("Session Expired, log in to continue");
+          return null;
+        }
+      } else {
+        logout("Welcome");
+        return null;
+      }
+    } catch (error) {
+      captureException(error);
+      return null
+    }
+  };
+  
   const values = useMemo(() => {
     return {
       isAuthenticated: state.isAuthenticated,
@@ -522,19 +521,20 @@ const AuthProvider = props => {
       requestResetOtp,
       setResetPinOtp,
       resetPin,
-      logout
+      logout,
+      validateToken
     };
   }, [state, loading]);
 
   return (
     <AuthContext.Provider value={values}>
-      {props.children}
+      {children}
       <Snackbar
         visible={state.showMessage}
         onDismiss={() => dispatch({ type: CLEAR_MESSAGE })}
         duration={3000}
         style={{
-          backgroundColor: (props.color && props.color) || COLORS.odd
+          backgroundColor: COLORS.odd
         }}
       >
         <Text color={COLORS.gray} body mtmedium>
@@ -546,5 +546,4 @@ const AuthProvider = props => {
 };
 
 export const useAuthContext = () => useContext(AuthContext)
-
 export default AuthProvider;
