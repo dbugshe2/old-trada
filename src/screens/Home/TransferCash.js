@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
-import {Block, Text, Header, Input, Button, Dropdown} from '../../components'
+import {Block, Text, Header, Input, Button} from '../../components'
 import { SIZES } from '../../utils/theme'
-import { useForm } from 'react-hook-form';
-import { ActivityIndicator } from 'react-native-paper';
 
 const TransferCash = () => {
   return (
@@ -11,19 +9,15 @@ const TransferCash = () => {
       <Block>
       <Block scroll paddingHorizontal={SIZES.padding}>
       <Text mtmedium gray small marginVertical={10} >Transfer funds to your Tmoni account</Text>
-          <Block middle>
-            <Dropdown />
-        <Input label="Account Number" />
-        <Input label="Account Name" />
-        <Input label="Bank" />
+        <Block middle>
         <Input label="Amount" />
+        <Input label="Tmoni Account Number" />
         <Input label="Narration" />
         </Block>
-          <Block>
-            {sending ? (<ActivityIndicator size="small" />) : (<Button>
+        <Block>
+          <Button>
             <Text white center h6>Transfer</Text>
-          </Button>)}
-          
+          </Button>
         </Block>
       </Block>
       </Block>

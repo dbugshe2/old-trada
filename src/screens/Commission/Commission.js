@@ -1,12 +1,5 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
-import {
-  Block,
-  Text,
-  Header,
-  ImageIcon,
-  Button,
-  CommissionItem
-} from "../../components";
+import React, { useState, useContext, useEffect } from "react";
+import { Block, Text, Header, ImageIcon, Button } from "../../components";
 import { SIZES, COLORS, LINE_HEIGHTS, LETTERSPACING } from "../../utils/theme";
 import {
   TouchableOpacity,
@@ -20,7 +13,6 @@ import {
   useCommissionContext
 } from "../../context/commission/CommissionContext";
 import { CurrencyFormatter } from "../../utils";
-import { useFocusEffect } from "@react-navigation/native";
 
 const Commission = ({ navigation }) => {
   const [loadingBalance, setLoadingBalance] = useState(true);
@@ -41,37 +33,14 @@ const Commission = ({ navigation }) => {
       setLoadingBalance(false);
     })();
   }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      async function fetchData() {
-        setLoadingBalance(true);
-        const response = await getCommissionWallet();
-        setLoadingBalance(false);
-      }
-      fetchData();
-    }, [])
-  );
-
   useEffect(() => {
     (async () => {
       setLoadingHistory(true);
-      await getRecentCommissionHistory(10);
+      await getRecentCommissionHistory(7);
       setLoadingHistory(false);
     })();
     return setLoadingHistory(true);
   }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      async function fetchData() {
-        setLoadingHistory(true);
-        await getRecentCommissionHistory(10);
-        setLoadingHistory(false);
-      }
-      fetchData();
-    }, [])
-  );
   return (
     <Block background>
       <Header backTitle="Comission Activities" />
@@ -97,7 +66,7 @@ const Commission = ({ navigation }) => {
             onPress={() => navigation.navigate("CashOut")}
           >
             <Block center space="evenly" row>
-              <Text middle body white>
+              <Text middlebody white>
                 Cash out
               </Text>
               <ImageIcon name="cashout" />
@@ -106,15 +75,11 @@ const Commission = ({ navigation }) => {
         </Block>
 
         <Block flex={0} space="between" row>
-          <Text muted mtmedium>
-            Your Activity
-          </Text>
+          <Text muted>Your Activity</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate("CommissionHistory")}
+            onPress={() => navigation.navigate("CommissionAct")}
           >
-            <Text secondary mtmedium>
-              View All
-            </Text>
+            <Text secondary>View All</Text>
           </TouchableOpacity>
         </Block>
 
@@ -123,15 +88,35 @@ const Commission = ({ navigation }) => {
             <ActivityIndicator />
           ) : (
             <FlatList
-              showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
               data={history}
               keyExtractor={(item, index) => `item-${index}`}
               renderItem={({ item }) => {
                 return (
-                  <CommissionItem
-                    amount={item.commission}
-                    date={item.meta.createdAt}
-                  />
+                  <Block marginVertical={15} style={{borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: COLORS.lightgray, }} row space="between">
+                    <Block row center middle>
+                      <ImageIcon name="cashoutAlt" />
+                      <Block marginLeft={15}>
+                        <Text mtmedium gray h6>
+                        Cash out
+                        </Text>
+                        <Text mtmedium body muted>
+                                    {new Date(item.meta.createdAt).toLocaleString()}
+                        </Text>
+                      </Block>
+                    </Block>
+
+                    <Block row right>
+                      <Block>
+                        <Text gray h6 right>
+                          {CurrencyFormatter(item.commission)}
+                        </Text>
+                        <Text mtmedium small primary right>
+                          Successfull
+                        </Text>
+                      </Block>
+                    </Block>
+                  </Block>
                 );
               }}
             />
