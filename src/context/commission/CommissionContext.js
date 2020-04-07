@@ -12,11 +12,14 @@ import {
   COMMISSION_WALLET_FAIL,
   COMMISSION_HISTORY_SUCCESS,
   COMMISSION_HISTORY_FAIL,
+  COMMISSION_FULL_HISTORY_SUCCESS,
+  COMMISSION_FULL_HISTORY_FAIL,
   FIND_COMMISSION_SUCCESS,
   FIND_COMMISSION_FAIL,
   COMMISSION_LEADERBOARD_SUCCESS,
   COMMISSION_LEADERBOARD_FAIL,
   COMMISSION_TRANSFER_SUCCESS,
+  COMMISSION_TRANSFER_FAIL,
   CLEAR_ERRORS,
   CLEAR_MESSAGE,
   SHOW_MESSAGE,
@@ -25,10 +28,11 @@ import {
   UNAUHTORIZED_CODE
 } from "../types";
 import { COLORS } from "../../utils/theme";
-import { apiGet } from "../../utils";
-import { validateToken, useAuthContext } from "../auth/AuthContext";
-import { Snackbar } from 'react-native-paper';
-import Text from '../../components/primary/Text'
+import { apiGet, apiPost } from "../../utils";
+import { useAuthContext } from "../auth/AuthContext";
+import { Snackbar } from "react-native-paper";
+import Text from "../../components/primary/Text";
+import CurrencyFormatter from '../../utils/currency';
 
 /*
  * const commissionWallet = {
@@ -55,7 +59,7 @@ const baseUrl = "https://thrive-commerce-api.herokuapp.com/thr/v1/commissions";
 const CommissionProvider = props => {
   const [loading, setLoading] = useState(true);
   const auth = useAuthContext();
-  const { logout } = auth;
+  const { validateToken } = auth;
 
   const initialState = {
     commissionWallet: null,
@@ -63,6 +67,8 @@ const CommissionProvider = props => {
     userId: null,
     commissionBalance: null,
     history: [],
+    fullHistory: [],
+    historyCount: null,
     leaderboard: [],
     error: null,
     showMessage: null,
@@ -92,12 +98,34 @@ const CommissionProvider = props => {
           message: action.payload,
           showMessage: true
         };
+      case COMMISSION_FULL_HISTORY_SUCCESS:
+        return {
+          ...state,
+          fullHistory: [...state.fullHistory, ...action.payload.data],
+          historyCount: action.payload.totalDocumentCount
+        };
+      case COMMISSION_FULL_HISTORY_FAIL:
+        return {
+          ...state,
+          message: action.payload,
+          showMessage: true
+        };
       case FIND_COMMISSION_SUCCESS:
       case FIND_COMMISSION_FAIL:
       case COMMISSION_LEADERBOARD_SUCCESS:
       case COMMISSION_LEADERBOARD_FAIL:
       case COMMISSION_TRANSFER_SUCCESS:
+        return {
+          ...state,
+          message: `${CurrencyFormatter(action.payload)} transfer to wallet SUCCESSFULL`,
+          showMessage: true
+        }
       case COMMISSION_TRANSFER_FAIL:
+        return {
+          ...state,
+          message: "transfer to wallet FAILED"+ action.payload.message,
+          showMessage: true
+        }
       case CLEAR_MESSAGE:
         return {
           ...state,
@@ -154,7 +182,7 @@ const CommissionProvider = props => {
           .internalError(err => console.log("server Error", err))
           .fetchError(err => console.log("Netwrok error", err))
           .json();
-        console.log(data)
+        console.log(data);
         if (data) {
           dispatch({
             type: COMMISSION_HISTORY_SUCCESS,
@@ -171,7 +199,114 @@ const CommissionProvider = props => {
       captureException(error);
     }
   };
-  const getCommissionHistory = async (limit, skip) => {};
+  const getCommissionHistory = async (limit, skip) => {
+    try {
+      const token = await validateToken();
+      if (token) {
+        const res = await apiGet(
+          "/commissions/history",
+          { skip: skip, limit: limit },
+          token,
+          true
+        )
+          .unauthorized(err => console.log("unauthorized", err))
+          .notFound(err => console.log("not found", err))
+          .timeout(err => console.log("timeout", err))
+          .internalError(err => console.log("server Error", err))
+          .fetchError(err => console.log("Netwrok error", err))
+          .json();
+        console.log(res);
+        if (res) {
+          dispatch({
+            type: COMMISSION_FULL_HISTORY_SUCCESS,
+            payload: res
+          });
+        } else {
+          console.log(res);
+        }
+      } else {
+        dispatch({
+          type: COMMISSION_FULL_HISTORY_FAIL,
+          payload: "Sorry, Session Expired log in again to continue"
+        });
+      }
+    } catch (error) {
+      captureException(error);
+    }
+  };
+  console.log("commission__>>", state);
+
+  const cashOutCommission = async formData => {
+    try {
+      const token = await validateToken();
+      if (token) {
+        const data = await apiPost(
+          "/commissions/transfer",
+          formData,
+          token,
+          true
+        )
+          .unauthorized(err => console.log("unauthorized", err))
+          .notFound(err => console.log("not found", err))
+          .timeout(err => console.log("timeout", err))
+          .internalError(err => console.log("server Error", err))
+          .fetchError(err => console.log("Netwrok error", err))
+          .json();
+        if (data.status === SUCCESS) {
+          console.log("cash out sucessfull", data);
+          dispatch({
+            type: COMMISSION_TRANSFER_SUCCESS,
+            payload: formData.amount
+          });
+          return true
+        } else {
+          dispatch({
+            type: COMMISSION_TRANSFER_FAIL,
+            payload: data
+          });
+          return false
+        }
+      }
+    } catch (error) {
+      captureException(error);
+      return null
+    }
+  };
+
+  const getCommissionsLeaderBoard = async (skip, limit) => {
+    try {
+      const token = await validateToken();
+      if (token) {
+        const data = await apiGet(
+          "/commissions/leaderboard",
+          { skip: skip, limit: limit },
+          token,
+          true
+        )
+          .unauthorized(err => console.log("unauthorized", err))
+          .notFound(err => console.log("not found", err))
+          .timeout(err => console.log("timeout", err))
+          .internalError(err => console.log("server Error", err))
+          .fetchError(err => console.log("Netwrok error", err))
+          .json();
+        console.log(data);
+        if (data) {
+          dispatch({
+            type: COMMISSION_LEADERBOARD_SUCCESS,
+            payload: data
+          });
+        }
+      } else {
+        dispatch({
+          type: COMMISSION_LEADERBOARD_FAIL,
+          payload: "Sorry, Session Expired log in again to continue"
+        });
+      }
+    } catch (error) {
+      captureException(error);
+    }
+  };
+
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   const values = useMemo(() => {
@@ -181,6 +316,8 @@ const CommissionProvider = props => {
       userId: state.userId,
       commissionBalance: state.commissionBalance,
       history: state.history,
+      fullHistory: state.fullHistory,
+      historyCount: state.historyCount,
       leaderboard: state.leaderboard,
       error: state.error,
       message: state.message,
@@ -188,6 +325,8 @@ const CommissionProvider = props => {
       getCommissionWallet,
       getCommissionHistory,
       getRecentCommissionHistory,
+      getCommissionsLeaderBoard,
+      cashOutCommission,
       clearErrors
     };
   }, [state, loading]);

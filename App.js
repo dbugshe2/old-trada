@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { AuthProvider } from "./src/context";
+import React, { Component } from "react";
+import { AuthProvider, WalletProvider } from "./src/context";
 import * as Sentry from "sentry-expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppLoading } from "expo";
@@ -49,6 +49,7 @@ export default class App extends Component {
     return (
       <AuthProvider>
         <VariationProvider>
+          <WalletProvider>
           <CommissionProvider>
             <SafeAreaProvider>
               <View style={styles.container}>
@@ -57,6 +58,7 @@ export default class App extends Component {
               </View>
             </SafeAreaProvider>
           </CommissionProvider>
+          </WalletProvider>
         </VariationProvider>
       </AuthProvider>
     );
