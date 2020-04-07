@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
 import React, { createContext, useReducer, useMemo, useState } from "react";
 import { setUserToken, getUserToken } from "../../utils/AsyncStorage";
 import { captureException } from "sentry-expo";
@@ -9,6 +11,7 @@ import {
   GET_LGAS_FAIL,
   GET_LGAS_SUCCESS
 } from "../types";
+import { apiGet } from '../../utils/fetcher';
 
 export const VariationContext = createContext();
 
@@ -102,9 +105,10 @@ const VariationProvider = props => {
     setLoading(false);
     return;
   };
-  const getLGAS = alias => {};
 
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+  const getBanks = async () => {
+    // const banks = await apiGet('/variation/banks')
+  }
 
   const values = useMemo(() => {
     return {
@@ -116,7 +120,8 @@ const VariationProvider = props => {
       loading,
       getStatesDetails,
       getStates,
-      getLGAS
+      getLGAS,
+      getBanks
     };
   }, [state]);
 

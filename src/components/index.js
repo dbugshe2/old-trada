@@ -19,7 +19,8 @@ import Timer from './Timer'
 import Sidebar from './Sidebar';
 import Swiper from './Swiper';
 import Snack from './Snack';
-
+import CommissionItem from './CommissionItem'
+import LeaderboardItem from './LeaderboardItem';
 export {
   Block,
   Card,
@@ -41,5 +42,7 @@ export {
   Timer,
   Sidebar,
   Swiper,
-  Snack
+  Snack,
+  CommissionItem,
+  LeaderboardItem
 };
